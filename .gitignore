@@ -1,0 +1,8 @@
+# Node modules
+Frontend/Vue/node_modules/
+# Python virtual environment
+Backend/venv
+# Personal commands
+useful_commands.md
+# Personal Notes
+NOTES.md
