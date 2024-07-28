@@ -39,18 +39,8 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/view-activities" class="nav-link">
-                  View Activities
-                </router-link>
-              </li>
-              <li class="nav-item">
                 <router-link to="/create-workout" class="nav-link">
                   Create Workout Routine
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/view-workouts" class="nav-link">
-                  View Workouts
                 </router-link>
               </li>
               <li class="nav-item">
@@ -79,7 +69,7 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: #F8F9FA;
+  background-color: rgb(236, 244, 253);
   color: rgb(18, 17, 17);
 }
 .navbar-brand {
