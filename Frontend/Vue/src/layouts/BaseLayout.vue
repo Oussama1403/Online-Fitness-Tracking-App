@@ -34,8 +34,8 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/log-activity" class="nav-link">
-                  Log Activity
+                <router-link to="/activities" class="nav-link">
+                  Activities
                 </router-link>
               </li>
               <li class="nav-item">
