@@ -13,7 +13,8 @@
 ## Frontend
 
 - [x] Set up Vue.js project structure
-- [ ] Develop dashboard to display summary of activities with bootstrap
+- [x] Create Create Workout Routine Component.
+- [x] Develop dashboard to display summary of activities with bootstrap
 - [ ] Create login and registration pages
 - [ ] Create form for logging activities
 - [ ] Develop calendar view for activity history

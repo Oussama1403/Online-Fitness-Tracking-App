@@ -44,7 +44,7 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/create-workout-routine" class="nav-link">
+                <router-link to="/create-workout" class="nav-link">
                   Create Workout Routine
                 </router-link>
               </li>
