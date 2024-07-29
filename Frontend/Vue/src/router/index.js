@@ -4,6 +4,8 @@ import Dashboard from '@/views/Dashboard.vue';
 import CreateWorkout from '@/views/CreateWorkout.vue';
 import Activities from '@/views/Activities.vue';
 import LogActivity from '@/views/LogActivity.vue';
+import setFitnessGoal from '@/views/setFitnessGoal.vue';
+
 
 const routes = [
   {
@@ -27,6 +29,12 @@ const routes = [
         path: '/log-activity/:activityName',
         name: 'LogActivity',
         component: LogActivity,
+        props: true
+      },
+      {
+        path: '/set-goal',
+        name: 'setFitnessGoal',
+        component: setFitnessGoal,
         props: true
       }
     ]

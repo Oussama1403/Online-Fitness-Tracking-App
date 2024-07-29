@@ -15,7 +15,8 @@
 - [x] Set up Vue.js project structure
 - [x] Create Create Workout Routine Component.
 - [x] Develop dashboard to display summary of activities with bootstrap
-- [ ] Dashboard: Display Workout Routines, Activities Logged
+- [x] Dashboard: Display Workout Routines, Activities Logged
+- [ ] Implement `Set Fitness Goals` Section
 - [ ] Create login and registration pages
 - [ ] Create form for logging activities
 - [ ] Develop calendar view for activity history

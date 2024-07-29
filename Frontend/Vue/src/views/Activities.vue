@@ -1,7 +1,7 @@
 <template>
     <div class="activities">
       <div class="container-fluid px-4">
-        <h1 class="mt-4">Activities</h1>
+        <h1 class="mb-4 mt-4">Activities</h1>
         <div class="row">
           <div class="col-xl-3 col-md-6 mb-4" v-for="activity in activities" :key="activity.name">
             <div class="card text-center bg-light text-dark h-100">

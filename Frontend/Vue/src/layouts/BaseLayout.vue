@@ -1,26 +1,6 @@
 <template>
   <div>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand ps-3" href="#">Online Fitness Tracking App</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <!-- Add any additional navbar items here -->
-        </ul>
-      </div>
-    </nav>
-
+  
     <!-- Main Content -->
     <div class="container-fluid">
       <div class="row">
@@ -28,6 +8,9 @@
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="position-sticky">
             <ul class="nav flex-column">
+              <li class="brand" href="#">Online Fitness Tracking App</li>
+              <hr style="border: 3px solid green;">
+              
               <li class="nav-item">
                 <router-link to="/" class="nav-link" aria-current="page">
                   Dashboard
@@ -72,15 +55,28 @@ export default {
   background-color: rgb(236, 244, 253);
   color: rgb(18, 17, 17);
 }
-.navbar-brand {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
 
 #sidebar {
   height: 100vh;
   padding-top: 1rem;
   position: fixed;
+}
+.brand {
+  position: relative;
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(37, 211, 37);
+}
+.brand:hover {
+  border-radius: 10px;
+  background-color: rgb(37, 211, 37) ;
+  color: rgb(236, 244, 253) ;
 }
 
 .nav-item {
