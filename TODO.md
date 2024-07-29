@@ -17,6 +17,7 @@
 - [x] Develop dashboard to display summary of activities with bootstrap
 - [x] Dashboard: Display Workout Routines, Activities Logged
 - [ ] Implement `Set Fitness Goals` Section
+- [ ] Improve UI Style and Colors
 - [ ] Create login and registration pages
 - [ ] Create form for logging activities
 - [ ] Develop calendar view for activity history
