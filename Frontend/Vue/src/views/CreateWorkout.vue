@@ -2,12 +2,15 @@
   <div class="container custom-container mt-4">
     <form @submit.prevent="saveWorkout">
       <span class="form-title">
-        Create custom workout routine
+        Create custom <span class="form-title-important">workout routine</span>
       </span>
       <!-- Workout Name -->
       <div class="form-group">
         <input type="text" placeholder="Workout name" class="input form-control" id="workoutName" v-model="workoutName"
           required>
+      </div>
+      <div class="form-group">
+        <input type="date" class="input form-control" :id="'workout date' + index" v-model="workoutDate" required>
       </div>
 
       <!-- Exercises Section -->
@@ -42,6 +45,7 @@ export default {
   data() {
     return {
       workoutName: '',
+      workoutDate: '',
       exercises: [
         { name: '', reps: '', sets: '' } // Initial exercise fields
       ]
@@ -85,11 +89,16 @@ form {
 .form-title {
   display: block;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 24px;
   color: #333333;
   line-height: 1.2;
   text-align: center;
   padding-bottom: 44px;
+}
+
+.form-title-important {
+    color: #57B846;
 }
 
 .exercise-group {
@@ -101,6 +110,7 @@ form {
 .input {
   background: #e6e6e6;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
   font-size: 15px;
   line-height: 1.5;
   color: #666666;
@@ -123,6 +133,8 @@ button {
   width: 100%;
   border-radius: 25px;
   font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
   font-size: 15px;
   line-height: 1.5;
   color: #fff;

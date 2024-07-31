@@ -16,8 +16,9 @@
 - [x] Create Create Workout Routine Component.
 - [x] Develop dashboard to display summary of activities with bootstrap
 - [x] Dashboard: Display Workout Routines, Activities Logged
-- [ ] Implement `Set Fitness Goals` Section
-- [ ] Improve UI Style and Colors
+- [x] Implement `Set Fitness Goals` Section
+- [x] Improve UI Style and Colors, Add Icons to sidebar
+- [ ] Automatic Updates: tracks activities and automatically update the progress bar.
 - [ ] Create login and registration pages
 - [ ] Create form for logging activities
 - [ ] Develop calendar view for activity history

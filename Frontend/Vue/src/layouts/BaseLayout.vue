@@ -1,6 +1,5 @@
 <template>
   <div>
-  
     <!-- Main Content -->
     <div class="container-fluid">
       <div class="row">
@@ -8,27 +7,32 @@
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="position-sticky">
             <ul class="nav flex-column">
-              <li class="brand" href="#">Online Fitness Tracking App</li>
+              <router-link to="/" class="brand-link" aria-current="page">
+                <li class="brand">
+                  Online Fitness Tracking App
+                </li>
+              </router-link>
+
               <hr style="border: 3px solid green;">
-              
+
               <li class="nav-item">
                 <router-link to="/" class="nav-link" aria-current="page">
-                  Dashboard
+                  <i class="fas fa-tachometer-alt"></i> Dashboard
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/activities" class="nav-link">
-                  Activities
+                  <i class="fas fa-running"></i> Activities
                 </router-link>
               </li>
               <li class="nav-item">
                 <router-link to="/create-workout" class="nav-link">
-                  Create Workout Routine
+                  <i class="fas fa-dumbbell"></i> Create Workout Routine
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/set-fitness-goals" class="nav-link">
-                  Set Fitness Goals
+                <router-link to="/set-goal" class="nav-link">
+                  <i class="fas fa-bullseye"></i> Set Fitness Goals
                 </router-link>
               </li>
             </ul>
@@ -65,18 +69,26 @@ export default {
   position: relative;
   padding: 10px 20px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  color: #333;
   text-decoration: none;
   transition: color 0.3s;
   font-size: 1.25rem;
   font-weight: 700;
-  color: rgb(37, 211, 37);
+  color: rgb(37, 211, 37)
 }
+
 .brand:hover {
   border-radius: 10px;
-  background-color: rgb(37, 211, 37) ;
   color: rgb(236, 244, 253) ;
+  background-color: rgb(37, 211, 37) ;
+}
+.brand-link { /* unstyled link*/
+  color: inherit; 
+  text-decoration: none;
+  background: none; 
+  border: none;
+  padding: 0; 
+  margin: 0;
+  display: inline; 
 }
 
 .nav-item {
@@ -115,6 +127,10 @@ export default {
 .nav-link {
   color: #1e1e1e;
   transition: color 0.2s;
+}
+
+.nav-link i {
+  margin-right: 8px; /* Adjust the spacing between the icon and text */
 }
 
 .sidebar-footer {

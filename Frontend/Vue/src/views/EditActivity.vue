@@ -2,7 +2,7 @@
     <div class="container custom-container mt-4">
       <form @submit.prevent="saveActivity">
         <span class="form-title">
-          Log <span class="form-title-activityname">{{ activityName }}</span>
+          Edit <span class="form-title-activityname">{{ user_ActivityName }}</span>
         </span>
   
         <!-- Activity Name: -->
@@ -11,66 +11,85 @@
         </div>
   
         <!-- Activity details Section -->
-        <div v-for="(detail, index) in filteredDetails" :key="index" class="group mb-3">
+        <div v-for="(detail, index) in details" :key="index" class="group mb-3">
           <div class="form-group">
-          
-          <!-- Render Date input as calendar picker -->
-          <input v-if="detail.name === 'Date'" type="date" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
-
-          <!-- Render Start Time and End Time inputs -->
-          <input v-else-if="detail.name === 'Start Time'" type="time" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
-          <input v-else-if="detail.name === 'End Time'" type="time" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
-          
-          <!-- Render other inputs -->
-          <input v-else type="text" :placeholder="detail.name" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
-          
+            <!-- Render Date input as calendar picker -->
+            <input v-if="detail.name === 'Date'" type="date" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
+  
+            <!-- Render Start Time and End Time inputs -->
+            <input v-else-if="detail.name === 'Start Time'" type="time" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
+            <input v-else-if="detail.name === 'End Time'" type="time" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
+  
+            <!-- Render other inputs -->
+            <input v-else type="text" :placeholder="detail.name" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
           </div>
         </div>
   
         <!-- Save Button -->
         <button type="submit" class="save-button btn btn-success">Save Activity</button>
+        <!-- del button -->
+        <button type="button" @click="deleteActivity" class="delete-button btn btn-danger">Delete Activity</button>
       </form>
     </div>
   </template>
   
   <script>
   export default {
+    name: 'EditActivity',
+
     data() {
       return {
         details: [
-        { name: 'Date', value: '' },
-        { name: 'Start Time', value: '' },
-        { name: 'End Time', value: '' },
-        { name: 'Duration', value: '' },
-        { name: 'Distance', value: '' },
-        { name: 'Calories Burned', value: '' },
-        { name: 'Comments', value: '' },
+          { name: 'date', value: '' },
+          { name: 'startTime', value: '' },
+          { name: 'endTime', value: '' },
+          { name: 'duration', value: '' },
+          { name: 'distance', value: '' },
+          { name: 'caloriesBurned', value: '' },
         ],
         user_ActivityName: '',
-        activityName: this.$route.params.activityName || '',
       };
     },
-    computed: {
-      filteredDetails() {
-        // Filter details based on the activity name
-        return this.details.filter(detail => {
-          if (this.activityName === 'Weightlifting' && detail.name === 'Distance') {
-            return false;
+    created() {
+    const item = this.$route.query.item;
+    if (item) {
+      try {
+        const parsedItem = JSON.parse(item);
+        console.log(parsedItem);
+        console.log(parsedItem.name);
+        this.user_ActivityName = parsedItem.name;
+        this.details.forEach(detail => {
+          // Find the matching key in parsedItem
+          const value = parsedItem[detail.name];
+          if (value !== undefined) {
+            detail.value = value;
           }
-          // Add more conditions for other activity names if needed
-          return true;
         });
+      } catch (error) {
+        console.error('Failed to parse item:', error);
       }
-    },
+    }
+  },
     methods: {
       saveActivity() {
         // Handle form submission
         console.log('Activity Name:', this.user_ActivityName);
-        console.log('Activity Details:', this.filteredDetails);
+        console.log('Activity Details:', this.details);
+        // Add your save logic here
+      },
+      deleteActivity() {
+        // Handle delete activity
+        console.log('Activity Deleted:', this.user_ActivityName);
+        // Add your delete logic here
       }
     }
   };
   </script>
+  
+  <style scoped>
+  /* Your existing CSS styles */
+  </style>
+    
   
   <style scoped>
   .custom-container {
@@ -158,5 +177,8 @@
   .save-button {
     background: #57b846;
   }
+  .delete-button {
+    background: #f43333;
+}
   </style>
   

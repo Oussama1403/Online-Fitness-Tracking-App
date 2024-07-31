@@ -5,6 +5,10 @@ import CreateWorkout from '@/views/CreateWorkout.vue';
 import Activities from '@/views/Activities.vue';
 import LogActivity from '@/views/LogActivity.vue';
 import setFitnessGoal from '@/views/setFitnessGoal.vue';
+import EditActivity from '@/views/EditActivity.vue';
+import EditWorkout from '@/views/EditWorkout.vue';
+import EditGoal from '@/views/EditGoal.vue';
+
 
 
 const routes = [
@@ -36,7 +40,34 @@ const routes = [
         name: 'setFitnessGoal',
         component: setFitnessGoal,
         props: true
+      },
+      {
+        path: '/edit-activity',
+        name: 'edit-activity',
+        component: EditActivity,
+      },
+      {
+        path: '/edit-workout',
+        name: 'edit-workout',
+        component: EditWorkout,
+      },
+      {
+        path: '/edit-goal',
+        name: 'edit-goal',
+        component: EditGoal,
       }
+      /*
+      {
+        path: '/edit-workout',
+        name: 'edit-workout',
+        component: EditWorkout, // Your component for editing workouts
+        props: (route) => ({ item: JSON.parse(route.params.item) })
+      },
+      {
+        path: '/edit-goal',
+        name: 'edit-goal',
+        component: EditGoal, // Your component for editing goals
+      }*/
     ]
   }
 ];
