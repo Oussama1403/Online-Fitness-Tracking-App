@@ -66,10 +66,11 @@ The Online Fitness Tracking App is a web application designed to help users trac
     npm run dev
     ```
 
-## Usage
+## Documentation
 
-- **Backend**: Use the provided API endpoints to integrate with the frontend. Ensure the Flask server is running before accessing the frontend.
-- **Frontend**: Interact with the user interface to log activities, view progress, and explore features.
+- [TODO.md](TODO.md): Tasks and features to be implemented.
+- [SPECIFICATION.md](SPECIFICATION.md): Detailed project specifications.
+- [CHANGELOG.md](CHANGELOG.md): Record of changes and updates.
 
 ## Contributing
 
