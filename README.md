@@ -69,7 +69,7 @@ The Online Fitness Tracking App is a web application designed to help users trac
 ## Documentation
 
 - [TODO.md](TODO.md): Tasks and features to be implemented.
-- [SPECIFICATION.md](SPECIFICATION.md): Detailed project specifications.
+- [SPECIFICATIONS.md](SPECIFICATIONS.md): Detailed project specifications.
 - [CHANGELOG.md](CHANGELOG.md): Record of changes and updates.
 
 ## Contributing
