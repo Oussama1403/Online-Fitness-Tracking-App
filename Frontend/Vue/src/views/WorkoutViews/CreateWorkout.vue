@@ -1,31 +1,39 @@
 <template>
   <div class="container custom-container mt-4">
-    <form @submit.prevent="saveWorkout">
+    <Form @submit="saveWorkout" v-slot="{ errors }">
       <span class="form-title">
         Create custom <span class="form-title-important">workout routine</span>
       </span>
+
       <!-- Workout Name -->
       <div class="form-group">
-        <input type="text" placeholder="Workout name" class="input form-control" id="workoutName" v-model="workoutName"
-          required>
+        <Field type="text" placeholder="Workout name" class="input form-control" id="workoutName" name="workoutName"
+          v-model="workoutName" rules="required" />
+        <ErrorMessage name="workoutName" class="error-msg" />
       </div>
+
       <div class="form-group">
-        <input type="date" class="input form-control" :id="'workout date' + index" v-model="workoutDate" required>
+        <Field type="date" class="input form-control" :id="'workoutDate'" name="workoutDate" v-model="workoutDate"
+          rules="required" />
+        <ErrorMessage name="workoutDate" class="error-msg" />
       </div>
 
       <!-- Exercises Section -->
       <div v-for="(exercise, index) in exercises" :key="index" class="exercise-group mb-3">
         <div class="form-group">
-          <input type="text" placeholder="Exercise name" class="input form-control" :id="'exerciseName' + index"
-            v-model="exercise.name" required>
+          <Field type="text" placeholder="Exercise name" class="input form-control" :id="'exerciseName' + index"
+            v-model="exercise.name" :name="'exerciseName' + index" rules="required" />
+          <ErrorMessage :name="'exerciseName' + index" class="error-msg" />
         </div>
         <div class="form-group">
-          <input type="number" placeholder="Reps" class="input form-control" :id="'reps' + index"
-            v-model="exercise.reps" required>
+          <Field type="number" placeholder="Reps" class="input form-control" :id="'reps' + index"
+            v-model="exercise.reps" :name="'reps' + index" rules="required|numeric" />
+          <ErrorMessage :name="'reps' + index" class="error-msg" />
         </div>
         <div class="form-group">
-          <input type="number" placeholder="Sets" class="input form-control" :id="'sets' + index"
-            v-model="exercise.sets" required>
+          <Field type="number" placeholder="Sets" class="input form-control" :id="'sets' + index"
+            v-model="exercise.sets" :name="'sets' + index" rules="required|numeric" />
+          <ErrorMessage :name="'sets' + index" class="error-msg" />
         </div>
         <button type="button" class="remove-button btn btn-danger" @click="removeExercise(index)">Remove
           Exercise</button>
@@ -35,12 +43,14 @@
       <button type="button" class="add-button btn btn-primary mb-3" @click="addExercise">Add Another Exercise</button>
 
       <!-- Save Button -->
-      <button type="submit" class="save-button btn btn-success" @click="saveWorkout">Save Workout</button>
-    </form>
+      <button type="submit" class="save-button btn btn-success">Save Workout</button>
+    </Form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -59,16 +69,31 @@ export default {
       this.exercises.splice(index, 1);
     },
     saveWorkout() {
-      // Handle form submission
-      console.log('Workout Name:', this.workoutName);
-      console.log('Exercises:', this.exercises);
-      // You can add code here to save the workout data
+      let data = {
+        'Workout Name': this.workoutName,
+        'Workout Date': this.workoutDate,
+        'Exercises': this.exercises
+      }
+      axios.post('http://127.0.0.1:5000/log_workout', data)
+        .then(response => {
+          console.log('Workout logged:', response.data);
+        })
+        .catch(error => {
+          console.error('There was an error logging the workout!', error);
+        });
+
     }
   }
 };
 </script>
 
 <style scoped>
+.error-msg {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 .custom-container {
   overflow: hidden;
   display: -webkit-box;
@@ -98,7 +123,7 @@ form {
 }
 
 .form-title-important {
-    color: #57B846;
+  color: #57B846;
 }
 
 .exercise-group {
@@ -110,7 +135,6 @@ form {
 .input {
   background: #e6e6e6;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
   font-size: 15px;
   line-height: 1.5;
   color: #666666;

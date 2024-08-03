@@ -108,7 +108,7 @@ export default {
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: #1e1e1e; /* The color of the underline */
+  background-color: rgb(37, 211, 37);  /* The color of the underline */
   visibility: hidden;
   transform: scaleX(0);
   transition: all 0.3s ease-in-out;
@@ -119,11 +119,6 @@ export default {
   transform: scaleX(1);
 }
 
-.nav-link.active {
-  font-weight: bold;
-  color: #007bff;
-}
-
 .nav-link {
   color: #1e1e1e;
   transition: color 0.2s;
@@ -131,6 +126,14 @@ export default {
 
 .nav-link i {
   margin-right: 8px; /* Adjust the spacing between the icon and text */
+}
+
+.nav-link:hover {
+  color: rgb(37, 211, 37);
+}
+
+.nav-link:active {
+  color: rgb(24, 158, 24);
 }
 
 .sidebar-footer {

@@ -18,11 +18,23 @@
 - [x] Dashboard: Display Workout Routines, Activities Logged
 - [x] Implement `Set Fitness Goals` Section
 - [x] Improve UI Style and Colors, Add Icons to sidebar
+
+## Form Validation
+- [ ] *Edit Forms**: Implement Vee-Validate to check for empty fields, string, and numeric fields.
+## Log Workout Form
+- [ ] Limit exercise deletion to ensure at least one exercise field remains.
+- [ ] Custom activity is in its own view. 
+## Dashboard
+- [ ] Render dashboard data from the backend.
+- [ ] Remove mock data from the frontend.
 - [ ] Automatic Updates: tracks activities and automatically update the progress bar.
+- [ ] Develop calendar view for activity history
+## BaseLayout
+- [ ] Fix sidebar appearance issue on small width screens.
+
+## Other
 - [ ] Create login and registration pages
 - [ ] Create form for logging activities
-- [ ] Develop calendar view for activity history
-- [ ] Create pages for planning and scheduling workouts
 - [ ] Implement statistics and progress tracking pages
 
 ## Integration

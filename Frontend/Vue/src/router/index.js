@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import Dashboard from '@/views/Dashboard.vue';
-import CreateWorkout from '@/views/CreateWorkout.vue';
-import Activities from '@/views/Activities.vue';
-import LogActivity from '@/views/LogActivity.vue';
-import setFitnessGoal from '@/views/setFitnessGoal.vue';
-import EditActivity from '@/views/EditActivity.vue';
-import EditWorkout from '@/views/EditWorkout.vue';
-import EditGoal from '@/views/EditGoal.vue';
+
+import CreateWorkout from '@/views/WorkoutViews/CreateWorkout.vue';
+import EditWorkout from '@/views/WorkoutViews/EditWorkout.vue';
+
+import Activities from '@/views/ActivityViews/Activities.vue';
+import LogActivity from '@/views/ActivityViews/LogActivity.vue';
+import EditActivity from '@/views/ActivityViews/EditActivity.vue';
+
+import setFitnessGoal from '@/views/GoalViews/setFitnessGoal.vue';
+import EditGoal from '@/views/GoalViews/EditGoal.vue';
 
 
 
