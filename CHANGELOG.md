@@ -12,7 +12,6 @@
 - `app.py`:
   - Added update routes for activities, workouts, and goals:
   - Updated delete routes to delete by ID:
-- Added `CustomActivity` Component that allows users
 - `vite.config.js`:
   - Updated to allow the development server to start on a local IP address instead of just localhost. See README.md for instructions.
 - Update README.md, included MongoDB Installation Instructions.
