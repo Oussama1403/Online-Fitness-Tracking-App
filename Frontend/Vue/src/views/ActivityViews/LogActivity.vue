@@ -60,7 +60,7 @@
           <template v-else-if="detail.name === 'Weight Lifted'">
             <label :for="detail.name + index">{{ detail.name }}</label>
             <Field type="number" :id="detail.name + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric" />
+              class="input form-control" rules="required" />
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
@@ -71,6 +71,21 @@
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
           <template v-else-if="detail.name === 'Sets'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Laps'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          
+          <template v-else-if="detail.name === 'Steps'">
             <label :for="'detail.name' + index">{{ detail.name }}</label>
             <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
               class="input form-control" rules="required|numeric|non_negative" />
@@ -93,7 +108,7 @@
             <div class="form-group">
               <label :for="detail.name + index">{{ detail.name }}</label>
               <div class="input-group">
-                <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
+                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
                   v-model="detail.value" rules="required|numeric|non_negative" />
                 <div class="input-group-append">
                   <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -124,7 +139,7 @@
             <div class="form-group">
               <label :for="detail.name + index">{{ detail.name }}</label>
               <div class="input-group">
-                <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
+                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
                   v-model="detail.value" rules="required|numeric|non_negative" />
                 <div class="input-group-append">
                   <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -177,61 +192,68 @@
 <script>
 import axios from 'axios';
 import { Field } from 'vee-validate';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   data() {
     return {
-      details: [
-        { name: 'Date', value: '' },
-        { name: 'Start Time', value: '' },
-        { name: 'End Time', value: '' },
-        { name: 'Exercise Type', value: ''}, 
-        { name: 'Weight Lifted', value: ''},
-        { name: 'Reps', value: ''},
-        { name: 'Sets', value: ''},
-        { name: 'Intensity', value: ''},
-        { name: 'Duration', value: '', unit: '' },
-        { name: 'Distance', value: '', unit: '' },
-        { name: 'Calories Burned', value: '' },
-        { name: 'Comments', value: '' },
-      ],
-      user_ActivityName: '',
-      activityName: this.$route.params.activityName || '',
+      details: {
+        date: { name: "Date", value: "" },
+        start_time: { name: "Start Time", value: "" },
+        end_time: { name: "End Time", value: "" },
+        exercise_type: { name: "Exercise Type", value: "" },
+        weight_lifted: { name: "Weight Lifted", value: "" },
+        reps: { name: "Reps", value: "" },
+        sets: { name: "Sets", value: "" },
+        steps: { name: "Steps", value: "" },
+        laps: { name: "Laps", value: "" },
+        intensity: { name: "Intensity", value: "" },
+        duration: { name: "Duration", value: "", unit: "" },
+        distance: { name: "Distance", value: "", unit: "" },
+        calories_burned: { name: "Calories Burned", value: "" },
+        comments: { name: "Comments", value: "" }
+      },
+      user_ActivityName: "",
+      activityName: this.$route.params.activityName || "",
+
+      activityFieldConfig: {
+        Weightlifting: ['Date', 'Start Time', 'End Time','Exercise Type', 'Weight Lifted', 'Reps', 'Sets', 'Intensity', 'Duration', 'Calories Burned', 'Comments'],
+        Running: ['Date', 'Start Time', 'End Time', 'Distance', 'Duration', 'Calories Burned', 'Comments'],
+        Cycling: ['Date', 'Start Time', 'End Time', 'Distance', 'Duration', 'Calories Burned', 'Comments'],
+        Swimming: ['Date', 'Start Time', 'End Time', 'Laps','Distance', 'Duration', 'Calories Burned', 'Comments'],
+        Walking: ['Date', 'Start Time', 'End Time','Steps', 'Distance', 'Duration', 'Calories Burned', 'Comments'],
+        CustomActivity: ['Date', 'Start Time', 'End Time', 'Duration', 'Calories Burned', 'Comments']
+        
+      }
     };
   },
   computed: {
     filteredDetails() {
-      // Filter details based on the activity name
-      return this.details.filter(detail => {
-        if (this.activityName === 'Weightlifting' && detail.name === 'Distance') {
-          return false;
-        }
-        if (this.activityName !== 'Weightlifting' && (detail.name === 'Exercise Type' || detail.name === 'Weight Lifted' || detail.name === 'Reps' || detail.name === 'Sets' || detail.name === 'Intensity' )) {
-          return false;
-        }
-        // Add more conditions for other activity names if needed
-        return true;
-      });
+      const detailsArray = Object.values(this.details);
+      const relevantFields = this.activityFieldConfig[this.activityName] || [];
+      return detailsArray.filter(detail => relevantFields.includes(detail.name));
     }
   },
   methods: {
     // log activity
     saveActivity() {
-
-      let data = {
-        'user_ActivityName': this.user_ActivityName
+      
+      const data = {
+        _id: uuidv4(),
+        ActivityName: this.user_ActivityName,
+        ActivityType: this.activityName,
+        details: Object.fromEntries(Object.entries(this.details).filter(([key, value]) => value.value !== ""))
       };
-      // fill data from details array
-      this.details.forEach(detail => {
-        data[detail.name] = detail.value;
-      });
 
       axios.post('http://127.0.0.1:5000/log_activity', data)
         .then(response => {
           console.log('Activity logged:', response.data);
+          alert('Activity logged successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the activity!', error);
+          alert('There was an error logging the activity!');
         });
     }
   }

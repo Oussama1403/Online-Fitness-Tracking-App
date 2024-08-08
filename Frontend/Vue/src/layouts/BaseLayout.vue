@@ -1,40 +1,40 @@
 <template>
   <div>
+    <!-- Navbar for small screens -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none">
+      <div class="container-fluid">
+        <router-link to="/" class="navbar-brand brand-link">
+          <span class="text-center brand m-1">FitTracker</span>
+        </router-link>
+        <button class="navbar-toggler" type="button" @click="toggleSidebar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+
     <!-- Main Content -->
     <div class="container-fluid">
       <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <nav id="sidebar" :class="['col-md-3', 'col-lg-2', 'd-md-block', 'bg-light', 'sidebar', {'show-sidebar': isSidebarOpen}]">
           <div class="position-sticky">
             <ul class="nav flex-column">
-              <router-link to="/" class="brand-link" aria-current="page">
-                <li class="brand">
-                  Online Fitness Tracking App
-                </li>
+              <router-link to="/" class="brand-link brand-sidebar" aria-current="page">
+                  <li class="text-center brand">
+                    FitTracker
+                  </li>
+                </router-link>
+              <hr class="brand-sidebar" style="border: 3px solid green;">
+
+              <router-link
+                v-for="route in routes"
+                :key="route.path"
+                :to="route.path"
+                class="nav-item nav-link"
+                :class="{ active: isActiveRoute(route) }"
+              >
+                <i :class="route.icon"></i> {{ route.name }}
               </router-link>
-
-              <hr style="border: 3px solid green;">
-
-              <li class="nav-item">
-                <router-link to="/" class="nav-link" aria-current="page">
-                  <i class="fas fa-tachometer-alt"></i> Dashboard
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/activities" class="nav-link">
-                  <i class="fas fa-running"></i> Activities
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/create-workout" class="nav-link">
-                  <i class="fas fa-dumbbell"></i> Create Workout Routine
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/set-goal" class="nav-link">
-                  <i class="fas fa-bullseye"></i> Set Fitness Goals
-                </router-link>
-              </li>
             </ul>
           </div>
         </nav>
@@ -51,6 +51,25 @@
 <script>
 export default {
   name: "BaseLayout",
+  data() {
+    return {
+      isSidebarOpen: false,
+      routes: [
+        { path: "/", name: "Dashboard", icon: "fas fa-tachometer-alt" },
+        { path: "/activities", name: "Activities", icon: "fas fa-running" },
+        { path: "/create-workout", name: "Create Workout Routine", icon: "fas fa-dumbbell" },
+        { path: "/set-goal", name: "Set Fitness Goals", icon: "fas fa-bullseye" },
+      ],
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    isActiveRoute(route) {
+      return this.$route.path === route.path;
+    },
+  },
 };
 </script>
 
@@ -58,42 +77,52 @@ export default {
 .navbar {
   background-color: rgb(236, 244, 253);
   color: rgb(18, 17, 17);
+  z-index: 1040; /* Ensure navbar is above the sidebar */
 }
 
 #sidebar {
   height: 100vh;
   padding-top: 1rem;
   position: fixed;
+  z-index: 1030; /* Sidebar z-index */
+  left: 0;
+  top: 0;
 }
+
+.show-sidebar {
+  display: block !important; /* Override the display property on small screens */
+}
+
 .brand {
   position: relative;
-  padding: 10px 20px;
+  padding: 10px;
   font-family: 'Montserrat', sans-serif;
   text-decoration: none;
   transition: color 0.3s;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: rgb(37, 211, 37)
+  border-radius: 10px;
+  color: rgb(236, 244, 253);
+  background-color: rgb(37, 211, 37);
 }
 
 .brand:hover {
-  border-radius: 10px;
-  color: rgb(236, 244, 253) ;
-  background-color: rgb(37, 211, 37) ;
+  background-color: rgb(37, 184, 37);
 }
-.brand-link { /* unstyled link*/
-  color: inherit; 
+
+.brand-link {
+  color: inherit;
   text-decoration: none;
-  background: none; 
+  background: none;
   border: none;
-  padding: 0; 
+  padding: 0;
   margin: 0;
-  display: inline; 
+  display: inline;
 }
 
 .nav-item {
   position: relative;
-  padding: 10px 20px;
+  padding: 20px 20px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   color: #333;
@@ -108,7 +137,7 @@ export default {
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: rgb(37, 211, 37);  /* The color of the underline */
+  background-color: rgb(37, 211, 37);
   visibility: hidden;
   transform: scaleX(0);
   transition: all 0.3s ease-in-out;
@@ -125,7 +154,7 @@ export default {
 }
 
 .nav-link i {
-  margin-right: 8px; /* Adjust the spacing between the icon and text */
+  margin-right: 8px;
 }
 
 .nav-link:hover {
@@ -143,7 +172,28 @@ export default {
 }
 
 .main-content {
-  margin-left: 250px; /* Width of the sidebar */
+  margin-left: 250px;
   padding: 2rem;
+}
+
+/* Add custom styles for responsive sidebar */
+@media (max-width: 767.98px) {
+  #sidebar {
+    display: none;
+    z-index: 1030; /* Ensure the sidebar is on top */
+  }
+  .brand-sidebar {
+    display: none;
+  }
+  #sidebar.show-sidebar {
+    display: block;
+    position: fixed;
+    top: 56px; /* Height of navbar */
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 56px); /* Adjust height to fit below navbar */
+    background-color: white;
+    z-index: 1030; /* Sidebar z-index should be less than navbar */
+  }
 }
 </style>

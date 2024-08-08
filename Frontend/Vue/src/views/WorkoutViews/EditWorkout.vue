@@ -53,15 +53,18 @@ export default {
       workoutDate: '',
       exercises: [
         { name: '', reps: '', sets: '' } // Initial exercise fields
-      ]
+      ],
+      id: ''
     };
   },
   created() {
     const item = this.$route.query.item;
     const parsedItem = JSON.parse(item);
-    this.workoutName = parsedItem.name;
-    this.workoutDate = parsedItem.date;
-    this.exercises = parsedItem.exercises;
+    //console.log("parsedItem:", parsedItem);
+    this.workoutName = parsedItem.WorkoutName;
+    this.workoutDate = parsedItem.WorkoutDate;
+    this.exercises = parsedItem.Exercises;
+    this.id = parsedItem._id;
   },
   methods: {
     addExercise() {
@@ -72,31 +75,39 @@ export default {
     },
     saveWorkout() {
       let data = {
-        'Workout Name': this.workoutName,
-        'Workout Date': this.workoutDate,
+        _id: this.id,
+        'WorkoutName': this.workoutName,
+        'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
       }
-      axios.post('http://127.0.0.1:5000/log_workout', data)
+      axios.post('http://127.0.0.1:5000/update_workout', data)
         .then(response => {
-          console.log('Workout logged:', response.data);
+          console.log('Workout updated:', response.data);
+          alert('Workout updated successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the workout!', error);
+          alert('There was an error logging the workout!');
         });
 
     },
     deleteWorkout() {
       let data = {
-        'Workout Name': this.workoutName,
-        'Workout Date': this.workoutDate,
+        _id: this.id,
+        'WorkoutName': this.workoutName,
+        'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
       }
       axios.post('http://127.0.0.1:5000/delete_workout', data)
         .then(response => {
           console.log('Workout deleted:', response.data);
+          alert('Workout deleted successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error deleting the workout!', error);
+          alert('There was an error deleting the workout!');
         });
 
     }

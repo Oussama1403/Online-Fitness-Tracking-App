@@ -6,19 +6,34 @@ The Online Fitness Tracking App is a web application designed to help users trac
 
 ## Features
 
-- **User Authentication**: Secure login and registration.
-- **Fitness Tracking**: Log workouts, track progress, and set fitness goals.
-- **Dashboard**: View summarized fitness data and analytics.
-- **Responsive Design**: Optimized for various devices and screen sizes.
+- **User Authentication**: Secure login and registration to manage user-specific data.
+- **Fitness Tracking**: Log various types of activities (e.g., running, weightlifting), track workout details, and monitor progress.
+- **Custom Activities**: Create and manage custom activities with dynamic labels and values.
+- **Goal Management**: Set and track fitness goals with progress updates and target dates.
+- **Dashboard Overview**: View summarized fitness data including:
+  - Total workouts completed
+  - Calories burned
+  - Upcoming workouts
+  - Goals set
+- **Responsive Design**: Optimized for various devices and screen sizes with a user-friendly interface.
+- **Detailed Analytics**: View detailed logs of activities and workouts with metrics such as distance, calories burned, and exercise details.
+- **Dynamic Data Handling**: Updated from SQLite3 to MongoDB for scalable data management.
+- **CRUD Operations**: Create, read, update, and delete activities, workouts, and goals through RESTful API endpoints.
 
 ## Technologies Used
 
-- **Backend**: Flask, SQLAlchemy, Flask-Migrate
+- **Backend**: Flask, Flask-PyMongo, Flask-Migrate
 - **Frontend**: Vue.js, Bootstrap
-- **Database**: SQLite3
+- **Database**: MongoDB
 - **APIs**: Flask API endpoints for frontend-backend communication
 
 ## Installation
+
+### MongoDB Setup
+
+1. **Install MongoDB Server**:
+   - Follow the [MongoDB installation guide](https://docs.mongodb.com/manual/installation/) to install MongoDB on your system.
+   - Ensure MongoDB is running on the default port (`27017`).
 
 ### Backend Setup
 
@@ -65,6 +80,20 @@ The Online Fitness Tracking App is a web application designed to help users trac
     ```sh
     npm run dev
     ```
+    **By default, the application runs on localhost. If you need to run the application on a local IP address for network testing or other purposes, follow these instructions:**
+    - On Unix-based systems (Linux, macOS):
+    ```sh
+    VITE_NETWORK=true npm run dev
+    ```
+    - On Windows Command Prompt:
+    ```
+    set VITE_NETWORK=true && npm run dev
+    ```
+    - On Windows PowerShell:
+    ```
+    $env:VITE_NETWORK="true"; npm run dev
+    ```
+
 
 ## Documentation
 

@@ -50,6 +50,8 @@
 
 <script>
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+
 export default {
   data() {
     return {
@@ -65,12 +67,19 @@ export default {
   methods: {
     saveGoal(values) {
       console.log(values)
-      axios.post('http://127.0.0.1:5000/log_goal', values)
+      let data = {
+        _id: uuidv4(),
+        ...values // spread operator
+      }
+      axios.post('http://127.0.0.1:5000/log_goal', data)
         .then(response => {
           console.log('Goal logged:', response.data);
+          alert('Goal logged successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the goal!', error);
+          alert('There was an error logging the goal!');
         });
     }
   }

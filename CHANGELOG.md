@@ -1,4 +1,32 @@
 # Changelog
+
+## Aug 8, 2024
+- **Transitioned from SQLite3 to MongoDB:**
+  - Migrated the project’s database from SQLite3 to MongoDB for improved scalability and flexibility.
+- Created a new `CustomActivity` component that allows users to dynamically create and manage custom labels and values for activities.
+- `Dashboard.vue`:
+  - Updated dashboard cards to display real data based on activities, workouts, and goals.
+  - Fixed errors related to data formatting and processing in Dashboard.vue.
+  - Enhanced data fetching and error handling in Dashboard.vue to ensure robust performance and user feedback.
+  - Added calculations to display the number of completed workouts, calories burned, upcoming workouts, and goals set.
+- `app.py`:
+  - Added update routes for activities, workouts, and goals:
+  - Updated delete routes to delete by ID:
+- Added `CustomActivity` Component that allows users
+- `vite.config.js`:
+  - Updated to allow the development server to start on a local IP address instead of just localhost. See README.md for instructions.
+- Update README.md, included MongoDB Installation Instructions.
+- Update TODO.md
+
+## Aug 6, 2024
+- `BaseLayout.vue`:
+  - Implemented a responsive layout where a navbar appears at the top on small screen sizes, with a toggle icon to expand the sidebar
+  - Code improved with List Rendering (`v-for`).
+
+## Aug 4, 2024
+- Limit exercise deletion to ensure at least one exercise field remains in `CreateWorkout.vue`.
+- `LogActivity.vue`: Show all fields when Creating Custom Activity.
+
 ## Aug 3, 2024
 
 ### Forms Validation

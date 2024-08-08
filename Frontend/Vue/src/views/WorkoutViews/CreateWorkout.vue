@@ -50,6 +50,7 @@
 
 <script>
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   data() {
@@ -66,20 +67,26 @@ export default {
       this.exercises.push({ name: '', reps: '', sets: '' });
     },
     removeExercise(index) {
-      this.exercises.splice(index, 1);
+      if (this.exercises.length > 1) {
+        this.exercises.splice(index, 1);
+      }
     },
     saveWorkout() {
       let data = {
-        'Workout Name': this.workoutName,
-        'Workout Date': this.workoutDate,
+        _id: uuidv4(),
+        'WorkoutName': this.workoutName,
+        'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
       }
       axios.post('http://127.0.0.1:5000/log_workout', data)
         .then(response => {
           console.log('Workout logged:', response.data);
+          alert('Workout logged successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the workout!', error);
+          alert('There was an error logging the workout!');
         });
 
     }

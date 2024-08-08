@@ -51,44 +51,50 @@ export default {
     return {
       goalName: '',
       goal: {
+        _id: '',
         type: '',
         description: '',
         currentProgress: '',
         targetDate: '',
         notes: ''
       },
-      goals: []
+      goals: [],
     };
   },
   created() {
     const item = this.$route.query.item;
     const parsedItem = JSON.parse(item);
     this.goalName = parsedItem.type;
-
     this.goal.type = parsedItem.type;
     this.goal.description = parsedItem.description;
     this.goal.currentProgress = parsedItem.currentProgress;
     this.goal.targetDate = parsedItem.targetDate;
     this.goal.notes = parsedItem.notes;
-    console.log(this.goal);
+    this.goal._id = parsedItem._id;
   },
   methods: {
     saveGoal() {
-      axios.post('http://127.0.0.1:5000/log_goal', this.goal)
+      axios.post('http://127.0.0.1:5000/update_goal', this.goal)
         .then(response => {
-          console.log('Goal logged:', response.data);
+          console.log('Goal updated:', response.data);
+          alert('Goal updated successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the goal!', error);
+          alert('There was an error logging the goal!');
         });
     },
     deleteGoal() {
       axios.post('http://127.0.0.1:5000/delete_goal', this.goal)
         .then(response => {
           console.log('Goal deleted:', response.data);
+          alert('Goal deleted successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error deleting the goal!', error);
+          alert('There was an error deleting the goal!');
         });
     }
   }

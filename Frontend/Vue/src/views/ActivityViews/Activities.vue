@@ -19,7 +19,7 @@
               <img src='@/assets/images/custom.png' class="card-img-top" alt="custom">
               <div class="card-body">
                 <div class="fw-bold">Add your own activity</div>
-                <router-link :to="{ name: 'LogActivity', params: { activityName: 'Activity' } }" class="btn btn-primary mt-3">
+                <router-link :to="{ name: 'CustomActivity', params: { activityName: custom_activity } }" class="btn btn-primary mt-3">
                   Log Activity
                 </router-link>
               </div>
@@ -41,7 +41,8 @@
           { name: 'Swimming', image: 'src/assets/images/swimming.png' },
           { name: 'Weightlifting', image: 'src/assets/images/weightlifting.png' },
           { name: 'Walking', image: 'src/assets/images/walking.png'}
-        ]
+        ],
+        custom_activity: 'Custom Activity'
       };
     }
   };

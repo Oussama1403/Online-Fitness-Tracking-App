@@ -1,52 +1,191 @@
 <template>
   <div class="container custom-container mt-4">
-    <form @submit.prevent="saveActivity">
+    <Form @submit="saveActivity" v-slot="{ errors }">
       <span class="form-title">
         Edit <span class="form-title-activityname">{{ user_ActivityName }}</span>
       </span>
 
       <!-- Activity Name: -->
       <div class="form-group">
-        <input type="text" placeholder="Activity name" class="input form-control" id="user_ActivityName"
-          v-model="user_ActivityName" required>
+        <label for="user_ActivityName">Activity name</label>
+        <Field type="text" class="input form-control" id="user_ActivityName" name="Activity Name"
+          v-model="user_ActivityName" rules="required" />
+        <ErrorMessage name="Activity Name" class="error-msg" />
       </div>
 
       <!-- Activity details Section -->
+
       <div v-for="(detail, index) in details" :key="index" class="group mb-3">
         <div class="form-group">
           <!-- Render Date input as calendar picker -->
           <template v-if="detail.name === 'Date'">
-            <label :for="'detail.name' + index">{{ detail.label }}</label>
-            <input type="date" class="input form-control" :id="'detail.name' + index" v-model="detail.value" step="1" required>
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field type="date" class="input form-control" :id="detail.name + index" :name="detail.name"
+              v-model="detail.value" rules="required" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
           <!-- Render Start Time input -->
           <template v-else-if="detail.name === 'Start Time'">
-            <label :for="'detail.name' + index">{{ detail.label }}</label>
-            <input type="time" class="input form-control" :id="'detail.name' + index"
-              v-model="detail.value" required>
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
+              v-model="detail.value" step="1" rules="required" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
           <!-- Render End Time input -->
           <template v-else-if="detail.name === 'End Time'">
-            <label :for="'detail.name' + index">{{ detail.label }}</label>
-            <input type="time" class="input form-control" :id="'detail.name' + index" v-model="detail.value" required>
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
+              v-model="detail.value" step="1" rules="required" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
+          <!-- There inputs are only rendered when weightlifting controlled by filteredDetails array-->
+          <template v-else-if="detail.name === 'Exercise Type'">
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field as="select" :id="detail.name + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required">
+              <option value="">Select Exercise</option>
+              <option value="bench_press">Bench Press</option>
+              <option value="squat">Squat</option>
+              <option value="deadlift">Deadlift</option>
+              <option value="overhead_press">Overhead Press</option>
+              <option value="row">Row</option>
+              <option value="other">Other</option>
+            </Field>
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Weight Lifted'">
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field type="number" :id="detail.name + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Reps'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+          <template v-else-if="detail.name === 'Sets'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Laps'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          
+          <template v-else-if="detail.name === 'Steps'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Intensity'">
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field as="select" :id="detail.name + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required">
+              <option value="">Select Intensity</option>
+              <option value="light">Light</option>
+              <option value="moderate">Moderate</option>
+              <option value="heavy">Heavy</option>
+            </Field>
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Duration'">
+            <div class="form-group">
+              <label :for="detail.name + index">{{ detail.name }}</label>
+              <div class="input-group">
+                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
+                  v-model="detail.value" rules="required|numeric|non_negative" />
+                <div class="input-group-append">
+                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ detail.unit || 'Unit' }}
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'seconds'">Seconds</a>
+                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'minutes'">Minutes</a>
+                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'hours'">Hours</a>
+                  </div>
+                </div>
+              </div>
+              <!-- the hidden field allows us to make vee-validate aware of the unit selection and apply the custom unit_required validation rule to it. -->
+              <Field
+              type="hidden"
+              :name="'detail.unit' + index"
+              v-model="detail.unit"
+              rules="unit_required"
+               />
+              <ErrorMessage :name="'detail.unit' + index" class="error-msg" />
+            </div>
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+
+          <template v-else-if="detail.name === 'Distance'">
+            <div class="form-group">
+              <label :for="detail.name + index">{{ detail.name }}</label>
+              <div class="input-group">
+                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
+                  v-model="detail.value" rules="required|numeric|non_negative" />
+                <div class="input-group-append">
+                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ detail.unit || 'Unit' }}
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'Meters'">Meters</a>
+                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'Kilometers'">Kilometers</a>
+                  </div>
+                </div>
+              </div>
+              <!-- the hidden field allows us to make vee-validate aware of the unit selection and apply the custom unit_required validation rule to it. -->
+              <Field
+              type="hidden"
+              :name="'detail.unit' + index"
+              v-model="detail.unit"
+              rules="unit_required"
+               />
+              <ErrorMessage :name="'detail.unit' + index" class="error-msg" />
+            </div>
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          <template v-else-if="detail.name === 'Calories Burned'">
+            <label :for="'detail.name' + index">{{ detail.name }}</label>
+            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
+              class="input form-control" rules="required|numeric|non_negative" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
+          </template>
+
+          
           <!-- Render other inputs -->
           <template v-else>
-            <label :for="'detail.name' + index">{{ detail.label }}</label>
-            <input type="text" class="input form-control" :id="'detail.name' + index"
-              v-model="detail.value" required>
+            <label :for="detail.name + index">{{ detail.name }}</label>
+            <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
+              v-model="detail.value" rules="required" />
+            <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
         </div>
       </div>
 
-      <!-- Save Button -->
       <button type="submit" class="save-button btn btn-success">Save Activity</button>
-      <!-- del button -->
       <button type="button" @click="deleteActivity" class="delete-button btn btn-danger">Delete Activity</button>
-    </form>
+
+    </Form>
   </div>
 </template>
 
@@ -58,15 +197,9 @@ export default {
 
   data() {
     return {
-      details: [
-        { name: 'date', value: '', label: 'Date' },
-        { name: 'startTime', value: '', label: 'Start Time' },
-        { name: 'endTime', value: '', label: 'End Time' },
-        { name: 'duration', value: '', label:'Duration' },
-        { name: 'distance', value: '', label:'Distance' },
-        { name: 'caloriesBurned', value: '', label:'Calories Burned' },
-      ],
+      details: {},
       user_ActivityName: '',
+      id: ''
     };
   },
   created() {
@@ -74,16 +207,13 @@ export default {
     if (item) {
       try {
         const parsedItem = JSON.parse(item);
-        console.log(parsedItem);
-        console.log(parsedItem.name);
-        this.user_ActivityName = parsedItem.name;
-        this.details.forEach(detail => {
-          // Find the matching key in parsedItem
-          const value = parsedItem[detail.name];
-          if (value !== undefined) {
-            detail.value = value;
-          }
-        });
+        //console.log("Parsed item:", parsedItem);
+        //console.log("ActivityName:", parsedItem.ActivityName);
+        this.user_ActivityName = parsedItem.ActivityName;
+        this.details = parsedItem.details;
+        this.id = parsedItem._id;
+        //console.log("id:", this.id);
+        
       } catch (error) {
         console.error('Failed to parse item:', error);
       }
@@ -91,26 +221,31 @@ export default {
   },
   methods: {
     saveActivity() {
-
-      let data = {
-        'user_ActivityName': this.user_ActivityName
+      
+      const data = {
+        _id: this.id,
+        ActivityName: this.user_ActivityName,
+        ActivityType: this.activityName,
+        details: this.details
       };
-      // fill data from details array
-      this.details.forEach(detail => {
-        data[detail.name] = detail.value;
-      });
 
-      axios.post('http://127.0.0.1:5000/log_activity', data)
+      axios.post('http://127.0.0.1:5000/update_activity', data)
         .then(response => {
-          console.log('Activity logged:', response.data);
+          console.log('Activity updated:', response.data);
+          alert('Activity updated successfully!');
         })
         .catch(error => {
-          console.error('There was an error logging the activity!', error);
+          console.error('There was an error updading the activity!', error);
+          alert('There was an error updading the activity!');
+
         });
     },
     deleteActivity() {
       let data = {
-        "ActivityName": this.user_ActivityName
+        _id: this.id,
+        ActivityName: this.user_ActivityName,
+        ActivityType: this.activityName,
+        details: this.details  
       }
 
       axios.post('http://127.0.0.1:5000/delete_activity', data)
@@ -119,18 +254,26 @@ export default {
         })
         .catch(error => {
           console.error('There was an error deleting the activity!', error);
+          alert('There was an error deleting the activity!');
         });
+      
+      // alert the user about successful deletion then return them to the dashboard, solution must be easy
+      alert('Activity deleted successfully!');
+      this.$router.push('/');
     }
   }
 };
 </script>
 
-<style scoped>
-/* Your existing CSS styles */
-</style>
 
 
 <style scoped>
+.error-msg {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 .custom-container {
   overflow: hidden;
   display: -webkit-box;
@@ -218,6 +361,10 @@ button:focus {
   background: #57b846;
 }
 
+.btn-dropdown {
+  background: #57b846;
+  margin: 0;
+}
 .delete-button {
   background: #f43333;
 }

@@ -8,9 +8,11 @@ import EditWorkout from '@/views/WorkoutViews/EditWorkout.vue';
 import Activities from '@/views/ActivityViews/Activities.vue';
 import LogActivity from '@/views/ActivityViews/LogActivity.vue';
 import EditActivity from '@/views/ActivityViews/EditActivity.vue';
+import CustomActivity from '@/views/ActivityViews/CustomActivity.vue';
 
 import setFitnessGoal from '@/views/GoalViews/setFitnessGoal.vue';
 import EditGoal from '@/views/GoalViews/EditGoal.vue';
+
 
 
 
@@ -36,6 +38,12 @@ const routes = [
         path: '/log-activity/:activityName',
         name: 'LogActivity',
         component: LogActivity,
+        props: true
+      },
+      {
+        path: '/custom-activity/:activityName',
+        name: 'CustomActivity',
+        component: CustomActivity,
         props: true
       },
       {

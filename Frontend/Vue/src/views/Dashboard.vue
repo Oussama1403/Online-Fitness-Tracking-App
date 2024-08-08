@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard">
     <div class="container-fluid px-4">
-      <h2 class="mb-4 mt-4 dash-title">Dashboard</h2>
+      <h2 class="mb-4 mt-4 text-center dash-title">Dashboard</h2>
+      <hr style="border: 3px solid rgb(37, 211, 37);">
       <div class="row">
         <div class="col-xl-3 col-md-6 mb-4" v-for="(card, index) in dashboardCards" :key="index">
           <div :class="`card ${card.bgColor} text-white h-100`">
@@ -15,17 +16,17 @@
         </div>
       <!-- Activities Section -->
       <h2 class="mb-4 mt-4 act-title">Logged Activities</h2>
+      <hr style="border: 3px solid #ab2cd6;">
       <div class="row">
+        <p v-if="activities.length === 0" class="text-center">No Activities Logged</p>
+
         <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card activities-section h-100 shadow-sm"  @click="goToEdit(activity, 'edit-activity')">
             <div class="card-body">
-              <h5 class="card-title text-center">{{ activity.name }}</h5>
-              <p class="card-subtitle mb-1">Date:<br><strong class="details-title">{{ activity.date }}</strong></p>
-              <p class="card-text mb-1">Start: <strong class="details-title">{{ activity.startTime }}</strong> - End: <strong class="details-title">{{
-                activity.endTime }}</strong></p>
-              <p class="card-text mb-1">Duration:<br><strong class="details-title">{{ activity.duration }}</strong></p>
-              <p class="card-text mb-1">Distance:<br><strong class="details-title">{{ activity.distance }}</strong></p>
-              <p class="card-text mb-1">Calories Burned:<br><strong class="details-title">{{ activity.caloriesBurned }}</strong></p>
+              <h5 class="card-title text-center">{{ activity.ActivityName }}</h5>
+              <div v-for="(detail, key) in activity.details" :key="key">
+                <p class="card-text mb-1">{{ detail.name }}:<br><strong class="details-title">{{ detail.value }}</strong> <strong v-if="detail.unit" class="details-title">{{ detail.unit }}</strong></p>
+              </div>
             </div>
           </div>
         </div>
@@ -33,16 +34,21 @@
 
       <!-- Saved Workouts Section -->
       <h2 class="mb-4 mt-4 workout-title">Upcoming Workouts</h2>
+      <hr style="border: 3px solid #ff8640;">
+      <p v-if="workouts.length === 0" class="text-center">No Workouts Scheduled</p>
+
       <div class="row">
         <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card saved-workouts-section h-100 shadow-sm"  @click="goToEdit(workout, 'edit-workout')">
             <div class="card-body">
-              <h5 class="card-title text-center">{{ workout.name }}</h5>
-              <h6 class="card-title text-center">{{ workout.date }}</h6>
+              <h5 class="card-title text-center">{{ workout.WorkoutName }}</h5>
+              <h6 class="card-title text-center">{{ workout.WorkoutDate }}</h6>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item" v-for="(exercise, index) in workout.exercises" :key="index">
+                <li style="list-style-type: none;" v-for="(exercise, index) in workout.Exercises" :key="index">
+                  <div class="list-group-item">
                   <strong class="exercise-name">{{ exercise.name }}</strong>
                   <p>Reps: <strong>{{ exercise.reps }} </strong> <br>Sets: <strong>{{ exercise.sets }} </strong></p>
+                </div>
                 </li>
               </ul>
             </div>
@@ -52,6 +58,8 @@
 
       <!-- Current Goals Section -->
       <h2 class="mb-4 mt-4 goals-title">Your Current Goals</h2>
+      <hr style="border: 3px solid #ed1fe6;">
+      <p v-if="goals.length === 0" class="text-center">No Goals Set</p>
       <div class="row">
         <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card current-goals-section h-100 shadow-sm" @click="goToEdit(goal, 'edit-goal')">
@@ -72,125 +80,125 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "Dashboard",
   data() {
     return {
       dashboardCards: [
         {
-          number: '8',
-          text: "WORKOUTS COMPLETED",
+          number: 0,
+          text: "ACTIVITIES COMPLETED",
           bgColor: "bg-c-blue",
           icon: "fas fa-dumbbell",
         },
         {
-          number: '900',
+          number: 0,
           text: "CALORIES BURNED",
           bgColor: "bg-c-green",
           icon: "fas fa-fire",
         },
         {
-          number: '3',
+          number: 0,
           text: "UPCOMING WORKOUTS",
           bgColor: "bg-c-yellow",
           icon: "fas fa-calendar-alt",
         },
         {
-          number: '2',
+          number: 0,
           text: "GOALS SET",
           bgColor: "bg-c-pink",
           icon: "fas fa-clock",
         },
       ],
-      activities: [
-        {
-          name: "Morning Run",
-          date: '2024-07-28',
-          startTime: '07:00',
-          endTime: '08:00',
-          duration: '1 hour',
-          distance: '5 km',
-          caloriesBurned: '300 kcal',
-        },
-        {
-          name: "Evening Walk",
-          date: '2024-07-27',
-          startTime: '18:30',
-          endTime: '19:30',
-          duration: '1 hour',
-          distance: '4 km',
-          caloriesBurned: '250 kcal',
-        },
-        {
-          name: "Cycling",
-          date: '2024-07-26',
-          startTime: '06:00',
-          endTime: '07:00',
-          duration: '1 hour',
-          distance: '6 km',
-          caloriesBurned: '350 kcal',
-        }
-      ],
-      workouts: [
-        {
-          name: "Leg Day",
-          date: '2024-07-26',
-          exercises: [
-            { name: "Squats", reps: 12, sets: 4 },
-            { name: "Lunges", reps: 15, sets: 3 },
-            { name: "Leg Press", reps: 10, sets: 3 },
-          ],
-        },
-        {
-          name: "Upper Body",
-          date: '2024-07-28',
-          exercises: [
-            { name: "Bench Press", reps: 10, sets: 4 },
-            { name: "Pull-ups", reps: 8, sets: 3 },
-            { name: "Bicep Curls", reps: 12, sets: 3 },
-          ],
-        },
-        {
-          name: "Cardio",
-          date: '2024-07-30',
-          exercises: [
-            { name: "Running", reps: "N/A", sets: "N/A" },
-            { name: "Cycling", reps: "N/A", sets: "N/A" },
-            { name: "Jump Rope", reps: "N/A", sets: "N/A" },
-          ],
-        },
-      ],
-      goals: [
-        {
-          type: 'Weight Loss',
-          description: 'Lose 5 kg in 2 months',
-          currentProgress: '1 kg lost',
-          targetDate: '2024-08-30', 
-          notes: 'Focus on diet and cardio',
-        },
-        {
-          type: 'Strength',
-          description: 'Increase bench press by 20 kg',
-          currentProgress: '5 kg increase',
-          targetDate: '2024-09-15',
-          notes: 'Add more protein to diet',
-        }
-      ],
+      activities: [],
+      workouts: [],
+      goals: [],
     }
   },
+  created() {
+    this.loadData();
+  },
   methods: {
-  goToEdit(item, routeName) {
-    // Clone the item object to strip away Vue's reactivity
-    const clonedItem = JSON.stringify(item);
-    this.$router.push({
-      name: routeName,
-      query: { item: clonedItem }
-    });
-  }
-  }
+    loadData() {
+      axios.get('http://127.0.0.1:5000/get_activities')
+        .then(response => {
+          console.log("activities :",response.data)
+          this.activities = response.data;
+          this.updateDashboardCards();
+        })
+        .catch(error => {
+          console.error('There was an error fetching activities!', error);
+        });
 
+      axios.get('http://127.0.0.1:5000/get_workouts')
+        .then(response => {
+          console.log("workouts :",response.data)
+          this.workouts = response.data;
+          this.updateDashboardCards();
+        })
+        .catch(error => {
+          console.error('There was an error fetching workouts!', error);
+        });
+
+      axios.get('http://127.0.0.1:5000/get_goals')
+        .then(response => {
+          console.log("goals :",response.data)
+          this.goals = response.data;
+          this.updateDashboardCards();
+        })
+        .catch(error => {
+          console.error('There was an error fetching goals!', error);
+        });
+    },
+    updateDashboardCards() {
+      const completedActivities = this.activities.length;
+      const caloriesBurned = this.activities.reduce((sum, activity) => {
+        return sum + (activity.details.calories_burned?.value || 0);
+      }, 0);
+      const upcomingWorkouts = this.workouts.length;
+      const goalsSet = this.goals.length;
+
+      this.dashboardCards = [
+        {
+          number: completedActivities,
+          text: "ACTIVITIES COMPLETED",
+          bgColor: "bg-c-blue",
+          icon: "fas fa-dumbbell",
+        },
+        {
+          number: caloriesBurned,
+          text: "CALORIES BURNED",
+          bgColor: "bg-c-green",
+          icon: "fas fa-fire",
+        },
+        {
+          number: upcomingWorkouts,
+          text: "UPCOMING WORKOUTS",
+          bgColor: "bg-c-yellow",
+          icon: "fas fa-calendar-alt",
+        },
+        {
+          number: goalsSet,
+          text: "GOALS SET",
+          bgColor: "bg-c-pink",
+          icon: "fas fa-clock",
+        },
+      ];
+    },
+    goToEdit(item, routeName) {
+      const clonedItem = JSON.stringify(item);
+      console.log("clonedItem :",clonedItem);
+      this.$router.push({
+        name: routeName,
+        query: { item: clonedItem }
+      });
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 .dashboard {
@@ -199,7 +207,8 @@ export default {
 }
 
 .dash-title {
-  color: rgb(37, 211, 37)
+  color: rgb(37, 211, 37);
+  font-weight: bold; 
 }
 
 .card {
@@ -315,8 +324,8 @@ export default {
 
 .list-group-item {
   background: none;
-  border: 2px rgb(255, 255, 255) solid;
-  border-radius: 5px;
+  border:0;
+  border-bottom: 2px rgb(255, 255, 255) solid;
   color: inherit;
 }
 </style>
