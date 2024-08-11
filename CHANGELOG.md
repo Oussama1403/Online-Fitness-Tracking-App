@@ -1,5 +1,14 @@
 # Changelog
 
+## Aug 11, 2024
+- **UI Enhancements:**
+  - **Dashboard.vue:**
+    - Added buttons to guide users to the respective section creation pages when sections are empty.
+    - Updated the color scheme of the `Goals` section for better visibility.
+  - **BaseLayout.vue:**
+    - Enhanced the sidebar links with improved hover effects.
+    - Aligned icons and text links for a cleaner and more consistent layout.
+
 ## Aug 8, 2024
 - **Transitioned from SQLite3 to MongoDB:**
   - Migrated the project’s database from SQLite3 to MongoDB for improved scalability and flexibility.

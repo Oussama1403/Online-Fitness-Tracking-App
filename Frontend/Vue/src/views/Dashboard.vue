@@ -18,7 +18,12 @@
       <h2 class="mb-4 mt-4 act-title">Logged Activities</h2>
       <hr style="border: 3px solid #ab2cd6;">
       <div class="row">
-        <p v-if="activities.length === 0" class="text-center">No Activities Logged</p>
+        
+        <div v-if="activities.length === 0" class="section">
+          <div style="width: 400px;">
+          <router-link to="/activities" class="log-activity button btn">Log your first activity!</router-link>
+          </div>
+        </div>
 
         <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card activities-section h-100 shadow-sm"  @click="goToEdit(activity, 'edit-activity')">
@@ -35,8 +40,13 @@
       <!-- Saved Workouts Section -->
       <h2 class="mb-4 mt-4 workout-title">Upcoming Workouts</h2>
       <hr style="border: 3px solid #ff8640;">
-      <p v-if="workouts.length === 0" class="text-center">No Workouts Scheduled</p>
-
+      
+      <div v-if="activities.length === 0" class="section">
+        <div style="width: 400px;">
+          <router-link to="/create-workout" class="log-workout button btn">Log your first workout!</router-link>
+        </div>
+      </div>
+      
       <div class="row">
         <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card saved-workouts-section h-100 shadow-sm"  @click="goToEdit(workout, 'edit-workout')">
@@ -58,8 +68,14 @@
 
       <!-- Current Goals Section -->
       <h2 class="mb-4 mt-4 goals-title">Your Current Goals</h2>
-      <hr style="border: 3px solid #ed1fe6;">
-      <p v-if="goals.length === 0" class="text-center">No Goals Set</p>
+      <hr style="border: 3px solid #ff3434;">
+      
+      <div v-if="activities.length === 0" class="section">
+        <div style="width: 400px;">
+          <router-link to="/set-goal" class="log-goal button btn">Log your first goal!</router-link>
+        </div>
+      </div>
+      
       <div class="row">
         <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4">
           <div class="card current-goals-section h-100 shadow-sm" @click="goToEdit(goal, 'edit-goal')">
@@ -271,12 +287,12 @@ export default {
 
 
 .activities-section {
-  background: linear-gradient(45deg, #a640ff, #af55fd);
+  background: linear-gradient(45deg, #9114ff, #af55fd);
 
 }
 
 .activities-section:hover {
-  background: linear-gradient(45deg, #8823df, #af55fd);
+  background: linear-gradient(45deg, #6806be, #af55fd);
 
 }
 
@@ -285,11 +301,11 @@ export default {
 }
 
 .saved-workouts-section {
-  background: linear-gradient(45deg, #ff8640, #ff985c);
+  background: linear-gradient(45deg, #fb6c19, #ff985c);
 }
 
 .saved-workouts-section:hover {
-  background: linear-gradient(45deg, #ed6a1f, #ff985c);
+  background: linear-gradient(45deg, #d75001, #ff985c);
 }
 
 .workout-title {
@@ -297,17 +313,17 @@ export default {
 }
 
 .current-goals-section {
-  background: linear-gradient(45deg, #ed1fe6, #f562f0);
+  background: linear-gradient(45deg, #ed1f1f, #f56262);
 
 }
 
 .current-goals-section:hover {
-  background: linear-gradient(45deg, #d105cb, #f562f0);
+  background: linear-gradient(45deg, #d10505, #f56262);
 
 }
 
 .goals-title {
-  color: #ed1fe6;
+  color: #ff3434;
 }
 
 .card-body-icon {
@@ -327,5 +343,86 @@ export default {
   border:0;
   border-bottom: 2px rgb(255, 255, 255) solid;
   color: inherit;
+}
+.section {
+  /* center all elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  padding: 16px 32px;
+  margin: 4px;
+  border: none;
+  background: transparent;
+  height: 50px;
+  width: 100%;
+  border-radius: 25px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+}
+
+button:hover {
+  cursor: pointer;
+  box-shadow: none;
+}
+
+button:focus {
+  background: #626262;
+  border-color: #626262;
+  box-shadow: none;
+  box-shadow: none;
+}
+
+.log-activity {
+  background: transparent;
+  border: 2px solid #da6bff;
+  color: #da6bff;
+ 
+}
+.log-activity:hover {
+  background: #da6bff;
+  color: #ffffff;
+}
+.log-activity:focus {
+  background: #bf18f7;
+  color: #ffffff;
+  border: none;
+}
+
+.log-workout {
+  background: transparent;
+  border: 2px solid #ff8640;
+  color: #ff8640;
+}
+.log-workout:hover {
+  background: #ffa16b ;
+  color: #ffffff;
+}
+.log-workout:focus {
+  background: #ff7525 ;
+  color: #ffffff;
+  border: none;
+}
+.log-goal {
+  background: transparent;
+  border: 2px solid #ff3434;
+  color: #ff3434;
+}
+.log-goal:hover {
+  background: #f54c4c ;
+  color: #ffffff;
+}
+.log-goal:focus {
+  background: #ff2a2a ;
+  color: #ffffff;
+  border: none;
 }
 </style>

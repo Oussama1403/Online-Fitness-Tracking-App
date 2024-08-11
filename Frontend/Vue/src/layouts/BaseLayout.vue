@@ -16,7 +16,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" :class="['col-md-3', 'col-lg-2', 'd-md-block', 'bg-light', 'sidebar', {'show-sidebar': isSidebarOpen}]">
+        <nav id="sidebar" :class="['col-md-3', 'col-lg-2', 'd-md-block', 'sidebar', {'show-sidebar': isSidebarOpen}]">
           <div class="position-sticky">
             <ul class="nav flex-column">
               <router-link to="/" class="brand-link brand-sidebar" aria-current="page">
@@ -87,6 +87,7 @@ export default {
   z-index: 1030; /* Sidebar z-index */
   left: 0;
   top: 0;
+  background-color:#eefcee;
 }
 
 .show-sidebar {
@@ -104,6 +105,7 @@ export default {
   border-radius: 10px;
   color: rgb(236, 244, 253);
   background-color: rgb(37, 211, 37);
+  transition: all 0.3s ease-in-out;
 }
 
 .brand:hover {
@@ -128,13 +130,20 @@ export default {
   color: #333;
   text-decoration: none;
   transition: color 0.3s;
+  display: flex;
+  align-items: center;
 }
-
+.nav-item i {
+  min-width: 30px; /* Ensures consistent spacing */
+  text-align: center; /* Centers the icon in the space */
+  margin-right: 10px;
+}
+/*
 .nav-item::before {
   content: '';
   position: absolute;
   width: 100%;
-  height: 3px;
+  height: 100%;
   bottom: 0;
   left: 0;
   background-color: rgb(37, 211, 37);
@@ -147,10 +156,12 @@ export default {
   visibility: visible;
   transform: scaleX(1);
 }
-
+*/
 .nav-link {
   color: #1e1e1e;
   transition: color 0.2s;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
 }
 
 .nav-link i {
@@ -158,11 +169,12 @@ export default {
 }
 
 .nav-link:hover {
-  color: rgb(37, 211, 37);
+  background-color: rgb(129, 255, 129) ;
+  color: rgb(0, 107, 0);
 }
 
 .nav-link:active {
-  color: rgb(24, 158, 24);
+  color: rgb(173, 255, 173);
 }
 
 .sidebar-footer {
