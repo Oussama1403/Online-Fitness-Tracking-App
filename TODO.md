@@ -18,6 +18,7 @@
 - [x] Dashboard: Display Workout Routines, Activities Logged
 - [x] Implement `Set Fitness Goals` Section
 - [x] Improve UI Style and Colors, Add Icons to sidebar
+- [ ] Create login and registration pages
 
 ## Form Validation
 - [x] *Edit Forms**: Implement Vee-Validate to check for empty fields, string, and numeric fields.
@@ -32,7 +33,6 @@
 - [x] Fix sidebar appearance issue on small width screens.
 
 ## Other
-- [ ] Create login and registration pages
 - [x] Create form for logging activities
 - [x] Implement statistics and progress tracking pages
 
