@@ -1,8 +1,9 @@
-# Online Fitness Tracking App
-
-## Overview
-
-The Online Fitness Tracking App is a web application designed to help users track their fitness activities, monitor progress, and achieve their health goals. This application is built with a Flask backend and a Vue.js frontend, offering a responsive and user-friendly experience.
+<h1 align="center">
+Online Fitness Tracking App
+</h1>
+<div align="center">
+The Online Fitness Tracking App is a web application designed to help users track their fitness activities, monitor progress, and achieve their health goals. This application is built with a Flask   backend and a Vue.js frontend, offering a responsive and user-friendly experience.
+</div>
 
 ## Screenshots
 
