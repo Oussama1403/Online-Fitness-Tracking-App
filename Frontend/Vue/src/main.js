@@ -11,6 +11,19 @@ import { Field, Form, ErrorMessage, defineRule, configure } from 'vee-validate';
 import { required, email, min, max, numeric, alpha } from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import en from '@vee-validate/i18n/dist/locale/en.json';
+import axios from 'axios';
+
+// every request made with Axios includes the JWT token in the Authorization header.
+axios.defaults.baseURL = 'http://127.0.0.1:5000';
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
 
 // Create Vue app
 const app = createApp(App);
@@ -39,6 +52,14 @@ defineRule('non_negative', value => {
     return true;
   }
   return 'The field must be a non-negative number';
+});
+
+// Define the 'sameAs' rule for the register view
+defineRule('sameAs', (value, [target]) => {
+  if (value === target) {
+    return true;
+  }
+  return 'The passwords do not match';
 });
 
 

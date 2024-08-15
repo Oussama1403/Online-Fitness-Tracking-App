@@ -18,7 +18,9 @@
 - [x] Dashboard: Display Workout Routines, Activities Logged
 - [x] Implement `Set Fitness Goals` Section
 - [x] Improve UI Style and Colors, Add Icons to sidebar
-- [ ] Create login and registration pages
+- [x] Create login and registration pages
+- [ ] Adding a language translation option (EN/FR) 
+
 
 ## Form Validation
 - [x] *Edit Forms**: Implement Vee-Validate to check for empty fields, string, and numeric fields.
@@ -27,7 +29,7 @@
 ## Dashboard
 - [x] Render dashboard data from the backend.
 - [x] Remove mock data from the frontend.
-- [ ] Automatic Updates: tracks activities and automatically update the progress bar.
+- [x] Automatic Updates: tracks activities.
 - [ ] Develop calendar view for activity history
 ## BaseLayout
 - [x] Fix sidebar appearance issue on small width screens.
@@ -40,6 +42,6 @@
 
 - [x] Set up communication between frontend and backend via API
 - [x] Test and debug API endpoints
-- [ ] Ensure proper handling of authentication tokens
+- [x] Ensure proper handling of authentication tokens
 
 

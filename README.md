@@ -4,6 +4,38 @@
 
 The Online Fitness Tracking App is a web application designed to help users track their fitness activities, monitor progress, and achieve their health goals. This application is built with a Flask backend and a Vue.js frontend, offering a responsive and user-friendly experience.
 
+## Screenshots
+
+Here are some screenshots of the application:
+
+- **Authentication Interfaces**
+  <div style="display: flex; gap: 10px;">
+      <img src="Screenshots/login.png" alt="Login Overview" style="width: 40%;"/>
+      <img src="Screenshots/signup.png" alt="Sign Up Overview" style="width: 40%;"/>
+  </div>
+
+- **Dashboard View**
+  <div style="display: flex; gap: 10px;">
+      <img src="Screenshots/dashboard.png" alt="Dashboard Overview 1" style="width: 30%;"/>
+      <img src="Screenshots/dashboard2.png" alt="Dashboard Overview 2" style="width: 30%;"/>
+      <img src="Screenshots/dashboard3.png" alt="Dashboard Overview 3" style="width: 30%;"/>
+  </div>
+
+- **Activities Page**
+  ![Activities Page](Screenshots/activities.png)
+
+- **Activity Logging Forms**
+  <div style="display: flex; gap: 10px;">
+      <img src="Screenshots/log-activity.png" alt="Log Activity Overview" style="width: 40%;"/>
+      <img src="Screenshots/log-custom-activity.png" alt="Log Custom Activity Overview" style="width: 40%;"/>
+  </div>
+
+- **Log Workout Interface**
+  ![Workout Interface](Screenshots/log-workout.png)
+
+- **Set Goal Interface**
+  ![Goal](Screenshots/set-goal.png)
+
 ## Features
 
 - **User Authentication**: Secure login and registration to manage user-specific data.

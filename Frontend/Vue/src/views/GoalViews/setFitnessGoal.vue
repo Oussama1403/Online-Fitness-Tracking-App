@@ -51,6 +51,7 @@
 <script>
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
 
 export default {
   data() {
@@ -66,9 +67,15 @@ export default {
   },
   methods: {
     saveGoal(values) {
+      // Get user Id
+      const token = localStorage.getItem('authToken');
+      const decoded = jwtDecode(token);
+      const userId = decoded.user_id;
+
       console.log(values)
       let data = {
         _id: uuidv4(),
+        user_id: userId,
         ...values // spread operator
       }
       axios.post('http://127.0.0.1:5000/log_goal', data)
@@ -138,6 +145,12 @@ form {
 
 .input::placeholder {
   color: #a19f9f;
+}
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
 }
 
 button {

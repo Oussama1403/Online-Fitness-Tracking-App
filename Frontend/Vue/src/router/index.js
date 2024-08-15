@@ -13,6 +13,9 @@ import CustomActivity from '@/views/ActivityViews/CustomActivity.vue';
 import setFitnessGoal from '@/views/GoalViews/setFitnessGoal.vue';
 import EditGoal from '@/views/GoalViews/EditGoal.vue';
 
+import Login from '@/views/Auth/Login.vue';
+import Register from '@/views/Auth/Register.vue';
+
 
 
 
@@ -20,6 +23,7 @@ const routes = [
   {
     path: '/',
     component: BaseLayout,
+    meta: { requiresAuth: true },  // Protect the entire BaseLayout routes
     children: [
       {
         path: '',
@@ -67,25 +71,34 @@ const routes = [
         name: 'edit-goal',
         component: EditGoal,
       }
-      /*
-      {
-        path: '/edit-workout',
-        name: 'edit-workout',
-        component: EditWorkout, // Your component for editing workouts
-        props: (route) => ({ item: JSON.parse(route.params.item) })
-      },
-      {
-        path: '/edit-goal',
-        name: 'edit-goal',
-        component: EditGoal, // Your component for editing goals
-      }*/
     ]
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const isAuthenticated = !!localStorage.getItem('authToken'); 
+
+  if (requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;

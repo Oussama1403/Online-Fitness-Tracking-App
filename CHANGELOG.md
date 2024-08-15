@@ -1,5 +1,48 @@
 # Changelog
 
+## Aug 16, 2024
+
+1. **Implemented User Authentication**
+   - Secure login and registration functionality added.
+   - Utilizes JWT for managing user-specific data across the application.
+
+2. **Data Management Enhancement**
+   - Ensured that every piece of data in MongoDB is linked to the user who created it.
+   - Added `user_id` to every data entry for proper user-specific data handling.
+
+#### **Bug Fixes**
+
+1. **Custom Activity Routing Fix**
+   - Resolved an issue where saving a custom activity did not redirect to the dashboard.
+   
+2. **Calories Calculation Fix**
+   - Fixed a bug where custom activities were not included in the total calories calculation.
+
+3. **Multiple Bugs**
+   - Fixed various minor bugs to improve overall stability.
+
+#### **UI/UX Improvements**
+
+1. **Activity Duration Input Improvement**
+   - Updated input to allow users to type `:` between numbers to specify minutes in the activity duration.
+
+2. **Sidebar Icon Colors**
+   - Each icon on the sidebar now features a unique color for better visual distinction.
+
+3. **Card Design Enhancement**
+   - Added a box shadow to each card for a more modern and polished look.
+
+4. **Improved Form Interactions**
+   - Enhanced input fields with better hover and focus effects for a smoother user experience.
+
+#### **Documentation**
+
+1. **Added Screenshots to README.md**
+   - Updated the README file with new screenshots to showcase the application.
+
+2. **Todo List Update**
+   - Added a new task in the todo list for implementing a language translation option (EN/FR).
+  
 ## Aug 11, 2024
 - **UI Enhancements:**
   - **Dashboard.vue:**

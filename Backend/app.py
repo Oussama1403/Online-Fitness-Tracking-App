@@ -1,6 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_pymongo import PyMongo
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta
 
 # Instantiate the app
 app = Flask(__name__)
@@ -9,12 +12,53 @@ app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/fitness_database'  # Replace 'fitness_database' with your database name
 mongo = PyMongo(app)
 
+# Configure JWT
+app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Replace with your own secret key
+jwt = JWTManager(app)
+
 # Enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+# User registration
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+    
+    if not username or not email or not password:
+        return jsonify({'message': 'Username, email or password are required'}), 400
+
+    if mongo.db.users.find_one({'email': email}):
+        return jsonify({'message': 'User already exists'}), 400
+
+    hashed_password = generate_password_hash(password)
+    mongo.db.users.insert_one({'username': username, 'email': email,'password': hashed_password})
+
+    return jsonify({'message': 'User registered successfully'}), 201
+
+# User login
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    print('Received login data:', data)
+    username = data.get('username')
+    password = data.get('password')
+
+    user = mongo.db.users.find_one({'username': username})
+    if user and check_password_hash(user['password'], password):
+        # Include user_id in the token
+        additional_info = {"user_id": str(user["_id"]), "username": user["username"]}
+        access_token = create_access_token(identity=str(user["_id"]),additional_claims=additional_info,expires_delta=timedelta(days=1))
+        return jsonify({'access_token': access_token}), 200
+
+    return jsonify({'message': 'Invalid credentials'}), 401
 
 # Activity
 
 @app.route('/log_activity', methods=['POST'])
+@jwt_required()
 def log_activity():
     data = request.json
     print('Received activity data:', data)
@@ -22,6 +66,7 @@ def log_activity():
     return jsonify({'message': 'Activity logged successfully'}), 200
 
 @app.route('/delete_activity', methods=['POST'])
+@jwt_required()
 def delete_activity():
     data = request.json
     print('Received activity data:', data)
@@ -34,6 +79,7 @@ def delete_activity():
         return jsonify({'message': 'No matching activity found'}), 404
 
 @app.route('/update_activity', methods=['POST'])
+@jwt_required()
 def update_activity():
     data = request.json
     activity_id = data.get('_id')
@@ -46,8 +92,10 @@ def update_activity():
         return jsonify({'message': 'No matching activity found'}), 404
 
 @app.route('/get_activities', methods=['GET'])
+@jwt_required()
 def get_activities():
-    activities = mongo.db.activities.find()
+    user_id = get_jwt_identity()  # Get the current user's ID from the toke
+    activities = mongo.db.activities.find({"user_id": user_id})
     result = []
     for activity in activities:
         activity['_id'] = str(activity['_id'])  # Convert ObjectId to string
@@ -57,6 +105,7 @@ def get_activities():
 # Workout
 
 @app.route('/log_workout', methods=['POST'])
+@jwt_required()
 def log_workout():
     data = request.json
     print('Received workout data:', data)
@@ -64,6 +113,7 @@ def log_workout():
     return jsonify({'message': 'Workout logged successfully'}), 200
 
 @app.route('/delete_workout', methods=['POST'])
+@jwt_required()
 def delete_workout():
     data = request.json
     print('Received workout data:', data)
@@ -74,6 +124,7 @@ def delete_workout():
         return jsonify({'message': 'No matching workout found'}), 404
 
 @app.route('/update_workout', methods=['POST'])
+@jwt_required()
 def update_workout():
     data = request.json
     workout_id = data.get('_id')
@@ -86,8 +137,10 @@ def update_workout():
         return jsonify({'message': 'No matching workout found'}), 404
 
 @app.route('/get_workouts', methods=['GET'])
+@jwt_required()
 def get_workouts():
-    workouts = mongo.db.workouts.find()
+    user_id = get_jwt_identity()  # Get the current user's ID from the toke
+    workouts = mongo.db.workouts.find({"user_id": user_id})
     result = []
     for workout in workouts:
         workout['_id'] = str(workout['_id'])  # Convert ObjectId to string
@@ -97,6 +150,7 @@ def get_workouts():
 # Goal
 
 @app.route('/log_goal', methods=['POST'])
+@jwt_required()
 def log_goal():
     data = request.json
     print('Received goal data:', data)
@@ -104,6 +158,7 @@ def log_goal():
     return jsonify({'message': 'Goal logged successfully'}), 200
 
 @app.route('/delete_goal', methods=['POST'])
+@jwt_required()
 def delete_goal():
     data = request.json
     print('Received goal data:', data)
@@ -114,6 +169,7 @@ def delete_goal():
         return jsonify({'message': 'No matching goal found'}), 404
 
 @app.route('/update_goal', methods=['POST'])
+@jwt_required()
 def update_goal():
     data = request.json
     goal_id = data.get('_id')
@@ -126,8 +182,10 @@ def update_goal():
         return jsonify({'message': 'No matching goal found'}), 404
 
 @app.route('/get_goals', methods=['GET'])
+@jwt_required()
 def get_goals():
-    goals = mongo.db.goals.find()
+    user_id = get_jwt_identity()  # Get the current user's ID from the toke
+    goals = mongo.db.goals.find({"user_id": user_id})
     result = []
     for goal in goals:
         goal['_id'] = str(goal['_id'])  # Convert ObjectId to string

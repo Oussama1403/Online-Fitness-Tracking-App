@@ -33,8 +33,17 @@
                 class="nav-item nav-link"
                 :class="{ active: isActiveRoute(route) }"
               >
-                <i :class="route.icon"></i> {{ route.name }}
+                <i :style="{ 'color': route.bgcolor }" :class="route.icon"></i> {{ route.name }}
               </router-link>
+
+              <router-link
+              to="/"
+              class="nav-item nav-link"
+              @click.prevent="logout">
+              <i style="color:#4099ff" class="fas fa-sign-out-alt"></i> Log Out
+              </router-link>
+
+
             </ul>
           </div>
         </nav>
@@ -55,10 +64,10 @@ export default {
     return {
       isSidebarOpen: false,
       routes: [
-        { path: "/", name: "Dashboard", icon: "fas fa-tachometer-alt" },
-        { path: "/activities", name: "Activities", icon: "fas fa-running" },
-        { path: "/create-workout", name: "Create Workout Routine", icon: "fas fa-dumbbell" },
-        { path: "/set-goal", name: "Set Fitness Goals", icon: "fas fa-bullseye" },
+        { path: "/", name: "Dashboard", icon: "fas fa-tachometer-alt", bgcolor: "#1eec63" },
+        { path: "/activities", name: "Activities", icon: "fas fa-running", bgcolor: "#9114ff" },
+        { path: "/create-workout", name: "Create Workout Routine", icon: "fas fa-dumbbell", bgcolor: "#fb6c19" },
+        { path: "/set-goal", name: "Set Fitness Goals", icon: "fas fa-bullseye", bgcolor: "#ff3434" },
       ],
     };
   },
@@ -69,6 +78,10 @@ export default {
     isActiveRoute(route) {
       return this.$route.path === route.path;
     },
+    logout() {
+    localStorage.removeItem('authToken'); 
+    this.$router.push('/login'); // Redirect to login page
+    }
   },
 };
 </script>
@@ -87,7 +100,7 @@ export default {
   z-index: 1030; /* Sidebar z-index */
   left: 0;
   top: 0;
-  background-color:#eefcee;
+  background: -webkit-linear-gradient(left, #c6ffd9, #e0fff2);
 }
 
 .show-sidebar {
@@ -104,7 +117,7 @@ export default {
   font-weight: 700;
   border-radius: 10px;
   color: rgb(236, 244, 253);
-  background-color: rgb(37, 211, 37);
+  background: -webkit-linear-gradient(left, #0cf65a, #00ff95);
   transition: all 0.3s ease-in-out;
 }
 
@@ -170,7 +183,7 @@ export default {
 
 .nav-link:hover {
   background-color: rgb(129, 255, 129) ;
-  color: rgb(0, 107, 0);
+  color: rgb(1, 96, 1);
 }
 
 .nav-link:active {

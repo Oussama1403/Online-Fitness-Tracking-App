@@ -1,10 +1,10 @@
 <template>
   <div class="dashboard">
     <div class="container-fluid px-4">
-      <h2 class="mb-4 mt-4 text-center dash-title">Dashboard</h2>
-      <hr style="border: 3px solid rgb(37, 211, 37);">
+      <h2 class="mb-4 mt-4 text-center dash-title fade-in">Dashboard</h2>
+      <hr style="border: 3px solid #1eec63;">
       <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4" v-for="(card, index) in dashboardCards" :key="index">
+        <div class="col-xl-3 col-md-6 mb-4 fade-in" v-for="(card, index) in dashboardCards" :key="index">
           <div :class="`card ${card.bgColor} text-white h-100`">
             <div class="card-body">
               <div class="card-body-icon">
@@ -15,18 +15,18 @@
           </div>
         </div>
       <!-- Activities Section -->
-      <h2 class="mb-4 mt-4 act-title">Logged Activities</h2>
+      <h2 class="mb-4 mt-4 act-title fade-in">Logged Activities</h2>
       <hr style="border: 3px solid #ab2cd6;">
       <div class="row">
         
         <div v-if="activities.length === 0" class="section">
           <div style="width: 400px;">
-          <router-link to="/activities" class="log-activity button btn">Log your first activity!</router-link>
+          <router-link to="/activities" class="log-activity button btn fade-in">Log your first activity!</router-link>
           </div>
         </div>
 
-        <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4">
-          <div class="card activities-section h-100 shadow-sm"  @click="goToEdit(activity, 'edit-activity')">
+        <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+          <div class="card activities-section h-100"  @click="goToEdit(activity, 'edit-activity')">
             <div class="card-body">
               <h5 class="card-title text-center">{{ activity.ActivityName }}</h5>
               <div v-for="(detail, key) in activity.details" :key="key">
@@ -38,18 +38,18 @@
       </div>
 
       <!-- Saved Workouts Section -->
-      <h2 class="mb-4 mt-4 workout-title">Upcoming Workouts</h2>
+      <h2 class="mb-4 mt-4 workout-title fade-in">Upcoming Workouts</h2>
       <hr style="border: 3px solid #ff8640;">
       
-      <div v-if="activities.length === 0" class="section">
+      <div v-if="workouts.length === 0" class="section fade-in">
         <div style="width: 400px;">
           <router-link to="/create-workout" class="log-workout button btn">Log your first workout!</router-link>
         </div>
       </div>
       
       <div class="row">
-        <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4">
-          <div class="card saved-workouts-section h-100 shadow-sm"  @click="goToEdit(workout, 'edit-workout')">
+        <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+          <div class="card saved-workouts-section h-100"  @click="goToEdit(workout, 'edit-workout')">
             <div class="card-body">
               <h5 class="card-title text-center">{{ workout.WorkoutName }}</h5>
               <h6 class="card-title text-center">{{ workout.WorkoutDate }}</h6>
@@ -67,18 +67,18 @@
       </div>
 
       <!-- Current Goals Section -->
-      <h2 class="mb-4 mt-4 goals-title">Your Current Goals</h2>
+      <h2 class="mb-4 mt-4 goals-title fade-in">Your Current Goals</h2>
       <hr style="border: 3px solid #ff3434;">
       
-      <div v-if="activities.length === 0" class="section">
+      <div v-if="goals.length === 0" class="section fade-in">
         <div style="width: 400px;">
           <router-link to="/set-goal" class="log-goal button btn">Log your first goal!</router-link>
         </div>
       </div>
       
       <div class="row">
-        <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4">
-          <div class="card current-goals-section h-100 shadow-sm" @click="goToEdit(goal, 'edit-goal')">
+        <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+          <div class="card current-goals-section h-100" @click="goToEdit(goal, 'edit-goal')">
             <div class="card-body">
               <h5 class="card-title">{{ goal.type }}</h5>
               <p class="card-text pb-1" style="font-size: 1.1em;font-weight: bold;">{{ goal.description }}</p>
@@ -171,7 +171,16 @@ export default {
     updateDashboardCards() {
       const completedActivities = this.activities.length;
       const caloriesBurned = this.activities.reduce((sum, activity) => {
-        return sum + (activity.details.calories_burned?.value || 0);
+        if (Array.isArray(activity.details)) {
+          // Find the entry where the name is "Calories Burned"
+          const caloriesEntry = activity.details.find(detail => detail.name === "Calories Burned");
+          return sum + (caloriesEntry ? parseInt(caloriesEntry.value) : 0);
+        } else if (activity.details && activity.details.calories_burned) {
+          // Handle the object structure
+          return sum + (activity.details.calories_burned.value || 0);
+        } else {
+          return sum;
+        }
       }, 0);
       const upcomingWorkouts = this.workouts.length;
       const goalsSet = this.goals.length;
@@ -223,14 +232,18 @@ export default {
 }
 
 .dash-title {
-  color: rgb(37, 211, 37);
-  font-weight: bold; 
+  font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(to right, #1eec63, #5dffbc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
 }
 
 .card {
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
-  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  box-shadow: 5px 5px 10px -3px rgb(201, 198, 198);
   border: none;
   margin-bottom: 30px;
   -webkit-transition: all 0.3s ease-in-out;
@@ -288,7 +301,6 @@ export default {
 
 .activities-section {
   background: linear-gradient(45deg, #9114ff, #af55fd);
-
 }
 
 .activities-section:hover {
@@ -425,4 +437,43 @@ button:focus {
   color: #ffffff;
   border: none;
 }
+
+
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.fade-in:nth-child(3) {
+  animation-delay: 1.5s;
+}
+
+.fade-in:nth-child(4) {
+  animation-delay: 2s;
+}
+
+/* Adjust delays as needed for more items */
+
 </style>

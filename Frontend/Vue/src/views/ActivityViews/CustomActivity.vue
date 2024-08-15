@@ -38,15 +38,17 @@
 
 <script>
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
 
 
 export default {
   setup() {
     const route = useRoute();
+    const router = useRouter(); // Use useRouter to access router methods
     const activityType = route.params.activityName || '';
 
     const activityName = ref('');
@@ -63,8 +65,14 @@ export default {
     };
 
     const saveActivity = () => {
+      // Get user Id
+      const token = localStorage.getItem('authToken');
+      const decoded = jwtDecode(token);
+      const userId = decoded.user_id;
+      
       const data = {
         _id: uuidv4(),
+        user_id: userId,
         ActivityName: activityName.value,
         ActivityType: activityType,
         details: fields.value,
@@ -74,7 +82,7 @@ export default {
         .then(response => {
           console.log('Activity logged:', response.data);
           alert('Activity logged successfully!');
-          this.$router.push('/');
+          router.push('/');
         })
         .catch(error => {
           console.error('There was an error logging the activity!', error);
@@ -153,7 +161,12 @@ export default {
   .input::placeholder {
     color: #a19f9f;
   }
-  
+  .input:hover {
+  border: 1px solid #00ff99;
+  }
+  .input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
+  }
   .label {
     background-color: transparent;
     border-radius: 0px;
@@ -161,6 +174,15 @@ export default {
     border-right: 0px;
     border-left: 0px;
     border-bottom: 2px solid #a19f9f;
+  }
+  .label:hover {
+  border: 0;
+  border-bottom: 2px solid #00ff99;
+  }
+  .label:focus {
+  border: 0;
+  border-bottom: 4px solid #00ff99;
+  box-shadow: none;
   }
   
   button {

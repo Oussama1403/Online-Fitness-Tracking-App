@@ -108,8 +108,8 @@
             <div class="form-group">
               <label :for="detail.name + index">{{ detail.name }}</label>
               <div class="input-group">
-                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
-                  v-model="detail.value" rules="required|numeric|non_negative" />
+                <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
+                  v-model="detail.value" rules="required" />
                 <div class="input-group-append">
                   <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -191,6 +191,7 @@
 
 <script>
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 export default {
   name: 'EditActivity',
@@ -212,6 +213,7 @@ export default {
         this.user_ActivityName = parsedItem.ActivityName;
         this.details = parsedItem.details;
         this.id = parsedItem._id;
+        this.userId = parsedItem.user_id;
         //console.log("id:", this.id);
         
       } catch (error) {
@@ -224,6 +226,7 @@ export default {
       
       const data = {
         _id: this.id,
+        user_id: this.userId,
         ActivityName: this.user_ActivityName,
         ActivityType: this.activityName,
         details: this.details
@@ -233,6 +236,7 @@ export default {
         .then(response => {
           console.log('Activity updated:', response.data);
           alert('Activity updated successfully!');
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error updading the activity!', error);
@@ -243,6 +247,7 @@ export default {
     deleteActivity() {
       let data = {
         _id: this.id,
+        user_id: this.userId,
         ActivityName: this.user_ActivityName,
         ActivityType: this.activityName,
         details: this.details  
@@ -251,6 +256,7 @@ export default {
       axios.post('http://127.0.0.1:5000/delete_activity', data)
         .then(response => {
           console.log('Activity deleted:', response.data);
+          this.$router.push('/');
         })
         .catch(error => {
           console.error('There was an error deleting the activity!', error);
@@ -323,6 +329,12 @@ form {
 
 .input::placeholder {
   color: #a19f9f;
+}
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
 }
 
 button {

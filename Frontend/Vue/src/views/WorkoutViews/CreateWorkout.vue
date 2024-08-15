@@ -51,6 +51,8 @@
 <script>
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
+
 
 export default {
   data() {
@@ -72,8 +74,14 @@ export default {
       }
     },
     saveWorkout() {
+      // Get user Id
+      const token = localStorage.getItem('authToken');
+      const decoded = jwtDecode(token);
+      const userId = decoded.user_id;
+
       let data = {
         _id: uuidv4(),
+        user_id: userId,
         'WorkoutName': this.workoutName,
         'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
@@ -149,6 +157,12 @@ form {
   height: 50px;
   border-radius: 25px;
   padding: 0 30px;
+}
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
 }
 
 .input::placeholder {

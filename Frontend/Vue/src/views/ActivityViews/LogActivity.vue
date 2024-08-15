@@ -108,8 +108,8 @@
             <div class="form-group">
               <label :for="detail.name + index">{{ detail.name }}</label>
               <div class="input-group">
-                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
-                  v-model="detail.value" rules="required|numeric|non_negative" />
+                <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
+                  v-model="detail.value" rules="required" />
                 <div class="input-group-append">
                   <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -193,6 +193,7 @@
 import axios from 'axios';
 import { Field } from 'vee-validate';
 import { v4 as uuidv4 } from 'uuid';
+import { jwtDecode } from "jwt-decode";
 
 export default {
   data() {
@@ -237,9 +238,14 @@ export default {
   methods: {
     // log activity
     saveActivity() {
+      // Get user Id
+      const token = localStorage.getItem('authToken');
+      const decoded = jwtDecode(token);
+      const userId = decoded.user_id;
       
       const data = {
         _id: uuidv4(),
+        user_id: userId,
         ActivityName: this.user_ActivityName,
         ActivityType: this.activityName,
         details: Object.fromEntries(Object.entries(this.details).filter(([key, value]) => value.value !== ""))
@@ -317,6 +323,12 @@ form {
 
 .input::placeholder {
   color: #a19f9f;
+}
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
 }
 
 button {

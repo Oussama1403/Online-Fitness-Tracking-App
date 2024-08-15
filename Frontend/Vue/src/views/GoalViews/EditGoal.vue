@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 export default {
   data() {
@@ -52,6 +53,7 @@ export default {
       goalName: '',
       goal: {
         _id: '',
+        user_id: '',
         type: '',
         description: '',
         currentProgress: '',
@@ -71,6 +73,7 @@ export default {
     this.goal.targetDate = parsedItem.targetDate;
     this.goal.notes = parsedItem.notes;
     this.goal._id = parsedItem._id;
+    this.goal.user_id = parsedItem.user_id;	
   },
   methods: {
     saveGoal() {
@@ -151,6 +154,12 @@ form {
 
 .input::placeholder {
   color: #a19f9f;
+}
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
 }
 
 button {

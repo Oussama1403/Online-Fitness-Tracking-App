@@ -65,6 +65,7 @@ export default {
     this.workoutDate = parsedItem.WorkoutDate;
     this.exercises = parsedItem.Exercises;
     this.id = parsedItem._id;
+    this.userId = parsedItem.user_id;
   },
   methods: {
     addExercise() {
@@ -76,6 +77,7 @@ export default {
     saveWorkout() {
       let data = {
         _id: this.id,
+        user_id: this.userId,
         'WorkoutName': this.workoutName,
         'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
@@ -95,6 +97,7 @@ export default {
     deleteWorkout() {
       let data = {
         _id: this.id,
+        user_id: this.userId,
         'WorkoutName': this.workoutName,
         'WorkoutDate': this.workoutDate,
         'Exercises': this.exercises
@@ -170,7 +173,12 @@ form {
 .input::placeholder {
   color: #a19f9f;
 }
-
+.input:hover {
+  border: 1px solid #00ff99;
+}
+.input:focus {
+  box-shadow: 0 0 0 0.2rem #00ff99;
+}
 button {
   padding: 16px 32px;
   margin: 4px;
