@@ -1,5 +1,31 @@
 # Changelog
 
+## Aug 18, 2024
+
+#### **Design and Animation**
+- **Improved Cards Design**: Enhanced the visual appearance of dashboard cards for a more appealing and consistent design.
+- **Adjusted Fade In Animation**: Refined the fade-in animation for dashboard cards to improve user experience.
+
+#### **Documentation**
+- **Updated README**: Added detailed information on all features of the app to provide better clarity and guidance.
+
+#### **Features**
+- **Active Minutes Tracking**: Implemented a feature to track and display the total number of active minutes or time spent on activities to encourage user motivation.
+
+#### **Activity Logging**
+- **Duration Calculation**: Added a function to calculate the duration based on start time and end time.
+  - The **duration** field is now read-only and displays the calculated duration in a human-readable format.
+  - **Dashboard**: Duration is displayed in a human-readable format.
+
+#### **Custom Activity**
+- **Start and End Time Fields**: Added fields for start time and end time in custom activities. Duration is now calculated automatically based on these times.
+
+#### **Active Minutes Calculations**
+- **Updated Calculation**: Adjusted active minutes calculations to use the new duration format.
+
+#### **Bug Fixes and Improvements**
+- **Fixed Bugs**: Resolved various bugs and performed code improvements to enhance the overall stability and performance of the app.
+
 ## Aug 16, 2024
 
 1. **Implemented User Authentication**

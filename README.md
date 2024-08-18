@@ -17,9 +17,9 @@ Here are some screenshots of the application:
 
 - **Dashboard View**
   <div style="display: flex; gap: 10px;">
-      <img src="Screenshots/dashboard.png" alt="Dashboard Overview 1" style="width: 30%;"/>
-      <img src="Screenshots/dashboard2.png" alt="Dashboard Overview 2" style="width: 30%;"/>
-      <img src="Screenshots/dashboard3.png" alt="Dashboard Overview 3" style="width: 30%;"/>
+      <img src="Screenshots/dashboard0.png" alt="Dashboard Overview 1" style="width: 30%;"/>
+      <img src="Screenshots/dashboard1.png" alt="Dashboard Overview 2" style="width: 30%;"/>
+      <img src="Screenshots/dashboard2.png" alt="Dashboard Overview 3" style="width: 30%;"/>
   </div>
 
 - **Activities Page**
@@ -27,31 +27,42 @@ Here are some screenshots of the application:
 
 - **Activity Logging Forms**
   <div style="display: flex; gap: 10px;">
-      <img src="Screenshots/log-activity.png" alt="Log Activity Overview" style="width: 40%;"/>
-      <img src="Screenshots/log-custom-activity.png" alt="Log Custom Activity Overview" style="width: 40%;"/>
+      <img src="Screenshots/log-activity.png" alt="Log Activity Overview" style="width: 30%;"/>
+      <img src="Screenshots/log-custom-activity.png" alt="Log Custom Activity Overview" style="width: 30%;"/>
+      <img src="Screenshots/edit-activity.png" alt="Log Custom Activity Overview" style="width: 30%;"/>
   </div>
 
 - **Log Workout Interface**
-  ![Workout Interface](Screenshots/log-workout.png)
+  <div style="display: flex; gap: 10px;">
+      <img src="Screenshots/log-workout.png" alt="Workout Interface" style="width: 40%;"/>
+      <img src="Screenshots/edit-workout.png" alt="Edit Workout Interface" style="width: 40%;"/>
+  </div>
+
 
 - **Set Goal Interface**
-  ![Goal](Screenshots/set-goal.png)
+  <div style="display: flex; gap: 10px;">
+      <img src="Screenshots/set-goal.png" alt="Goal Interface" style="width: 40%;"/>
+      <img src="Screenshots/edit-goal.png" alt="Edit Goal Interface" style="width: 40%;"/>
+  </div>
 
 ## Features
 
-- **User Authentication**: Secure login and registration to manage user-specific data.
+- **User Authentication**: Secure login and registration to manage user-specific data with JWT-based authentication.
 - **Fitness Tracking**: Log various types of activities (e.g., running, weightlifting), track workout details, and monitor progress.
-- **Custom Activities**: Create and manage custom activities with dynamic labels and values.
+- **Custom Activities**: Create and manage custom activities with dynamic labels and values, including start time, end time, and automatic duration calculation.
 - **Goal Management**: Set and track fitness goals with progress updates and target dates.
+- **Active Minutes Tracking**: Track and display the total number of active minutes or time spent on activities to motivate users.
 - **Dashboard Overview**: View summarized fitness data including:
   - Total workouts completed
   - Calories burned
   - Upcoming workouts
   - Goals set
+  - Duration of activities displayed in a human-readable format
 - **Responsive Design**: Optimized for various devices and screen sizes with a user-friendly interface.
 - **Detailed Analytics**: View detailed logs of activities and workouts with metrics such as distance, calories burned, and exercise details.
-- **Dynamic Data Handling**: Updated from SQLite3 to MongoDB for scalable data management.
+- **Dynamic Data Handling**: Migrated from SQLite3 to MongoDB for scalable data management and improved flexibility.
 - **CRUD Operations**: Create, read, update, and delete activities, workouts, and goals through RESTful API endpoints.
+- **Enhanced UI/UX**: Improved card designs, animations, and form interactions for a polished user experience.
 
 ## Technologies Used
 

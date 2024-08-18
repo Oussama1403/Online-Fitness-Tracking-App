@@ -29,7 +29,7 @@
           <template v-else-if="detail.name === 'Start Time'">
             <label :for="detail.name + index">{{ detail.name }}</label>
             <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" step="1" rules="required" />
+              v-model="detail.value" step="1" rules="required" @change="updateDuration" />
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
@@ -37,7 +37,7 @@
           <template v-else-if="detail.name === 'End Time'">
             <label :for="detail.name + index">{{ detail.name }}</label>
             <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" step="1" rules="required" />
+              v-model="detail.value" step="1" rules="required" @change="updateDuration" />
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
@@ -84,7 +84,7 @@
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
-          
+
           <template v-else-if="detail.name === 'Steps'">
             <label :for="'detail.name' + index">{{ detail.name }}</label>
             <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
@@ -109,29 +109,9 @@
               <label :for="detail.name + index">{{ detail.name }}</label>
               <div class="input-group">
                 <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
-                  v-model="detail.value" rules="required" />
-                <div class="input-group-append">
-                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    {{ detail.unit || 'Unit' }}
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'seconds'">Seconds</a>
-                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'minutes'">Minutes</a>
-                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'hours'">Hours</a>
-                  </div>
-                </div>
+                  v-model="detail.stringValue" readonly />
               </div>
-              <!-- the hidden field allows us to make vee-validate aware of the unit selection and apply the custom unit_required validation rule to it. -->
-              <Field
-              type="hidden"
-              :name="'detail.unit' + index"
-              v-model="detail.unit"
-              rules="unit_required"
-               />
-              <ErrorMessage :name="'detail.unit' + index" class="error-msg" />
             </div>
-            <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
 
@@ -142,8 +122,8 @@
                 <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
                   v-model="detail.value" rules="required|numeric|non_negative" />
                 <div class="input-group-append">
-                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ detail.unit || 'Unit' }}
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
@@ -153,12 +133,7 @@
                 </div>
               </div>
               <!-- the hidden field allows us to make vee-validate aware of the unit selection and apply the custom unit_required validation rule to it. -->
-              <Field
-              type="hidden"
-              :name="'detail.unit' + index"
-              v-model="detail.unit"
-              rules="unit_required"
-               />
+              <Field type="hidden" :name="'detail.unit' + index" v-model="detail.unit" rules="unit_required" />
               <ErrorMessage :name="'detail.unit' + index" class="error-msg" />
             </div>
             <ErrorMessage :name="detail.name" class="error-msg" />
@@ -171,7 +146,7 @@
             <ErrorMessage :name="detail.name" class="error-msg" />
           </template>
 
-          
+
           <!-- Render other inputs -->
           <template v-else>
             <label :for="detail.name + index">{{ detail.name }}</label>
@@ -215,15 +190,57 @@ export default {
         this.id = parsedItem._id;
         this.userId = parsedItem.user_id;
         //console.log("id:", this.id);
-        
+
       } catch (error) {
         console.error('Failed to parse item:', error);
       }
     }
   },
   methods: {
+    calculateDuration(startTime, endTime) {
+      if (!startTime || !endTime) {
+        return { stringValue: "", value: 0 };
+      }
+
+      const start = new Date(`1970-01-01T${startTime}Z`);
+      const end = new Date(`1970-01-01T${endTime}Z`);
+
+      const durationInMilliseconds = end - start;
+      const durationInMinutes = durationInMilliseconds / 60000; // minutes with fractional part
+
+      const hours = Math.floor(durationInMinutes / 60);
+      const minutes = Math.floor(durationInMinutes % 60);
+      const seconds = Math.round((durationInMilliseconds % 60000) / 1000);
+
+      let stringValue = "";
+      if (hours > 0) {
+        stringValue += `${hours}h `;
+      }
+      if (minutes > 0 || hours > 0) { // Show minutes if there are hours
+        stringValue += `${minutes}m `;
+      }
+      if (seconds > 0) {
+        stringValue += `${seconds}s`;
+      }
+
+      return { stringValue: stringValue.trim(), value: durationInMinutes };
+    },
+
+    updateDuration() {
+      const startTime = this.details.start_time.value;
+      const endTime = this.details.end_time.value;
+      console.log("Start time:", startTime);
+      console.log("End time:", endTime);
+
+
+      const duration = this.calculateDuration(startTime, endTime);
+      console.log("Duration:", duration);
+
+      this.details.duration.stringValue = duration.stringValue;
+      this.details.duration.value = duration.value;
+    },
     saveActivity() {
-      
+
       const data = {
         _id: this.id,
         user_id: this.userId,
@@ -250,7 +267,7 @@ export default {
         user_id: this.userId,
         ActivityName: this.user_ActivityName,
         ActivityType: this.activityName,
-        details: this.details  
+        details: this.details
       }
 
       axios.post('http://127.0.0.1:5000/delete_activity', data)
@@ -262,7 +279,7 @@ export default {
           console.error('There was an error deleting the activity!', error);
           alert('There was an error deleting the activity!');
         });
-      
+
       // alert the user about successful deletion then return them to the dashboard, solution must be easy
       alert('Activity deleted successfully!');
       this.$router.push('/');
@@ -330,9 +347,11 @@ form {
 .input::placeholder {
   color: #a19f9f;
 }
+
 .input:hover {
   border: 1px solid #00ff99;
 }
+
 .input:focus {
   box-shadow: 0 0 0 0.2rem #00ff99;
 }
@@ -377,6 +396,7 @@ button:focus {
   background: #57b846;
   margin: 0;
 }
+
 .delete-button {
   background: #f43333;
 }

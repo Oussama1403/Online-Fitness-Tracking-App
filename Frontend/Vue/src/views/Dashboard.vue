@@ -14,84 +14,97 @@
             </div>
           </div>
         </div>
-      <!-- Activities Section -->
-      <h2 class="mb-4 mt-4 act-title fade-in">Logged Activities</h2>
-      <hr style="border: 3px solid #ab2cd6;">
-      <div class="row">
-        
-        <div v-if="activities.length === 0" class="section">
-          <div style="width: 400px;">
-          <router-link to="/activities" class="log-activity button btn fade-in">Log your first activity!</router-link>
-          </div>
-        </div>
+        <!-- Activities Section -->
+        <h2 class="mb-4 mt-4 act-title fade-in">Logged Activities</h2>
+        <hr style="border: 3px solid #ab2cd6;">
+        <div class="row">
 
-        <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
-          <div class="card activities-section h-100"  @click="goToEdit(activity, 'edit-activity')">
-            <div class="card-body">
-              <h5 class="card-title text-center">{{ activity.ActivityName }}</h5>
-              <div v-for="(detail, key) in activity.details" :key="key">
-                <p class="card-text mb-1">{{ detail.name }}:<br><strong class="details-title">{{ detail.value }}</strong> <strong v-if="detail.unit" class="details-title">{{ detail.unit }}</strong></p>
+          <div v-if="activities.length === 0" class="section">
+            <div style="width: 400px;">
+              <router-link to="/activities" class="log-activity button btn fade-in">Log your first
+                activity!</router-link>
+            </div>
+          </div>
+
+          <div v-for="(activity, index) in activities" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+            <!-- for cards to be on the same height, add h-100 to card class -->
+            <div class="card activities-section" @click="goToEdit(activity, 'edit-activity')">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ activity.ActivityName }}</h5>
+                <div v-for="(detail, key) in activity.details" :key="key">
+                  <p class="card-text mb-1">{{ detail.name }}:<br>
+                    <strong class="details-title">{{ detail.name === 'Duration' ? detail.stringValue : detail.value
+                      }}</strong>
+                    <strong v-if="detail.unit" class="details-title">{{ detail.unit }}</strong>
+                  </p>
+                  <hr>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Saved Workouts Section -->
-      <h2 class="mb-4 mt-4 workout-title fade-in">Upcoming Workouts</h2>
-      <hr style="border: 3px solid #ff8640;">
-      
-      <div v-if="workouts.length === 0" class="section fade-in">
-        <div style="width: 400px;">
-          <router-link to="/create-workout" class="log-workout button btn">Log your first workout!</router-link>
+        <!-- Saved Workouts Section -->
+        <h2 class="mb-4 mt-4 workout-title fade-in">Upcoming Workouts</h2>
+        <hr style="border: 3px solid #ff8640;">
+
+        <div v-if="workouts.length === 0" class="section fade-in">
+          <div style="width: 400px;">
+            <router-link to="/create-workout" class="log-workout button btn">Log your first workout!</router-link>
+          </div>
         </div>
-      </div>
-      
-      <div class="row">
-        <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
-          <div class="card saved-workouts-section h-100"  @click="goToEdit(workout, 'edit-workout')">
-            <div class="card-body">
-              <h5 class="card-title text-center">{{ workout.WorkoutName }}</h5>
-              <h6 class="card-title text-center">{{ workout.WorkoutDate }}</h6>
-              <ul class="list-group list-group-flush">
-                <li style="list-style-type: none;" v-for="(exercise, index) in workout.Exercises" :key="index">
-                  <div class="list-group-item">
-                  <strong class="exercise-name">{{ exercise.name }}</strong>
-                  <p>Reps: <strong>{{ exercise.reps }} </strong> <br>Sets: <strong>{{ exercise.sets }} </strong></p>
-                </div>
-                </li>
-              </ul>
+        <div class="row">
+          <div v-for="(workout, index) in workouts" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+            <!-- for cards to be on the same height, add h-100 to card class -->
+            <div class="card saved-workouts-section" @click="goToEdit(workout, 'edit-workout')">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ workout.WorkoutName }}</h5>
+                <h6 class="text-center" style="font-size: 1.2em;margin-bottom: 1em;font-weight: 700;">{{
+                  workout.WorkoutDate }}</h6>
+                <ul class="list-group list-group-flush">
+                  <li style="list-style-type: none;" v-for="(exercise, index) in workout.Exercises" :key="index">
+                    <div class="list-group-item">
+                      <div class="exercise">
+                        <strong class="exercise-name">{{ exercise.name }}</strong>
+                        <p>Reps: <strong>{{ exercise.reps }} </strong> <br>Sets: <strong>{{ exercise.sets }} </strong>
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Current Goals Section -->
-      <h2 class="mb-4 mt-4 goals-title fade-in">Your Current Goals</h2>
-      <hr style="border: 3px solid #ff3434;">
-      
-      <div v-if="goals.length === 0" class="section fade-in">
-        <div style="width: 400px;">
-          <router-link to="/set-goal" class="log-goal button btn">Log your first goal!</router-link>
+        <!-- Current Goals Section -->
+        <h2 class="mb-4 mt-4 goals-title fade-in">Your Current Goals</h2>
+        <hr style="border: 3px solid #ff3434;">
+
+        <div v-if="goals.length === 0" class="section fade-in">
+          <div style="width: 400px;">
+            <router-link to="/set-goal" class="log-goal button btn">Log your first goal!</router-link>
+          </div>
         </div>
-      </div>
-      
-      <div class="row">
-        <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
-          <div class="card current-goals-section h-100" @click="goToEdit(goal, 'edit-goal')">
-            <div class="card-body">
-              <h5 class="card-title">{{ goal.type }}</h5>
-              <p class="card-text pb-1" style="font-size: 1.1em;font-weight: bold;">{{ goal.description }}</p>
-              <p class="card-text mb-1">Target Date: <strong class="details-title">{{ goal.targetDate }}</strong></p>
-              <p class="card-text mb-1">Current Progress: <strong class="details-title">{{ goal.currentProgress }}</strong></p>
-              <p class="card-text mb-1">Notes: <strong class="details-title">{{ goal.notes }}</strong></p>
+
+        <div class="row">
+          <div v-for="(goal, index) in goals" :key="index" class="col-xl-4 col-md-6 mb-4 fade-in">
+            <!-- for cards to be on the same height, add h-100 to card class -->
+            <div class="card current-goals-section" @click="goToEdit(goal, 'edit-goal')">
+              <div class="card-body">
+                <h5 class="card-title">{{ goal.type }}</h5>
+                <p class="card-text pb-1" style="font-size: 1.1em;font-weight: bold;">{{ goal.description }}</p>
+                <p class="card-text mb-1">Target Date: <strong class="details-title">{{ goal.targetDate }}</strong></p>
+                <p class="card-text mb-1">Current Progress: <strong class="details-title">{{ goal.currentProgress
+                    }}</strong></p>
+                <p class="card-text mb-1">Notes: <strong class="details-title">{{ goal.notes }}</strong></p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 </template>
 
@@ -102,32 +115,7 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      dashboardCards: [
-        {
-          number: 0,
-          text: "ACTIVITIES COMPLETED",
-          bgColor: "bg-c-blue",
-          icon: "fas fa-dumbbell",
-        },
-        {
-          number: 0,
-          text: "CALORIES BURNED",
-          bgColor: "bg-c-green",
-          icon: "fas fa-fire",
-        },
-        {
-          number: 0,
-          text: "UPCOMING WORKOUTS",
-          bgColor: "bg-c-yellow",
-          icon: "fas fa-calendar-alt",
-        },
-        {
-          number: 0,
-          text: "GOALS SET",
-          bgColor: "bg-c-pink",
-          icon: "fas fa-clock",
-        },
-      ],
+      dashboardCards: [],
       activities: [],
       workouts: [],
       goals: [],
@@ -140,7 +128,7 @@ export default {
     loadData() {
       axios.get('http://127.0.0.1:5000/get_activities')
         .then(response => {
-          console.log("activities :",response.data)
+          console.log("activities :", response.data)
           this.activities = response.data;
           this.updateDashboardCards();
         })
@@ -150,7 +138,7 @@ export default {
 
       axios.get('http://127.0.0.1:5000/get_workouts')
         .then(response => {
-          console.log("workouts :",response.data)
+          console.log("workouts :", response.data)
           this.workouts = response.data;
           this.updateDashboardCards();
         })
@@ -160,7 +148,7 @@ export default {
 
       axios.get('http://127.0.0.1:5000/get_goals')
         .then(response => {
-          console.log("goals :",response.data)
+          console.log("goals :", response.data)
           this.goals = response.data;
           this.updateDashboardCards();
         })
@@ -184,6 +172,17 @@ export default {
       }, 0);
       const upcomingWorkouts = this.workouts.length;
       const goalsSet = this.goals.length;
+      // Calculate total active minutes
+      const activeMinutes = this.activities.reduce((sum, activity) => {
+        // Access the duration detail directly from the details object
+        const durationDetail = activity.details['duration'];
+
+        if (durationDetail) {
+          const value = parseInt(durationDetail.value, 10);
+          return sum + value;
+        }
+        return sum;
+      }, 0);
 
       this.dashboardCards = [
         {
@@ -210,11 +209,17 @@ export default {
           bgColor: "bg-c-pink",
           icon: "fas fa-clock",
         },
+        {
+          number: activeMinutes,
+          text: "TOTAL ACTIVE MINUTES",
+          bgColor: "bg-c-pink", // Choose a color class or define a new one
+          icon: "fas fa-clock",   // Choose an appropriate icon
+        },
       ];
     },
     goToEdit(item, routeName) {
       const clonedItem = JSON.stringify(item);
-      console.log("clonedItem :",clonedItem);
+      console.log("clonedItem :", clonedItem);
       this.$router.push({
         name: routeName,
         query: { item: clonedItem }
@@ -233,16 +238,16 @@ export default {
 
 .dash-title {
   font-size: 36px;
-      font-weight: bold;
-      background: linear-gradient(to right, #1eec63, #5dffbc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
+  font-weight: bold;
+  background: linear-gradient(to right, #1eec63, #5dffbc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .card {
-  border-radius: 5px;
+  border-radius: 25px;
   box-shadow: 5px 5px 10px -3px rgb(201, 198, 198);
   border: none;
   margin-bottom: 30px;
@@ -254,14 +259,18 @@ export default {
 .card:hover {
   transform: scale(1.1);
 }
+
 .card-title {
   font-size: 1.5em;
   margin-bottom: 1em;
   font-weight: 700;
+  letter-spacing: 0.1rem;
 }
+
 .details-title {
   font-size: 1.2em;
 }
+
 .exercise-name {
   font-size: 1.4em;
 }
@@ -300,42 +309,69 @@ export default {
 
 
 .activities-section {
-  background: linear-gradient(45deg, #9114ff, #af55fd);
+  background: linear-gradient(135deg, #9114ff, #d666ed);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5px;
+  /* Optional: Spacing inside the card */
 }
 
 .activities-section:hover {
-  background: linear-gradient(45deg, #6806be, #af55fd);
+  background: linear-gradient(135deg, #9114ff, #9114ff);
 
 }
 
 .act-title {
-  color: #ab2cd6;
+  background: linear-gradient(to right, #9114ff, #d666ed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .saved-workouts-section {
-  background: linear-gradient(45deg, #fb6c19, #ff985c);
+  background: linear-gradient(135deg, #ff640a, #ff4343);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5px;
+  /* Optional: Spacing inside the card */
 }
 
 .saved-workouts-section:hover {
-  background: linear-gradient(45deg, #d75001, #ff985c);
+  background: linear-gradient(135deg, #ff640a, #ff640a);
 }
 
 .workout-title {
-  color: #ff8640;
+  background: linear-gradient(to right, #ff640a, #ff4343);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .current-goals-section {
-  background: linear-gradient(45deg, #ed1f1f, #f56262);
+  background: linear-gradient(135deg, #fa1818, #f56262);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5px;
+  /* Optional: Spacing inside the card */
 
 }
 
 .current-goals-section:hover {
-  background: linear-gradient(45deg, #d10505, #f56262);
+  background: linear-gradient(135deg, #fa1818, #fa1818);
 
 }
 
 .goals-title {
-  color: #ff3434;
+  background: linear-gradient(to right, #fa1818, #f56262);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .card-body-icon {
@@ -352,16 +388,21 @@ export default {
 
 .list-group-item {
   background: none;
-  border:0;
-  border-bottom: 2px rgb(255, 255, 255) solid;
+  border: 0;
   color: inherit;
 }
+
+.exercise {
+  border-bottom: 1px rgb(255, 255, 255) solid;
+}
+
 .section {
   /* center all elements */
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .button {
   padding: 16px 32px;
   margin: 4px;
@@ -397,12 +438,14 @@ button:focus {
   background: transparent;
   border: 2px solid #da6bff;
   color: #da6bff;
- 
+
 }
+
 .log-activity:hover {
   background: #da6bff;
   color: #ffffff;
 }
+
 .log-activity:focus {
   background: #bf18f7;
   color: #ffffff;
@@ -414,26 +457,31 @@ button:focus {
   border: 2px solid #ff8640;
   color: #ff8640;
 }
+
 .log-workout:hover {
-  background: #ffa16b ;
+  background: #ffa16b;
   color: #ffffff;
 }
+
 .log-workout:focus {
-  background: #ff7525 ;
+  background: #ff7525;
   color: #ffffff;
   border: none;
 }
+
 .log-goal {
   background: transparent;
   border: 2px solid #ff3434;
   color: #ff3434;
 }
+
 .log-goal:hover {
-  background: #f54c4c ;
+  background: #f54c4c;
   color: #ffffff;
 }
+
 .log-goal:focus {
-  background: #ff2a2a ;
+  background: #ff2a2a;
   color: #ffffff;
   border: none;
 }
@@ -445,6 +493,7 @@ button:focus {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -463,17 +512,20 @@ button:focus {
 }
 
 .fade-in:nth-child(2) {
-  animation-delay: 1s;
+  animation-delay: 0.8s;
 }
 
 .fade-in:nth-child(3) {
-  animation-delay: 1.5s;
+  animation-delay: 1.1s;
 }
 
 .fade-in:nth-child(4) {
-  animation-delay: 2s;
+  animation-delay: 1.4s;
+}
+
+.fade-in:nth-child(5) {
+  animation-delay: 1.7s;
 }
 
 /* Adjust delays as needed for more items */
-
 </style>
