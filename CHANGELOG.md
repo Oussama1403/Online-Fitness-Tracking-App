@@ -8,6 +8,8 @@
 
 #### **Documentation**
 - **Updated README**: Added detailed information on all features of the app to provide better clarity and guidance.
+- **Updated Screenshots**.
+- **Updated requirements.txt**.
 
 #### **Features**
 - **Active Minutes Tracking**: Implemented a feature to track and display the total number of active minutes or time spent on activities to encourage user motivation.
