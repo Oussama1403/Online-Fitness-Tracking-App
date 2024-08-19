@@ -8,7 +8,7 @@
 - [x] Implement API endpoints for logging activities
 - [x] Implement API endpoints for viewing activity history
 - [x] Implement API endpoints for managing workout routines
-- [ ] Implement user authentication
+- [x] Implement user authentication
 
 # Frontend
 
