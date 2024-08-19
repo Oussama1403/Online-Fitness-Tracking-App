@@ -1,12 +1,12 @@
 <template>
   <div class="container custom-container mt-4">
     <Form @submit="saveActivity" v-slot="{ errors }">
-      <span class="form-title">
+      <span class="form-title fade-in">
         Log <span class="form-title-activityname">{{ activityName }}</span>
       </span>
-
+      <div class="fade-in">
       <!-- Activity Name: -->
-      <div class="form-group">
+      <div class="form-group ">
         <label for="user_ActivityName">Activity name</label>
         <Field type="text" class="input form-control" id="user_ActivityName" name="Activity Name"
           v-model="user_ActivityName" rules="required" />
@@ -14,7 +14,6 @@
       </div>
 
       <!-- Activity details Section -->
-
       <div v-for="(detail, index) in filteredDetails" :key="index" class="group mb-3">
         <div class="form-group">
           <!-- Render Date input as calendar picker -->
@@ -160,6 +159,7 @@
 
       <!-- Save Button -->
       <button type="submit" class="save-button btn btn-success">Save Activity</button>
+      </div>
     </Form>
   </div>
 </template>
@@ -387,4 +387,31 @@ button:focus {
   background: #57b846;
   margin: 0;
 }
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
 </style>

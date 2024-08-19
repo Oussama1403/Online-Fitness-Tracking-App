@@ -1,5 +1,10 @@
 # Changelog
 
+## Aug 19,2024
+
+- **Added Introductory Text to Pages**: Introduced a brief, explanatory text at the top of the 'Activities,' 'Create Workout,' and 'Set Fitness Goal' pages to guide users on the purpose of each page.
+- **Aesthetic Enhancements:** Implemented a fade-in effect for each page to enhance the user experience with smooth transitions.
+
 ## Aug 18, 2024
 
 #### **Design and Animation**

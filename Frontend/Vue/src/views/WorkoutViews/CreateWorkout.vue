@@ -1,10 +1,11 @@
 <template>
   <div class="container custom-container mt-4">
     <Form @submit="saveWorkout" v-slot="{ errors }">
-      <span class="form-title">
+      <span class="form-title fade-in">
         Create custom <span class="form-title-important">workout routine</span>
       </span>
-
+      <h5 class="mb-4 mt-4 text-center intro-text fade-in">Design your personalized workout routine to achieve your <span class="intro-important">fitness goals.</span></h5>
+    <div class="fade-in">
       <!-- Workout Name -->
       <div class="form-group">
         <Field type="text" placeholder="Workout name" class="input form-control" id="workoutName" name="workoutName"
@@ -19,7 +20,7 @@
       </div>
 
       <!-- Exercises Section -->
-      <div v-for="(exercise, index) in exercises" :key="index" class="exercise-group mb-3">
+      <div v-for="(exercise, index) in exercises" :key="index" class="exercise-group mb-3 fade-in">
         <div class="form-group">
           <Field type="text" placeholder="Exercise name" class="input form-control" :id="'exerciseName' + index"
             v-model="exercise.name" :name="'exerciseName' + index" rules="required" />
@@ -44,6 +45,7 @@
 
       <!-- Save Button -->
       <button type="submit" class="save-button btn btn-success">Save Workout</button>
+    </div>
     </Form>
   </div>
 </template>
@@ -103,6 +105,14 @@ export default {
 </script>
 
 <style scoped>
+.intro-text {
+    color: #333333;
+    padding-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+.intro-important {
+    color: #57B846;
+}
 .error-msg {
   color: red;
   font-size: 0.875rem;
@@ -130,11 +140,10 @@ form {
   display: block;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.8em;
   color: #333333;
   line-height: 1.2;
   text-align: center;
-  padding-bottom: 44px;
 }
 
 .form-title-important {
@@ -221,4 +230,31 @@ button:focus {
 .save-button {
   background: #57b846;
 }
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
 </style>

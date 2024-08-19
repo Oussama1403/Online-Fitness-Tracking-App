@@ -1,9 +1,10 @@
 <template>
   <div class="container custom-container mt-4">
     <form @submit.prevent="saveWorkout">
-      <span class="form-title">
+      <span class="form-title fade-in">
         Edit <span class="form-title-important">{{ workoutName }}</span>
       </span>
+      <div class="fade-in">
       <!-- Workout Name -->
       <div class="form-group">
         <input type="text" placeholder="Workout name" class="input form-control" id="workoutName" v-model="workoutName"
@@ -38,7 +39,7 @@
       <button type="submit" class="save-button btn btn-success" @click="saveWorkout">Save Workout</button>
       <!-- Del button -->
       <button type="button" @click="deleteWorkout" class="delete-button btn btn-danger">Delete Workout</button>
-
+      </div>
     </form>
   </div>
 </template>
@@ -234,5 +235,31 @@ button:focus {
 
 .delete-button {
   background: #f43333;
+}
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
 }
 </style>

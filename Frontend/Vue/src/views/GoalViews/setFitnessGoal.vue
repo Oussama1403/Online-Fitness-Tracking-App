@@ -2,7 +2,9 @@
   <div class="set-fitness-goal">
     <div class="container custom-container mt-4">
       <Form @submit="saveGoal" v-slot="{ errors }">
-        <span class="form-title">Set Your Fitness <span class="form-title-important">Goal</span></span>        
+        <span class="form-title fade-in">Set Your Fitness <span class="form-title-important">Goal</span></span>   
+        <h5 class="mb-4 mt-4 text-center intro-text fade-in">Define and track your fitness objectives to stay <span class="intro-important">motivated and on target.</span></h5>     
+        <div class="fade-in">
         <div class="form-group">
           <label for="goalType">Goal Type</label>
           <Field as="select" name="type" v-model="goal.type" class="input form-control" rules="required">
@@ -43,6 +45,7 @@
         </div>
 
         <button type="submit" class="submit-b btn btn-primary mt-3">Set Goal</button>
+        </div>
       </Form>
     </div>
   </div>
@@ -94,6 +97,14 @@ export default {
 </script>
 
 <style scoped>
+.intro-text {
+    color: #333333;
+    padding-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+.intro-important {
+    color: #57B846;
+}
 .error-msg {
   color: red;
   font-size: 0.875rem;
@@ -120,11 +131,10 @@ form {
 
 .form-title {
   display: block;
-  font-size: 24px;
+  font-size: 1.8em;
   color: #333333;
   line-height: 1.2;
   text-align: center;
-  padding-bottom: 44px;
 }
 
 .form-title-important {
@@ -188,4 +198,31 @@ button:focus {
 .submit-b {
   background: #57b846;
 }
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
 </style>

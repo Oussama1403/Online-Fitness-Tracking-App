@@ -2,7 +2,8 @@
   <div class="set-fitness-goal">
     <div class="container custom-container mt-4">
       <form @submit.prevent="saveGoal">
-        <span class="form-title">Edit <span class="form-title-important">{{ goalName }}</span></span>
+        <span class="form-title fade-in">Edit <span class="form-title-important">{{ goalName }}</span></span>
+        <div class="fade-in">
         <div class="form-group">
           <label for="goalType">Goal Type</label>
           <select class="input form-control" id="goalType" v-model="goal.type">
@@ -36,7 +37,7 @@
         </div>
         <button type="submit" class="save-goal btn btn-primary mt-3">Save Goal</button>
         <button type="button" @click="deleteGoal" class="delete-goal btn btn-danger mt-3">Delete Goal</button>
-
+        </div>
       </form>
 
     </div>
@@ -200,5 +201,31 @@ button:focus {
 
 .delete-goal {
   background: #f43333;
+}
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
 }
 </style>
