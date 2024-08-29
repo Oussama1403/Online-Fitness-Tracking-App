@@ -1,5 +1,19 @@
 # Changelog
 
+## Aug 29, 2024
+
+**Refactoring and Enhancements:**
+
+1. **Auth Section:**
+   - **Created `AuthForm.vue`:** Extracted the common authentication form logic into a new component to improve code organization and maintainability.
+   - **Updated `Login.vue` and `Signup.vue`:** Integrated the new `AuthForm.vue` component into both login and signup views for a more consistent structure.
+
+2. **Activities Section:**
+   - **Refactored `LogActivity` and `EditActivity`:** Extracted common form logic and CSS into a new component named `ActivityForm.vue` to avoid duplication and improve maintainability.
+
+3. **Error Handling:**
+   - **Enhanced Error Messaging:** Replaced basic `alert()` for error handling in the login method with UI-based error messages in both authentication and activities forms, providing a better user experience.
+
 ## Aug 19,2024
 
 - **Added Introductory Text to Pages**: Introduced a brief, explanatory text at the top of the 'Activities,' 'Create Workout,' and 'Set Fitness Goal' pages to guide users on the purpose of each page.

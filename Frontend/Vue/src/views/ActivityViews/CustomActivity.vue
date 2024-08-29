@@ -2,8 +2,13 @@
   <div class="container custom-container mt-4">
     <Form @submit="saveActivity" v-slot="{ errors }">
       <span class="form-title fade-in">
-        Log <span class="form-title-activityname">{{ activityType }}</span>
+        Log <span class="form-title-activityname">Custom Activity</span>
       </span>
+
+      <div :key="errorMessage + Date.now()" v-if="errorMessage" class="alert" role="alert">
+        {{ errorMessage }}
+      </div>
+
      <div class="fade-in">
       <!-- Activity Name -->
       <div class="form-group">
@@ -11,6 +16,7 @@
           v-model="activityName" rules="required" />
         <ErrorMessage name="Activity Name" class="error-msg" />
       </div>
+      
 
       <!-- Date -->
       <div class="form-group">
@@ -61,7 +67,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref,nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import axios from 'axios';
@@ -73,13 +79,20 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter(); // Use useRouter to access router methods
-    const activityType = route.params.activityName || '';
-
     const activityName = ref('');
     const activityDate = ref('');
     const activityStartTime = ref('');
     const activityEndTime = ref('');
     const fields = ref([{ name: '', value: '' }]);
+
+    const errorMessage = ref('');
+    const scrollToTop = async () => {
+  await nextTick(); // Wait for DOM updates
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Smooth scrolling
+  });
+};
 
     const durationDetail = ref({stringValue: '', value: 0 });
 
@@ -132,59 +145,62 @@ export default {
       durationDetail.stringValue = duration.stringValue;
     };
 
-    const saveActivity = () => {
-      // Get user Id
-      const token = localStorage.getItem('authToken');
-      const decoded = jwtDecode(token);
-      const userId = decoded.user_id;
+    const saveActivity = async () => {
+  try {
+    // Get user Id
+    const token = localStorage.getItem('authToken');
+    const decoded = jwtDecode(token);
+    const userId = decoded.user_id;
 
-      // Update duration before saving
-      updateDuration();
+    // Update duration before saving
+    updateDuration();
 
-      // Create the details object using reduce
-      const detailsObject = fields.value.reduce((obj, field) => {
-        if (field.name && field.value) {
-          obj[field.name.toLowerCase().replace(/ /g, '_')] = {
-            name: field.name,
-            value: field.value
-          };
-        }
-        return obj;
-      }, {});
+    // Create the details object using reduce
+    const detailsObject = fields.value.reduce((obj, field) => {
+      if (field.name && field.value) {
+        obj[field.name.toLowerCase().replace(/ /g, '_')] = {
+          name: field.name,
+          value: field.value
+        };
+      }
+      return obj;
+    }, {});
 
-        // Add the date, start_time,end_time and duration detail to the details object
-        detailsObject['duration'] = {name: 'Duration', ...durationDetail.value};
-        detailsObject['date'] = {name: 'Date', value: activityDate.value };
-        detailsObject['start_time'] = {name: 'Start Time', value: activityStartTime.value };
-        detailsObject['end_time'] = {name: 'End Time', value: activityEndTime.value };
+    // Add the date, start_time, end_time, and duration detail to the details object
+    detailsObject['duration'] = { name: 'Duration', ...durationDetail.value };
+    detailsObject['date'] = { name: 'Date', value: activityDate.value };
+    detailsObject['start_time'] = { name: 'Start Time', value: activityStartTime.value };
+    detailsObject['end_time'] = { name: 'End Time', value: activityEndTime.value };
 
-      const data = {
-        _id: uuidv4(),
-        user_id: userId,
-        ActivityName: activityName.value,
-        ActivityType: activityType,
-        details: detailsObject,
-      };
-
-      axios.post('http://127.0.0.1:5000/log_activity', data)
-        .then(response => {
-          console.log('Activity logged:', response.data);
-          alert('Activity logged successfully!');
-          router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error logging the activity!', error);
-          alert('There was an error logging the activity!');
-        });
+    const data = {
+      _id: uuidv4(),
+      user_id: userId,
+      ActivityName: activityName.value,
+      details: detailsObject,
     };
 
+    // Await the axios POST request
+    const response = await axios.post('http://127.0.0.1:5000/log_activity', data);
+
+    // Log the response and navigate
+    console.log('Activity logged:', response.data);
+    router.push('/');
+
+  } catch (error) {
+    // Handle errors
+    console.error('There was an error logging the activity!', error);
+    errorMessage.value = 'There was an error logging the activity!';
+    await scrollToTop();
+  }
+};
+
     return {
-      activityType,
       activityName,
       activityDate,
       activityStartTime,
       activityEndTime,
       fields,
+      errorMessage,
       addLabelField,
       removeLabelField,
       updateDuration,
@@ -335,6 +351,18 @@ button:focus {
   background: #57b846;
   margin: 0;
 }
+
+.alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
 /* Define the fade-in animation */
 @keyframes fadeIn {
   from {

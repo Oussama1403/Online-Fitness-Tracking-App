@@ -1,203 +1,60 @@
 <template>
   <div class="container custom-container mt-4">
-    <Form @submit="saveActivity" v-slot="{ errors }">
-      <span class="form-title fade-in">
-        Edit <span class="form-title-activityname">{{ user_ActivityName }}</span>
-      </span>
-
-      <div class="fade-in">
-      <!-- Activity Name: -->
-      <div class="form-group">
-        <label for="user_ActivityName">Activity name</label>
-        <Field type="text" class="input form-control" id="user_ActivityName" name="Activity Name"
-          v-model="user_ActivityName" rules="required" />
-        <ErrorMessage name="Activity Name" class="error-msg" />
-      </div>
-
-      <!-- Activity details Section -->
-
-      <div v-for="(detail, index) in details" :key="index" class="group mb-3">
-        <div class="form-group">
-          <!-- Render Date input as calendar picker -->
-          <template v-if="detail.name === 'Date'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field type="date" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" rules="required" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <!-- Render Start Time input -->
-          <template v-else-if="detail.name === 'Start Time'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" step="1" rules="required" @change="updateDuration" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <!-- Render End Time input -->
-          <template v-else-if="detail.name === 'End Time'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field type="time" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" step="1" rules="required" @change="updateDuration" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <!-- There inputs are only rendered when weightlifting controlled by filteredDetails array-->
-          <template v-else-if="detail.name === 'Exercise Type'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field as="select" :id="detail.name + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required">
-              <option value="">Select Exercise</option>
-              <option value="bench_press">Bench Press</option>
-              <option value="squat">Squat</option>
-              <option value="deadlift">Deadlift</option>
-              <option value="overhead_press">Overhead Press</option>
-              <option value="row">Row</option>
-              <option value="other">Other</option>
-            </Field>
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Weight Lifted'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field type="number" :id="detail.name + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Reps'">
-            <label :for="'detail.name' + index">{{ detail.name }}</label>
-            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric|non_negative" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-          <template v-else-if="detail.name === 'Sets'">
-            <label :for="'detail.name' + index">{{ detail.name }}</label>
-            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric|non_negative" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Laps'">
-            <label :for="'detail.name' + index">{{ detail.name }}</label>
-            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric|non_negative" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-
-          <template v-else-if="detail.name === 'Steps'">
-            <label :for="'detail.name' + index">{{ detail.name }}</label>
-            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric|non_negative" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Intensity'">
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field as="select" :id="detail.name + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required">
-              <option value="">Select Intensity</option>
-              <option value="light">Light</option>
-              <option value="moderate">Moderate</option>
-              <option value="heavy">Heavy</option>
-            </Field>
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Duration'">
-            <div class="form-group">
-              <label :for="detail.name + index">{{ detail.name }}</label>
-              <div class="input-group">
-                <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
-                  v-model="detail.stringValue" readonly />
-              </div>
-            </div>
-          </template>
-
-
-          <template v-else-if="detail.name === 'Distance'">
-            <div class="form-group">
-              <label :for="detail.name + index">{{ detail.name }}</label>
-              <div class="input-group">
-                <Field type="number" class="input form-control" :id="detail.name + index" :name="detail.name"
-                  v-model="detail.value" rules="required|numeric|non_negative" />
-                <div class="input-group-append">
-                  <button class="btn-dropdown btn btn-outline-secondary dropdown-toggle" type="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ detail.unit || 'Unit' }}
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'Meters'">Meters</a>
-                    <a class="dropdown-item" href="#" @click.prevent="detail.unit = 'Kilometers'">Kilometers</a>
-                  </div>
-                </div>
-              </div>
-              <!-- the hidden field allows us to make vee-validate aware of the unit selection and apply the custom unit_required validation rule to it. -->
-              <Field type="hidden" :name="'detail.unit' + index" v-model="detail.unit" rules="unit_required" />
-              <ErrorMessage :name="'detail.unit' + index" class="error-msg" />
-            </div>
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-          <template v-else-if="detail.name === 'Calories Burned'">
-            <label :for="'detail.name' + index">{{ detail.name }}</label>
-            <Field type="number" :id="'detail.name' + index" :name="detail.name" v-model="detail.value"
-              class="input form-control" rules="required|numeric|non_negative" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-
-
-          <!-- Render other inputs -->
-          <template v-else>
-            <label :for="detail.name + index">{{ detail.name }}</label>
-            <Field type="text" class="input form-control" :id="detail.name + index" :name="detail.name"
-              v-model="detail.value" rules="required" />
-            <ErrorMessage :name="detail.name" class="error-msg" />
-          </template>
-        </div>
-      </div>
-
-      <button type="submit" class="save-button btn btn-success">Save Activity</button>
-      <button type="button" @click="deleteActivity" class="delete-button btn btn-danger">Delete Activity</button>
-      </div>
-    </Form>
+    <ActivityForm
+      :mode="'Edit'"
+      :activityName="user_ActivityName"
+      :user_ActivityName="user_ActivityName"
+      :details="details"
+      :errorMessage="errorMessage"
+      @update:user_ActivityName="updateUserActivityName"
+      @submit="saveActivity"
+      @delete="deleteActivity"
+      @timeChanged="updateDuration"
+    />
   </div>
 </template>
 
 <script>
+import ActivityForm from '@/components/ActivityForm.vue'; // Import the ActivityForm component
+
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
 export default {
   name: 'EditActivity',
+  
+  components: {
+    ActivityForm, // Register the ActivityForm component
+  },
 
   data() {
     return {
       details: {},
       user_ActivityName: '',
-      id: ''
+      id: '',
+      userId: '',
+      errorMessage: '' 
     };
   },
   created() {
-    const item = this.$route.query.item;
-    if (item) {
-      try {
-        const parsedItem = JSON.parse(item);
-        //console.log("Parsed item:", parsedItem);
-        //console.log("ActivityName:", parsedItem.ActivityName);
-        this.user_ActivityName = parsedItem.ActivityName;
-        this.details = parsedItem.details;
-        this.id = parsedItem._id;
-        this.userId = parsedItem.user_id;
-        //console.log("id:", this.id);
-
-      } catch (error) {
-        console.error('Failed to parse item:', error);
-      }
-    }
+    this.initializeDataFromRoute();
   },
+
   methods: {
+    initializeDataFromRoute() {
+      const item = this.$route.query.item;
+      if (item) {
+        try {
+          const parsedItem = JSON.parse(item);
+          this.user_ActivityName = parsedItem.ActivityName;
+          this.details = parsedItem.details;
+          this.id = parsedItem._id;
+          this.userId = parsedItem.user_id;
+        } catch (error) {
+          console.error('Failed to parse item:', error);
+        }
+      }
+    },
     calculateDuration(startTime, endTime) {
       if (!startTime || !endTime) {
         return { stringValue: "", value: 0 };
@@ -230,60 +87,58 @@ export default {
     updateDuration() {
       const startTime = this.details.start_time.value;
       const endTime = this.details.end_time.value;
-      console.log("Start time:", startTime);
-      console.log("End time:", endTime);
-
-
       const duration = this.calculateDuration(startTime, endTime);
-      console.log("Duration:", duration);
-
       this.details.duration.stringValue = duration.stringValue;
       this.details.duration.value = duration.value;
     },
-    saveActivity() {
-
-      const data = {
-        _id: this.id,
-        user_id: this.userId,
-        ActivityName: this.user_ActivityName,
-        ActivityType: this.activityName,
-        details: this.details
-      };
-
-      axios.post('http://127.0.0.1:5000/update_activity', data)
-        .then(response => {
-          console.log('Activity updated:', response.data);
-          alert('Activity updated successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error updading the activity!', error);
-          alert('There was an error updading the activity!');
-
-        });
+    
+    updateUserActivityName(newName) {
+      this.user_ActivityName = newName;
     },
-    deleteActivity() {
-      let data = {
-        _id: this.id,
-        user_id: this.userId,
-        ActivityName: this.user_ActivityName,
-        ActivityType: this.activityName,
-        details: this.details
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling
+      });
+    },
+
+
+    async saveActivity() {
+      try {
+        const data = {
+          _id: this.id,
+          user_id: this.userId,
+          ActivityName: this.user_ActivityName,
+          details: this.details
+        };
+
+        const response = await axios.post('http://127.0.0.1:5000/update_activity', data);
+        console.log('Activity updated:', response.data);
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Error updating the activity:', error);
+        this.errorMessage = 'There was an error updating the activity!';
+        this.scrollToTop();
       }
+    },
 
-      axios.post('http://127.0.0.1:5000/delete_activity', data)
-        .then(response => {
-          console.log('Activity deleted:', response.data);
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error deleting the activity!', error);
-          alert('There was an error deleting the activity!');
-        });
+    async deleteActivity() {
+      try {
+        const data = {
+          _id: this.id,
+          user_id: this.userId,
+          ActivityName: this.user_ActivityName,
+          details: this.details
+        };
 
-      // alert the user about successful deletion then return them to the dashboard, solution must be easy
-      alert('Activity deleted successfully!');
-      this.$router.push('/');
+        const response = await axios.post('http://127.0.0.1:5000/delete_activity', data);
+        console.log('Activity deleted:', response.data);
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Error deleting the activity:', error);
+        this.errorMessage = 'There was an error deleting the activity!';
+        this.scrollToTop();
+      }
     }
   }
 };
@@ -291,140 +146,3 @@ export default {
 
 
 
-<style scoped>
-.error-msg {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.custom-container {
-  overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-}
-
-form {
-  width: 500px;
-}
-
-.form-title {
-  display: block;
-  font-size: 24px;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-  padding-bottom: 44px;
-}
-
-.form-title-activityname {
-  color: #57B846;
-}
-
-.group {
-  border-radius: 5px;
-}
-
-.input {
-  background: #e6e6e6;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #666666;
-  outline: none;
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 30px;
-}
-
-.input::placeholder {
-  color: #a19f9f;
-}
-
-.input:hover {
-  border: 1px solid #00ff99;
-}
-
-.input:focus {
-  box-shadow: 0 0 0 0.2rem #00ff99;
-}
-
-button {
-  padding: 16px 32px;
-  margin: 4px;
-  border: none;
-  background: transparent;
-  height: 50px;
-  width: 100%;
-  border-radius: 25px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 25px;
-
-  transition: all 0.4s;
-}
-
-button:hover {
-  cursor: pointer;
-  background: #333333;
-}
-
-button:focus {
-  background: #626262;
-  border-color: #626262;
-  box-shadow: none;
-}
-
-.save-button {
-  background: #57b846;
-}
-
-.btn-dropdown {
-  background: #57b846;
-  margin: 0;
-}
-
-.delete-button {
-  background: #f43333;
-}
-/* Define the fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Apply the fade-in animation to elements */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-}
-
-/* Staggered animation delay for sequential appearance */
-.fade-in:nth-child(1) {
-  animation-delay: 0.5s;
-}
-
-.fade-in:nth-child(2) {
-  animation-delay: 0.8s;
-}
-</style>
