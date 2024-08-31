@@ -1,8 +1,7 @@
 <template>
   <div class="dashboard">
     <div class="container-fluid px-4">
-      <h2 class="mb-4 mt-4 text-center dash-title fade-in">Dashboard</h2>
-      <hr style="border: 3px solid #1eec63;">
+      <h2 class="mb-4 pb-4 mt-4 text-center dash-title fade-in">Dashboard</h2>
       <div class="row">
         <div class="col-xl-3 col-md-6 mb-4 fade-in" v-for="(card, index) in dashboardCards" :key="index">
           <div :class="`card ${card.bgColor} text-white h-100`">

@@ -1,5 +1,12 @@
 # Changelog
 
+## Aug 30, 2024
+
+**Refactoring**
+
+-  **Goal Section:**
+   - **Refactored `setFitnessGoal.vue` and `EditGoal.vue`:** Extracted common form logic and CSS into a new component named **`GoalForm.vue`** to avoid duplication and improve maintainability.
+
 ## Aug 29, 2024
 
 **Refactoring and Enhancements:**

@@ -1,62 +1,23 @@
 <template>
-  <div class="set-fitness-goal">
-    <div class="container custom-container mt-4">
-      <Form @submit="saveGoal" v-slot="{ errors }">
-        <span class="form-title fade-in">Set Your Fitness <span class="form-title-important">Goal</span></span>   
-        <h5 class="mb-4 mt-4 text-center intro-text fade-in">Define and track your fitness objectives to stay <span class="intro-important">motivated and on target.</span></h5>     
-        <div class="fade-in">
-        <div class="form-group">
-          <label for="goalType">Goal Type</label>
-          <Field as="select" name="type" v-model="goal.type" class="input form-control" rules="required">
-            <option value="">Select Goal Type</option>
-            <option value="Weight Loss">Weight Loss</option>
-            <option value="Strength">Strength</option>
-            <option value="Cardio">Cardio</option>
-            <option value="Flexibility">Flexibility</option>
-            <option value="Endurance">Endurance</option>
-            <option value="Nutrition">Nutrition</option>
-            <option value="Habit">Habit</option>
-          </Field>
-          <ErrorMessage class="error-msg" name="type" />
-        </div>
-
-        <div class="form-group">
-          <label for="goalDescription">Description</label>
-          <Field type="text" name="description" v-model="goal.description" class="input form-control" placeholder="e.g., Lose 5 kg in 2 months" rules="required" />
-          <ErrorMessage class="error-msg" name="description" />
-        </div>
-
-        <div class="form-group">
-          <label for="currentProgress">Enter your current progress</label>
-          <Field type="text" name="currentProgress" v-model="goal.currentProgress" class="input form-control" placeholder="e.g., X kg | X number of push-ups | Run X km/miles" rules="required" />
-          <ErrorMessage class="error-msg" name="currentProgress" />
-        </div>
-
-        <div class="form-group">
-          <label for="targetDate">Target Date</label>
-          <Field type="date" name="targetDate" v-model="goal.targetDate" class="input form-control" rules="required" />
-          <ErrorMessage class="error-msg" name="targetDate" />
-        </div>
-
-        <div class="form-group">
-          <label for="notes">Notes</label>
-          <Field type="text" name="notes" v-model="goal.notes" class="input form-control" placeholder="Additional information" />
-          <ErrorMessage class="error-msg" name="notes" />
-        </div>
-
-        <button type="submit" class="submit-b btn btn-primary mt-3">Set Goal</button>
-        </div>
-      </Form>
-    </div>
-  </div>
+  <GoalForm 
+    :mode="'Log'" 
+    :goal="goal" 
+    :errorMessage="errorMessage" 
+    @submit="saveGoal" />
 </template>
 
 <script>
+import GoalForm from '@/components/GoalForm.vue';
+
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { jwtDecode } from "jwt-decode";
 
 export default {
+  name: 'setFitnessGoal',
+  components: {
+    GoalForm
+  },
   data() {
     return {
       goal: {
@@ -66,163 +27,41 @@ export default {
         targetDate: '',
         notes: ''
       },
+      errorMessage: '' 
     };
   },
   methods: {
-    saveGoal(values) {
-      // Get user Id
-      const token = localStorage.getItem('authToken');
-      const decoded = jwtDecode(token);
-      const userId = decoded.user_id;
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling
+      });
+    },
+    async saveGoal() {
+      try {
+        // Get user Id
+        const token = localStorage.getItem('authToken');
+        const decoded = jwtDecode(token);
+        const userId = decoded.user_id;
 
-      console.log(values)
-      let data = {
-        _id: uuidv4(),
-        user_id: userId,
-        ...values // spread operator
+        let data = {
+          _id: uuidv4(),
+          user_id: userId,
+          ...this.goal // spread operator
+        };
+
+        // Perform the POST request
+        const response = await axios.post('http://127.0.0.1:5000/log_goal', data);
+        console.log('Goal logged:', response.data);
+        this.$router.push('/');
+      } catch (error) {
+        console.error('There was an error logging the goal!', error);
+        this.errorMessage = 'There was an error logging the goal!';
+        this.scrollToTop();
+
       }
-      axios.post('http://127.0.0.1:5000/log_goal', data)
-        .then(response => {
-          console.log('Goal logged:', response.data);
-          alert('Goal logged successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error logging the goal!', error);
-          alert('There was an error logging the goal!');
-        });
     }
+
   }
 }
 </script>
-
-<style scoped>
-.intro-text {
-    color: #333333;
-    padding-bottom: 1rem;
-    font-family: 'Montserrat', sans-serif;
-}
-.intro-important {
-    color: #57B846;
-}
-.error-msg {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-.custom-container {
-  overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-
-}
-
-form {
-  width: 500px;
-}
-
-.form-title {
-  display: block;
-  font-size: 1.8em;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.form-title-important {
-  color: #57B846;
-}
-
-.input {
-  background: #e6e6e6;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #666666;
-  outline: none;
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 30px;
-}
-
-.input::placeholder {
-  color: #a19f9f;
-}
-.input:hover {
-  border: 1px solid #00ff99;
-}
-.input:focus {
-  box-shadow: 0 0 0 0.2rem #00ff99;
-}
-
-button {
-  padding: 16px 32px;
-  margin: 4px;
-  border: none;
-  background: transparent;
-  height: 50px;
-  width: 100%;
-  border-radius: 25px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 25px;
-
-  transition: all 0.4s;
-}
-
-button:hover {
-  cursor: pointer;
-  background: #333333;
-}
-
-button:focus {
-  background: #626262;
-  border-color: #626262;
-  box-shadow: none;
-}
-
-.submit-b {
-  background: #57b846;
-}
-/* Define the fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Apply the fade-in animation to elements */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-}
-
-/* Staggered animation delay for sequential appearance */
-.fade-in:nth-child(1) {
-  animation-delay: 0.5s;
-}
-
-.fade-in:nth-child(2) {
-  animation-delay: 0.8s;
-}
-
-</style>

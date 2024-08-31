@@ -1,54 +1,25 @@
 <template>
-  <div class="set-fitness-goal">
-    <div class="container custom-container mt-4">
-      <form @submit.prevent="saveGoal">
-        <span class="form-title fade-in">Edit <span class="form-title-important">{{ goalName }}</span></span>
-        <div class="fade-in">
-        <div class="form-group">
-          <label for="goalType">Goal Type</label>
-          <select class="input form-control" id="goalType" v-model="goal.type">
-            <option>Weight Loss</option>
-            <option>Strength</option>
-            <option>Cardio</option>
-            <option>Flexibility</option>
-            <option>Endurance</option>
-            <option>Nutrition</option>
-            <option>Habit</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="goalDescription">Description</label>
-          <input type="text" class="input form-control" id="goalDescription" v-model="goal.description"
-            placeholder="e.g., Lose 5 kg in 2 months">
-        </div>
-        <div class="form-group">
-          <label for="currentProgress">Enter your current progress</label>
-          <input type="text" class="input form-control" id="currentProgress" v-model="goal.currentProgress"
-            placeholder="e.g., X kg | X number of push-ups | Run X km/miles">
-        </div>
-        <div class="form-group">
-          <label for="targetDate">Target Date</label>
-          <input type="date" class="input form-control" id="targetDate" v-model="goal.targetDate">
-        </div>
-        <div class="form-group">
-          <label for="notes">Notes</label>
-          <input type="text" class="input form-control" id="notes" v-model="goal.notes"
-            placeholder="Additional information">
-        </div>
-        <button type="submit" class="save-goal btn btn-primary mt-3">Save Goal</button>
-        <button type="button" @click="deleteGoal" class="delete-goal btn btn-danger mt-3">Delete Goal</button>
-        </div>
-      </form>
-
-    </div>
-  </div>
+  <GoalForm
+    :mode="'Edit'"
+    :goalName="goalName"
+    :goal="goal"
+    :errorMessage="errorMessage"
+    @submit="saveGoal"
+    @delete="deleteGoal"
+  />
 </template>
 
 <script>
-import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+import GoalForm from '@/components/GoalForm.vue'
+
+import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 
 export default {
+  name: 'EditGoal',
+  components: {
+    GoalForm
+  },
   data() {
     return {
       goalName: '',
@@ -62,170 +33,51 @@ export default {
         notes: ''
       },
       goals: [],
-    };
+      errorMessage: ''
+    }
   },
   created() {
-    const item = this.$route.query.item;
-    const parsedItem = JSON.parse(item);
-    this.goalName = parsedItem.type;
-    this.goal.type = parsedItem.type;
-    this.goal.description = parsedItem.description;
-    this.goal.currentProgress = parsedItem.currentProgress;
-    this.goal.targetDate = parsedItem.targetDate;
-    this.goal.notes = parsedItem.notes;
-    this.goal._id = parsedItem._id;
-    this.goal.user_id = parsedItem.user_id;	
+    const item = this.$route.query.item
+    const parsedItem = JSON.parse(item)
+    this.goalName = parsedItem.type
+    this.goal.type = parsedItem.type
+    this.goal.description = parsedItem.description
+    this.goal.currentProgress = parsedItem.currentProgress
+    this.goal.targetDate = parsedItem.targetDate
+    this.goal.notes = parsedItem.notes
+    this.goal._id = parsedItem._id
+    this.goal.user_id = parsedItem.user_id
   },
   methods: {
-    saveGoal() {
-      axios.post('http://127.0.0.1:5000/update_goal', this.goal)
-        .then(response => {
-          console.log('Goal updated:', response.data);
-          alert('Goal updated successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error logging the goal!', error);
-          alert('There was an error logging the goal!');
-        });
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling
+      })
     },
-    deleteGoal() {
-      axios.post('http://127.0.0.1:5000/delete_goal', this.goal)
-        .then(response => {
-          console.log('Goal deleted:', response.data);
-          alert('Goal deleted successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error deleting the goal!', error);
-          alert('There was an error deleting the goal!');
-        });
+    async saveGoal() {
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/update_goal', this.goal)
+        console.log('Goal updated:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error updating the goal!', error)
+        this.errorMessage = 'There was an error updating the goal!'
+        this.scrollToTop()
+      }
+    },
+
+    async deleteGoal() {
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/delete_goal', this.goal)
+        console.log('Goal deleted:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error deleting the goal!', error)
+        this.errorMessage = 'There was an error deleting the goal!'
+        this.scrollToTop()
+      }
     }
   }
-};
+}
 </script>
-
-<style scoped>
-/* .set-fitness-goal {
-    margin-top: 20px;
-  }*/
-.custom-container {
-  overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-
-}
-
-form {
-  width: 500px;
-}
-
-.form-title {
-  display: block;
-  font-size: 24px;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-  padding-bottom: 44px;
-}
-
-.form-title-important {
-  color: #57B846;
-}
-
-.input {
-  background: #e6e6e6;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #666666;
-  outline: none;
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 30px;
-}
-
-.input::placeholder {
-  color: #a19f9f;
-}
-.input:hover {
-  border: 1px solid #00ff99;
-}
-.input:focus {
-  box-shadow: 0 0 0 0.2rem #00ff99;
-}
-
-button {
-  padding: 16px 32px;
-  margin: 4px;
-  border: none;
-  background: transparent;
-  height: 50px;
-  width: 100%;
-  border-radius: 25px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 25px;
-
-  transition: all 0.4s;
-}
-
-button:hover {
-  cursor: pointer;
-  background: #333333;
-}
-
-button:focus {
-  background: #626262;
-  border-color: #626262;
-  box-shadow: none;
-}
-
-.save-goal {
-  background: #57b846;
-}
-
-.delete-goal {
-  background: #f43333;
-}
-/* Define the fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Apply the fade-in animation to elements */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-}
-
-/* Staggered animation delay for sequential appearance */
-.fade-in:nth-child(1) {
-  animation-delay: 0.5s;
-}
-
-.fade-in:nth-child(2) {
-  animation-delay: 0.8s;
-}
-</style>
