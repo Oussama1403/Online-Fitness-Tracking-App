@@ -1,5 +1,9 @@
 # Changelog
 
+## Sept 1, 2024
+
+-  **Refactoring for Better Organization:** Refactored the Workout, Goal, and Activity sections to reduce code duplication and enhance the separation of concerns by creating reusable Vue.js components. This improves maintainability and code readability across the project.
+
 ## Aug 30, 2024
 
 **Refactoring**

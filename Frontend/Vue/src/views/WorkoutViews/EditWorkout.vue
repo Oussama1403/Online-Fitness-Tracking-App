@@ -1,53 +1,30 @@
 <template>
-  <div class="container custom-container mt-4">
-    <form @submit.prevent="saveWorkout">
-      <span class="form-title fade-in">
-        Edit <span class="form-title-important">{{ workoutName }}</span>
-      </span>
-      <div class="fade-in">
-      <!-- Workout Name -->
-      <div class="form-group">
-        <input type="text" placeholder="Workout name" class="input form-control" id="workoutName" v-model="workoutName"
-          required>
-      </div>
-      <div class="form-group">
-        <input type="date" class="input form-control" :id="'workout date' + index" v-model="workoutDate" required>
-      </div>
-
-      <!-- Exercises Section -->
-      <div v-for="(exercise, index) in exercises" :key="index" class="exercise-group mb-3">
-        <div class="form-group">
-          <input type="text" placeholder="Exercise name" class="input form-control" :id="'exerciseName' + index"
-            v-model="exercise.name" required>
-        </div>
-        <div class="form-group">
-          <input type="number" placeholder="Reps" class="input form-control" :id="'reps' + index"
-            v-model="exercise.reps" required>
-        </div>
-        <div class="form-group">
-          <input type="number" placeholder="Sets" class="input form-control" :id="'sets' + index"
-            v-model="exercise.sets" required>
-        </div>
-        <button type="button" class="remove-button btn btn-danger" @click="removeExercise(index)">Remove
-          Exercise</button>
-      </div>
-
-      <!-- Add New Exercise Button -->
-      <button type="button" class="add-button btn btn-primary mb-3" @click="addExercise">Add Another Exercise</button>
-
-      <!-- Save Button -->
-      <button type="submit" class="save-button btn btn-success" @click="saveWorkout">Save Workout</button>
-      <!-- Del button -->
-      <button type="button" @click="deleteWorkout" class="delete-button btn btn-danger">Delete Workout</button>
-      </div>
-    </form>
-  </div>
+  <WorkoutForm
+    :mode="'Edit'"
+    :workoutName="workoutName"
+    :workoutDate="workoutDate"
+    :exercises="exercises"
+    :errorMessage="errorMessage"
+    @update:workoutName="updateWorkoutName"
+    @update:workoutDate="updateWorkoutDate"
+    @submit="saveWorkout"
+    @addExercise="addExercise"
+    @removeExercise="removeExercise"
+    @delete="deleteWorkout"
+  />
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+
+import WorkoutForm from '@/components/WorkoutForm.vue'
 
 export default {
+  name: 'EditWorkout',
+
+  components: {
+    WorkoutForm
+  },
   data() {
     return {
       workoutName: '',
@@ -55,211 +32,78 @@ export default {
       exercises: [
         { name: '', reps: '', sets: '' } // Initial exercise fields
       ],
-      id: ''
-    };
+      id: '',
+      errorMessage: ''
+    }
   },
   created() {
-    const item = this.$route.query.item;
-    const parsedItem = JSON.parse(item);
+    const item = this.$route.query.item
+    const parsedItem = JSON.parse(item)
     //console.log("parsedItem:", parsedItem);
-    this.workoutName = parsedItem.WorkoutName;
-    this.workoutDate = parsedItem.WorkoutDate;
-    this.exercises = parsedItem.Exercises;
-    this.id = parsedItem._id;
-    this.userId = parsedItem.user_id;
+    this.workoutName = parsedItem.WorkoutName
+    this.workoutDate = parsedItem.WorkoutDate
+    this.exercises = parsedItem.Exercises
+    this.id = parsedItem._id
+    this.userId = parsedItem.user_id
   },
   methods: {
     addExercise() {
-      this.exercises.push({ name: '', reps: '', sets: '' });
+      this.exercises.push({ name: '', reps: '', sets: '' })
     },
     removeExercise(index) {
-      this.exercises.splice(index, 1);
+      this.exercises.splice(index, 1)
     },
-    saveWorkout() {
+    updateWorkoutName(value) {
+      this.workoutName = value
+    },
+    updateWorkoutDate(value) {
+      this.workoutDate = value
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling
+      })
+    },
+    async saveWorkout() {
       let data = {
         _id: this.id,
         user_id: this.userId,
-        'WorkoutName': this.workoutName,
-        'WorkoutDate': this.workoutDate,
-        'Exercises': this.exercises
+        WorkoutName: this.workoutName,
+        WorkoutDate: this.workoutDate,
+        Exercises: this.exercises
       }
-      axios.post('http://127.0.0.1:5000/update_workout', data)
-        .then(response => {
-          console.log('Workout updated:', response.data);
-          alert('Workout updated successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error logging the workout!', error);
-          alert('There was an error logging the workout!');
-        });
 
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/update_workout', data)
+        console.log('Workout updated:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error logging the workout!', error)
+        this.errorMessage = 'There was an error logging the workout!'
+        this.scrollToTop()
+      }
     },
-    deleteWorkout() {
+
+    async deleteWorkout() {
       let data = {
         _id: this.id,
         user_id: this.userId,
-        'WorkoutName': this.workoutName,
-        'WorkoutDate': this.workoutDate,
-        'Exercises': this.exercises
+        WorkoutName: this.workoutName,
+        WorkoutDate: this.workoutDate,
+        Exercises: this.exercises
       }
-      axios.post('http://127.0.0.1:5000/delete_workout', data)
-        .then(response => {
-          console.log('Workout deleted:', response.data);
-          alert('Workout deleted successfully!');
-          this.$router.push('/');
-        })
-        .catch(error => {
-          console.error('There was an error deleting the workout!', error);
-          alert('There was an error deleting the workout!');
-        });
 
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/delete_workout', data)
+        console.log('Workout deleted:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error deleting the workout!', error)
+        this.errorMessage = 'There was an error deleting the workout!'
+        this.scrollToTop()
+      }
     }
   }
-};
+}
 </script>
-
-<style scoped>
-.custom-container {
-  overflow: hidden;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-}
-
-form {
-  width: 500px;
-}
-
-.form-title {
-  display: block;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-  padding-bottom: 44px;
-}
-
-.form-title-important {
-  color: #57B846;
-}
-
-.exercise-group {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  border-radius: 5px;
-}
-
-.input {
-  background: #e6e6e6;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #666666;
-  outline: none;
-  height: 50px;
-  border-radius: 25px;
-  padding: 0 30px;
-}
-
-.input::placeholder {
-  color: #a19f9f;
-}
-.input:hover {
-  border: 1px solid #00ff99;
-}
-.input:focus {
-  box-shadow: 0 0 0 0.2rem #00ff99;
-}
-button {
-  padding: 16px 32px;
-  margin: 4px;
-  border: none;
-  background: transparent;
-  height: 50px;
-  width: 100%;
-  border-radius: 25px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-
-  font-size: 15px;
-  line-height: 1.5;
-  color: #fff;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 25px;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
-}
-
-button:hover {
-  cursor: pointer;
-  background: #333333;
-}
-
-button:focus {
-  background: #626262;
-  border-color: #626262;
-  box-shadow: none;
-
-}
-
-.remove-button {
-  background: #f43333;
-}
-
-.add-button {
-  background: #57b846;
-}
-
-.save-button {
-  background: #57b846;
-}
-
-.delete-button {
-  background: #f43333;
-}
-/* Define the fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* Apply the fade-in animation to elements */
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-}
-
-/* Staggered animation delay for sequential appearance */
-.fade-in:nth-child(1) {
-  animation-delay: 0.5s;
-}
-
-.fade-in:nth-child(2) {
-  animation-delay: 0.8s;
-}
-</style>

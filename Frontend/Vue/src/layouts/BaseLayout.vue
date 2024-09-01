@@ -16,15 +16,22 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" :class="['col-md-3', 'col-lg-2', 'd-md-block', 'sidebar', {'show-sidebar': isSidebarOpen}]">
+        <nav
+          id="sidebar"
+          :class="[
+            'col-md-3',
+            'col-lg-2',
+            'd-md-block',
+            'sidebar',
+            { 'show-sidebar': isSidebarOpen }
+          ]"
+        >
           <div class="position-sticky">
             <ul class="nav flex-column">
               <router-link to="/" class="brand-link brand-sidebar" aria-current="page">
-                  <li class="text-center brand">
-                    FitTracker
-                  </li>
-                </router-link>
-              <hr class="brand-sidebar" style="border: 3px solid green;">
+                <li class="text-center brand">FitTracker</li>
+              </router-link>
+              <hr class="brand-sidebar" style="border: 3px solid green" />
 
               <router-link
                 v-for="route in routes"
@@ -33,17 +40,12 @@
                 class="nav-item nav-link"
                 :class="{ active: isActiveRoute(route) }"
               >
-                <i :style="{ 'color': route.bgcolor }" :class="route.icon"></i> {{ route.name }}
+                <i :style="{ color: route.bgcolor }" :class="route.icon"></i> {{ route.name }}
               </router-link>
 
-              <router-link
-              to="/"
-              class="nav-item nav-link"
-              @click.prevent="logout">
-              <i style="color:#4099ff" class="fas fa-sign-out-alt"></i> Log Out
+              <router-link to="/" class="nav-item nav-link" @click.prevent="logout">
+                <i style="color: #4099ff" class="fas fa-sign-out-alt"></i> Log Out
               </router-link>
-
-
             </ul>
           </div>
         </nav>
@@ -59,31 +61,41 @@
 
 <script>
 export default {
-  name: "BaseLayout",
+  name: 'BaseLayout',
   data() {
     return {
       isSidebarOpen: false,
       routes: [
-        { path: "/", name: "Dashboard", icon: "fas fa-tachometer-alt", bgcolor: "#1eec63" },
-        { path: "/activities", name: "Activities", icon: "fas fa-running", bgcolor: "#9114ff" },
-        { path: "/create-workout", name: "Create Workout Routine", icon: "fas fa-dumbbell", bgcolor: "#fb6c19" },
-        { path: "/set-goal", name: "Set Fitness Goals", icon: "fas fa-bullseye", bgcolor: "#ff3434" },
-      ],
-    };
+        { path: '/', name: 'Dashboard', icon: 'fas fa-tachometer-alt', bgcolor: '#1eec63' },
+        { path: '/activities', name: 'Activities', icon: 'fas fa-running', bgcolor: '#9114ff' },
+        {
+          path: '/create-workout',
+          name: 'Create Workout Routine',
+          icon: 'fas fa-dumbbell',
+          bgcolor: '#fb6c19'
+        },
+        {
+          path: '/set-goal',
+          name: 'Set Fitness Goals',
+          icon: 'fas fa-bullseye',
+          bgcolor: '#ff3434'
+        }
+      ]
+    }
   },
   methods: {
     toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen;
+      this.isSidebarOpen = !this.isSidebarOpen
     },
     isActiveRoute(route) {
-      return this.$route.path === route.path;
+      return this.$route.path === route.path
     },
     logout() {
-    localStorage.removeItem('authToken'); 
-    this.$router.push('/login'); // Redirect to login page
+      localStorage.removeItem('authToken')
+      this.$router.push('/login') // Redirect to login page
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -182,7 +194,7 @@ export default {
 }
 
 .nav-link:hover {
-  background-color: rgb(129, 255, 129) ;
+  background-color: rgb(129, 255, 129);
   color: rgb(1, 96, 1);
 }
 
