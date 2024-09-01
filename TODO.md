@@ -9,6 +9,7 @@
 - [x] Implement API endpoints for viewing activity history
 - [x] Implement API endpoints for managing workout routines
 - [x] Implement user authentication
+- [ ] Diet and Nutrition Tracking: Add a section to log daily meals, calories, or macronutrient intake to complement fitness goals.
 
 # Frontend
 
