@@ -4,8 +4,7 @@
       <Form @submit="handleSubmit" v-slot="{ errors }">
         <div v-if="mode === 'Log'">
           <span class="log-form-title fade-in"
-            >Set Your Fitness <span class="form-title-important">Goal</span></span
-          >
+            >Set Your Fitness <span class="form-title-important">Goal</span></span>
           <h5 class="mb-4 mt-4 text-center intro-text fade-in">
             Define and track your fitness objectives to stay
             <span class="intro-important">motivated and on target.</span>

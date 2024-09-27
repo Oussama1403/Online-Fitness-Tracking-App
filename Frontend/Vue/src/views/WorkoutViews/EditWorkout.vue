@@ -79,8 +79,8 @@ export default {
         console.log('Workout updated:', response.data)
         this.$router.push('/')
       } catch (error) {
-        console.error('There was an error logging the workout!', error)
-        this.errorMessage = 'There was an error logging the workout!'
+        console.error('There was an error updating the workout!', error)
+        this.errorMessage = 'There was an error updating the workout!'
         this.scrollToTop()
       }
     },

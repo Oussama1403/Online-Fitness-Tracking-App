@@ -1,0 +1,159 @@
+.card {
+  border-radius: 25px;
+  box-shadow: 5px 5px 10px -3px rgb(201, 198, 198);
+  border: none;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  color: azure;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card .card-block {
+  padding: 25px;
+}
+
+.card .card-body {
+  padding: 25px;
+}
+
+.card-body-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  opacity: 0.4;
+  font-size: 2.5rem;
+}
+.card-body-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  opacity: 0.4;
+  font-size: 2.5rem;
+}
+
+.card-title {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  color: #2c3e50;
+}
+
+.card-text {
+  color: #34495e;
+}
+
+.card-text span {
+  color: #2980b9;
+  margin-top: 10px;
+  line-height: 1.8;
+}
+
+.card-text strong {
+  color: #2980b9;
+  margin-top: 10px;
+  line-height: 1.8;
+}
+
+
+.detail-name {
+  font-weight: bold;
+  color: #34495e;
+  font-size: 1em;
+}
+
+.title {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 3px solid rgb(255, 255, 255);
+}
+
+.section {
+  /* center all elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button {
+  padding: 16px 32px;
+  margin: 4px;
+  border: none;
+  background: transparent;
+  height: 50px;
+  width: 100%;
+  border-radius: 25px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+}
+
+button:hover {
+  cursor: pointer;
+  box-shadow: none;
+}
+
+button:focus {
+  background: #626262;
+  border-color: #626262;
+  box-shadow: none;
+  box-shadow: none;
+}
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply the fade-in animation to elements */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+/* Staggered animation delay for sequential appearance */
+.fade-in:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.fade-in:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.fade-in:nth-child(3) {
+  animation-delay: 1.1s;
+}
+
+.fade-in:nth-child(4) {
+  animation-delay: 1.4s;
+}
+
+.fade-in:nth-child(5) {
+  animation-delay: 1.7s;
+}

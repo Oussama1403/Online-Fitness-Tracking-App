@@ -79,6 +79,12 @@ export default {
           name: 'Set Fitness Goals',
           icon: 'fas fa-bullseye',
           bgcolor: '#ff3434'
+        },
+        {
+          path: '/log-meal',
+          name: 'log Meal',
+          icon: 'fa fa-cutlery',
+          bgcolor: '#f534ff'
         }
       ]
     }

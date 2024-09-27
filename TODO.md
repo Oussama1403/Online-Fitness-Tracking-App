@@ -9,7 +9,6 @@
 - [x] Implement API endpoints for viewing activity history
 - [x] Implement API endpoints for managing workout routines
 - [x] Implement user authentication
-- [ ] Diet and Nutrition Tracking: Add a section to log daily meals, calories, or macronutrient intake to complement fitness goals.
 
 # Frontend
 
@@ -20,11 +19,13 @@
 - [x] Implement `Set Fitness Goals` Section
 - [x] Improve UI Style and Colors, Add Icons to sidebar
 - [x] Create login and registration pages
+- [x] Diet and Nutrition Tracking: Add a section to log daily meals, calories, or macronutrient intake to complement fitness goals.
+- [ ] Workout History, add a "Scheduled" or "Completed" badge could help the user quickly understand the workout status.
 - [ ] Adding a language translation option (EN/FR) 
 
 
 ## Form Validation
-- [x] *Edit Forms**: Implement Vee-Validate to check for empty fields, string, and numeric fields.
+- [x] **Edit Forms**: Implement Vee-Validate to check for empty fields, string, and numeric fields.
 ## Log Workout Form
 - [x] Limit exercise deletion to ensure at least one exercise field remains.
 ## Dashboard

@@ -13,6 +13,10 @@ import CustomActivity from '@/views/ActivityViews/CustomActivity.vue'
 import setFitnessGoal from '@/views/GoalViews/setFitnessGoal.vue'
 import EditGoal from '@/views/GoalViews/EditGoal.vue'
 
+import LogMeal from '@/views/MealViews/LogMeal.vue'
+import EditMeal from '@/views/MealViews/EditMeal.vue'
+
+
 import Login from '@/views/Auth/Login.vue'
 import Register from '@/views/Auth/Register.vue'
 
@@ -67,6 +71,16 @@ const routes = [
         path: '/edit-goal',
         name: 'edit-goal',
         component: EditGoal
+      },
+      {
+        path: '/log-meal',
+        name: 'log-meal',
+        component: LogMeal
+      },
+      {
+        path: '/edit-meal',
+        name: 'edit-meal',
+        component: EditMeal
       }
     ]
   },

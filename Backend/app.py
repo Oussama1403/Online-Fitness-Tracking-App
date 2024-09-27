@@ -55,7 +55,7 @@ def login():
 
     return jsonify({'message': 'Invalid credentials'}), 401
 
-# Activity
+# Activity Section Routes
 
 @app.route('/log_activity', methods=['POST'])
 @jwt_required()
@@ -102,7 +102,7 @@ def get_activities():
         result.append(activity)
     return jsonify(result)
 
-# Workout
+# Workout Section Routes
 
 @app.route('/log_workout', methods=['POST'])
 @jwt_required()
@@ -147,7 +147,7 @@ def get_workouts():
         result.append(workout)
     return jsonify(result)
 
-# Goal
+# Goal Section Routes
 
 @app.route('/log_goal', methods=['POST'])
 @jwt_required()
@@ -191,6 +191,54 @@ def get_goals():
         goal['_id'] = str(goal['_id'])  # Convert ObjectId to string
         result.append(goal)
     return jsonify(result)
+
+
+# Meal Section Routes
+
+@app.route('/log_meal', methods=['POST'])
+@jwt_required()
+def log_meal():
+    data = request.json
+    print('Received meal data:', data)
+    mongo.db.meals.insert_one(data)
+    return jsonify({'message': 'meal logged successfully'}), 200
+
+@app.route('/delete_meal', methods=['POST'])
+@jwt_required()
+def delete_meal():
+    data = request.json
+    print('Received meal data:', data)
+    result = mongo.db.meals.delete_one(data)
+    if result.deleted_count > 0:
+        return jsonify({'message': 'meal deleted successfully'}), 200
+    else:
+        return jsonify({'message': 'No matching meal found'}), 404
+
+@app.route('/update_meal', methods=['POST'])
+@jwt_required()
+def update_meal():
+    data = request.json
+    meal_id = data.get('_id')
+    print(meal_id)
+    if not meal_id:
+        return jsonify({'message': 'meal ID is required'}), 400
+    result = mongo.db.meals.replace_one({'_id': meal_id}, data)
+    if result.matched_count > 0:
+        return jsonify({'message': 'meal updated successfully'}), 200
+    else:
+        return jsonify({'message': 'No matching meal found'}), 404
+
+@app.route('/get_meals', methods=['GET'])
+@jwt_required()
+def get_meals():
+    user_id = get_jwt_identity()  # Get the current user's ID from the toke
+    meals = mongo.db.meals.find({"user_id": user_id})
+    result = []
+    for meal in meals:
+        meal['_id'] = str(meal['_id'])  # Convert ObjectId to string
+        result.append(meal)
+    return jsonify(result)
+
 
 # sanity check route
 @app.route('/testbackend', methods=['GET'])

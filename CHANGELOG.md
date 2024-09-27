@@ -1,5 +1,14 @@
 # Changelog
 
+## Sept 27, 2024
+
+- **New Feature: Daily Meal Logging**: Added a new section to log daily meals, enabling users to track calories and monitor macronutrients (protein, carbs, fats).
+
+- **Refactored Dashboard View**: Split the dashboard view into separate components for each section (Activities, Workouts, Goals, Meals) to improve code structure and maintainability.
+
+- **Improved Card UI**:
+  - Updated UI design for each section's cards to enhance user experience: Introduced distinct color themes for each section.
+
 ## Sept 1, 2024
 
 -  **Refactoring for Better Organization:** Refactored the Workout, Goal, and Activity sections to reduce code duplication and enhance the separation of concerns by creating reusable Vue.js components. This improves maintainability and code readability across the project.
