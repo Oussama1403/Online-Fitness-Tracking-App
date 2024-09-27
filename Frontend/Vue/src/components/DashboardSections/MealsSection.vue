@@ -65,7 +65,7 @@ export default {
 @import "@/assets/SharedCardStyles.css";
 
 .meals-section {
-    background: linear-gradient(to bottom right, #FFEBEE, #F48FB1);
+    background: linear-gradient(to bottom right, #ffebfb, #f48fe2);
     /* Softer gradient */
     display: flex;
     flex-direction: column;
@@ -75,7 +75,7 @@ export default {
 }
 
 .meals-section:hover {
-    background: linear-gradient(to bottom right, #fc9fff, #d772ff);
+    background: linear-gradient(to bottom right, #ffc2f3, #f48fe2);
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
 }

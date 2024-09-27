@@ -58,7 +58,7 @@ export default {
 @import "@/assets/SharedCardStyles.css";
 
 .current-goals-section {
-    background: linear-gradient(to bottom right, #FFCDD2, #F06292);
+    background: linear-gradient(to bottom right, #ffebeb, #F48FB1);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -67,7 +67,7 @@ export default {
 }
 
 .current-goals-section:hover {
-    background: linear-gradient(to bottom right, #ff87a3, #ff5d6d);
+    background: linear-gradient(to bottom right, #ffb8b8, #F48FB1);
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
 }
