@@ -17,9 +17,11 @@ Here are some screenshots of the application:
 
 - **Dashboard View**
   <div style="display: flex; gap: 10px;">
-      <img src="Screenshots/dashboard0.png" alt="Dashboard Overview 1" style="width: 30%;"/>
-      <img src="Screenshots/dashboard1.png" alt="Dashboard Overview 2" style="width: 30%;"/>
-      <img src="Screenshots/dashboard2.png" alt="Dashboard Overview 3" style="width: 30%;"/>
+      <img src="Screenshots/dashboard0.png" alt="Dashboard Overview 1" style="width: 20%;"/>
+      <img src="Screenshots/dashboard1.png" alt="Dashboard Overview 2" style="width: 20%;"/>
+      <img src="Screenshots/dashboard2.png" alt="Dashboard Overview 3" style="width: 20%;"/>
+      <img src="Screenshots/dashboard3.png" alt="Dashboard Overview 4" style="width: 20%;"/>
+      <img src="Screenshots/dashboard4.png" alt="Dashboard Overview 5" style="width: 20%;"/>
   </div>
 
 - **Activities Page**
@@ -45,12 +47,16 @@ Here are some screenshots of the application:
       <img src="Screenshots/edit-goal.png" alt="Edit Goal Interface" style="width: 40%;"/>
   </div>
 
+- **Log Meal Interface**
+  <img src="Screenshots/log-meal.png" alt="Meal Interface" style="width: 50%;"/>
+
 ## Features
 
 - **User Authentication**: Secure login and registration to manage user-specific data with JWT-based authentication.
 - **Fitness Tracking**: Log various types of activities (e.g., running, weightlifting), track workout details, and monitor progress.
 - **Custom Activities**: Create and manage custom activities with dynamic labels and values, including start time, end time, and automatic duration calculation.
 - **Goal Management**: Set and track fitness goals with progress updates and target dates.
+- **Daily Meal Logging**: Log daily meals and track calories and monitor macronutrients (protein, carbs, fats).
 - **Active Minutes Tracking**: Track and display the total number of active minutes or time spent on activities to motivate users.
 - **Dashboard Overview**: View summarized fitness data including:
   - Total workouts completed
