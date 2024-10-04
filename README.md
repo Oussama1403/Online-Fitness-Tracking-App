@@ -48,7 +48,7 @@ Here are some screenshots of the application:
   </div>
 
 - **Log Meal Interface**
-  <img src="Screenshots/log-meal.png" alt="Meal Interface" style="width: 50%;"/>
+  ![Meal Interface](Screenshots/log-meal.png)
 
 ## Features
 
