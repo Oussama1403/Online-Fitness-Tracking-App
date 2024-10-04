@@ -15,10 +15,21 @@
             </div>
           </div>
         </div>
-
+        
+        <h2 class="mt-4 act-title fade-in">Logged Activities</h2>
+        <hr style="border: 3px solid #ab2cd6" />
         <ActivitiesSection :activities="activities" />
+
+        <h2 class="mt-4 workout-title fade-in">Upcoming Workouts</h2>
+        <hr style="border: 3px solid #ff8640" />
         <WorkoutsSection :workouts="workouts" />
+
+        <h2 class="mt-4 goals-title fade-in">Your Current Goals</h2>
+        <hr style="border: 3px solid #ff3434" />
         <GoalsSection :goals="goals" />
+        
+        <h2 class="mt-4 meals-title fade-in">Your Logged Meals</h2>
+        <hr style="border: 3px solid #f534ff" />
         <MealsSection :meals="meals" />
 
 
@@ -74,7 +85,7 @@ export default {
         .get('http://127.0.0.1:5000/get_workouts')
         .then((response) => {
           console.log('workouts :', response.data)
-          this.workouts = response.data
+          this.workouts = response.data.filter(workout => workout.is_done === false)
           this.updateDashboardCards()
         })
         .catch((error) => {
@@ -85,7 +96,7 @@ export default {
         .get('http://127.0.0.1:5000/get_goals')
         .then((response) => {
           console.log('goals :', response.data)
-          this.goals = response.data
+          this.goals = response.data.filter(goal => goal.is_done === false)
           this.updateDashboardCards()
         })
         .catch((error) => {
@@ -194,6 +205,37 @@ export default {
   color: transparent;
 }
 
+.act-title {
+    background: linear-gradient(to bottom right, #c445ff, #1de8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.workout-title {
+    background: linear-gradient(to bottom right, #fbc848, #fe8b27);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.goals-title {
+    background: linear-gradient(to bottom right, #fb7091, #f73158);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.meals-title {
+    background: linear-gradient(to bottom right, #fa5dff, #ff5f97);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
 
 .bg-c-blue {
   background: linear-gradient(45deg, #4099ff, #73b4ff);

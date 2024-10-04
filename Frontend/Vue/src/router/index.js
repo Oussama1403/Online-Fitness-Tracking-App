@@ -16,6 +16,7 @@ import EditGoal from '@/views/GoalViews/EditGoal.vue'
 import LogMeal from '@/views/MealViews/LogMeal.vue'
 import EditMeal from '@/views/MealViews/EditMeal.vue'
 
+import History from '@/views/History.vue'
 
 import Login from '@/views/Auth/Login.vue'
 import Register from '@/views/Auth/Register.vue'
@@ -81,6 +82,11 @@ const routes = [
         path: '/edit-meal',
         name: 'edit-meal',
         component: EditMeal
+      },
+      {
+        path: '/history',
+        name: 'History',
+        component: History
       }
     ]
   },
@@ -100,6 +106,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0); // Scroll to top before navigating
+  next(); // Proceed to the route
+});
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)

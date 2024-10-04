@@ -21,7 +21,8 @@ export default {
         description: '',
         currentProgress: '',
         targetDate: '',
-        notes: ''
+        notes: '',
+        is_done: false
       },
       errorMessage: ''
     }

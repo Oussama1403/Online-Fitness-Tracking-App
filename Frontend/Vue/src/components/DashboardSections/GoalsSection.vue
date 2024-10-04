@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2 class="mb-4 mt-4 goals-title fade-in">Your Current Goals</h2>
-        <hr style="border: 3px solid #ff3434" />
         <div v-if="goals.length === 0" class="section fade-in">
             <div style="width: 400px">
                 <router-link to="/set-goal" class="log-goal button btn">Log your first goal!</router-link>
@@ -70,14 +68,6 @@ export default {
     background: linear-gradient(to bottom right, #ffb8b8, #F48FB1);
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
-}
-
-.goals-title {
-    background: linear-gradient(to bottom right, #fb7091, #f73158);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
 }
 
 .detail-value {

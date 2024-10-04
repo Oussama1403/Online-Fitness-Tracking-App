@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2 class="mb-4 mt-4 workout-title fade-in">Upcoming Workouts</h2>
-        <hr style="border: 3px solid #ff8640" />
         <div v-if="workouts.length === 0" class="section fade-in">
             <div style="width: 400px">
                 <router-link to="/create-workout" class="log-workout button btn">Log your first workout!</router-link>
@@ -79,13 +77,6 @@ export default {
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
 }
 
-.workout-title {
-    background: linear-gradient(to bottom right, #fbc848, #fe8b27);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-}
 
 .workout-details {
     display: flex;

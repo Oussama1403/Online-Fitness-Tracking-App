@@ -94,6 +94,28 @@
           </div>
 
           <button type="submit" class="save-goal btn btn-primary mt-3">Set Goal</button>
+          
+          <!-- Mark Done button -->
+          <button
+            v-if="mode === 'Edit' && isDone === false"
+            type="button"
+            @click="$emit('markDone')"
+            class="markDone-button btn"
+          >
+            Mark Done
+          </button>
+
+          <!-- Mark UnDone button -->
+          <button
+            v-if="mode === 'Edit' && isDone === true"
+            type="button"
+            @click="$emit('markUndone')"
+            class="markDone-button btn"
+          >
+            Mark Undone
+          </button>
+          
+          <!-- Delete Goal Button -->
           <button
             v-if="mode === 'Edit'"
             type="button"
@@ -102,6 +124,7 @@
           >
             Delete Goal
           </button>
+
         </div>
       </Form>
     </div>
@@ -124,6 +147,10 @@ export default {
     goal: {
       type: Object,
       required: false
+    },
+    isDone: {
+      type: Boolean,
+      required: true
     },
     errorMessage: String
   },
@@ -230,13 +257,13 @@ button {
   justify-content: center;
   align-items: center;
   padding: 0 25px;
-
   transition: all 0.4s;
 }
 
 button:hover {
   cursor: pointer;
   background: #333333;
+  color: white;
 }
 
 button:focus {
@@ -251,6 +278,10 @@ button:focus {
 
 .delete-goal {
   background: #f43333;
+}
+
+.markDone-button {
+  background: #b846b4;
 }
 
 .alert {

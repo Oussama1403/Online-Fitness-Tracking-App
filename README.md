@@ -64,6 +64,7 @@ Here are some screenshots of the application:
   - Upcoming workouts
   - Goals set
   - Duration of activities displayed in a human-readable format
+- **History Functionality**: New feature allowing users to mark workouts and goals as done in edit mode, view completed workouts and goals in a dedicated History view, and mark them as undone.
 - **Responsive Design**: Optimized for various devices and screen sizes with a user-friendly interface.
 - **Detailed Analytics**: View detailed logs of activities and workouts with metrics such as distance, calories burned, and exercise details.
 - **Dynamic Data Handling**: Migrated from SQLite3 to MongoDB for scalable data management and improved flexibility.

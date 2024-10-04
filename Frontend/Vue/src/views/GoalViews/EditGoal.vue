@@ -1,16 +1,20 @@
 <template>
   <GoalForm
     :mode="'Edit'"
+    :isDone="goal.is_done"
     :goalName="goalName"
     :goal="goal"
     :errorMessage="errorMessage"
     @submit="saveGoal"
     @delete="deleteGoal"
+    @markDone="markDone"
+    @markUndone="markUndone"
   />
 </template>
 
 <script>
 import GoalForm from '@/components/GoalForm.vue'
+import { is_not } from '@vee-validate/rules';
 
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
@@ -30,7 +34,8 @@ export default {
         description: '',
         currentProgress: '',
         targetDate: '',
-        notes: ''
+        notes: '',
+        is_done: ''
       },
       goals: [],
       errorMessage: ''
@@ -45,6 +50,7 @@ export default {
     this.goal.currentProgress = parsedItem.currentProgress
     this.goal.targetDate = parsedItem.targetDate
     this.goal.notes = parsedItem.notes
+    this.goal.is_done = parsedItem.is_done
     this.goal._id = parsedItem._id
     this.goal.user_id = parsedItem.user_id
   },
@@ -55,6 +61,7 @@ export default {
         behavior: 'smooth' // Smooth scrolling
       })
     },
+    
     async saveGoal() {
       try {
         const response = await axios.post('http://127.0.0.1:5000/update_goal', this.goal)
@@ -77,7 +84,19 @@ export default {
         this.errorMessage = 'There was an error deleting the goal!'
         this.scrollToTop()
       }
-    }
+    },
+    
+    markDone() {
+      this.goal.is_done = true
+      console.log('Goal marked as done.')
+      this.saveGoal() 
+    },
+
+    markUndone() {
+      this.goal.is_done = false
+      console.log('Goal marked as undone.')
+      this.saveGoal()
+    },
   }
 }
 </script>

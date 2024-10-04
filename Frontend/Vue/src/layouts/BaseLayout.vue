@@ -85,6 +85,12 @@ export default {
           name: 'log Meal',
           icon: 'fa fa-cutlery',
           bgcolor: '#f534ff'
+        },
+        {
+          path: '/history',
+          name: 'History',
+          icon: 'fa fa-history',
+          bgcolor: '#1f1d1f'
         }
       ]
     }

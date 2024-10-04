@@ -1,6 +1,7 @@
 <template>
   <WorkoutForm
     :mode="'Edit'"
+    :isDone="isDone"
     :workoutName="workoutName"
     :workoutDate="workoutDate"
     :exercises="exercises"
@@ -10,6 +11,8 @@
     @submit="saveWorkout"
     @addExercise="addExercise"
     @removeExercise="removeExercise"
+    @markDone="markDone"
+    @markUndone="markUndone"
     @delete="deleteWorkout"
   />
 </template>
@@ -32,6 +35,7 @@ export default {
       exercises: [
         { name: '', reps: '', sets: '' } // Initial exercise fields
       ],
+      isDone: '',
       id: '',
       errorMessage: ''
     }
@@ -43,6 +47,7 @@ export default {
     this.workoutName = parsedItem.WorkoutName
     this.workoutDate = parsedItem.WorkoutDate
     this.exercises = parsedItem.Exercises
+    this.isDone = parsedItem.is_done
     this.id = parsedItem._id
     this.userId = parsedItem.user_id
   },
@@ -71,7 +76,8 @@ export default {
         user_id: this.userId,
         WorkoutName: this.workoutName,
         WorkoutDate: this.workoutDate,
-        Exercises: this.exercises
+        Exercises: this.exercises,
+        is_done: this.isDone
       }
 
       try {
@@ -91,7 +97,8 @@ export default {
         user_id: this.userId,
         WorkoutName: this.workoutName,
         WorkoutDate: this.workoutDate,
-        Exercises: this.exercises
+        Exercises: this.exercises,
+        is_done: this.isDone
       }
 
       try {
@@ -103,7 +110,48 @@ export default {
         this.errorMessage = 'There was an error deleting the workout!'
         this.scrollToTop()
       }
-    }
+    },
+    
+    async markDone() {
+      let data = {
+        _id: this.id,
+        user_id: this.userId,
+        WorkoutName: this.workoutName,
+        WorkoutDate: this.workoutDate,
+        Exercises: this.exercises,
+        is_done: true
+      }
+
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/update_workout', data)
+        console.log('Workout is Marked Done:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error updating the workout!', error)
+        this.errorMessage = 'There was an error updating the workout!'
+        this.scrollToTop()
+      }
+    },
+    async markUndone() {
+      let data = {
+        _id: this.id,
+        user_id: this.userId,
+        WorkoutName: this.workoutName,
+        WorkoutDate: this.workoutDate,
+        Exercises: this.exercises,
+        is_done: false
+      }
+
+      try {
+        const response = await axios.post('http://127.0.0.1:5000/update_workout', data)
+        console.log('Workout is Marked Undone:', response.data)
+        this.$router.push('/')
+      } catch (error) {
+        console.error('There was an error updating the workout!', error)
+        this.errorMessage = 'There was an error updating the workout!'
+        this.scrollToTop()
+      }
+    },
   }
 }
 </script>

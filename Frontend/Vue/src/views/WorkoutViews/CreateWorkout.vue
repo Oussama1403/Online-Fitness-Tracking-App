@@ -70,7 +70,8 @@ export default {
         user_id: userId,
         WorkoutName: this.workoutName,
         WorkoutDate: this.workoutDate,
-        Exercises: this.exercises
+        Exercises: this.exercises,
+        is_done: false
       }
 
       try {

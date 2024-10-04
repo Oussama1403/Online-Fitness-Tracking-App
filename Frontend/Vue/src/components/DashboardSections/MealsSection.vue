@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2 class="mb-4 mt-4 meals-title fade-in">Your Logged Meals</h2>
-        <hr style="border: 3px solid #f534ff" />
         <div v-if="meals.length === 0" class="section fade-in">
             <div style="width: 400px">
                 <router-link to="/log-meal" class="log-meal button btn">Log your first meal!</router-link>
@@ -78,14 +76,6 @@ export default {
     background: linear-gradient(to bottom right, #ffc2f3, #f48fe2);
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
-}
-
-.meals-title {
-    background: linear-gradient(to bottom right, #fa5dff, #ff5f97);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
 }
 
 .detail-value {

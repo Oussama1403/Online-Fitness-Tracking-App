@@ -107,6 +107,26 @@
 
         <!-- Save Button -->
         <button type="submit" class="save-button btn btn-success">Save Workout</button>
+        
+        <!-- Mark Done button -->
+        <button
+          v-if="mode === 'Edit' && isDone === false"
+          type="button"
+          @click="$emit('markDone')"
+          class="markDone-button btn"
+        >
+          Mark Done
+        </button>
+
+        <!-- Mark UnDone button -->
+        <button
+          v-if="mode === 'Edit' && isDone === true"
+          type="button"
+          @click="$emit('markUndone')"
+          class="markDone-button btn"
+        >
+          Mark Undone
+        </button>
 
         <!-- Del button -->
         <button
@@ -142,6 +162,10 @@ export default {
     exercises: {
       type: Array,
       required: false
+    },
+    isDone: {
+      type: Boolean,
+      required: true
     },
     errorMessage: String
   },
@@ -277,6 +301,7 @@ button {
 button:hover {
   cursor: pointer;
   background: #333333;
+  color: white;
 }
 
 button:focus {
@@ -290,7 +315,7 @@ button:focus {
 }
 
 .add-button {
-  background: #57b846;
+  background: #393939;
 }
 
 .save-button {
@@ -299,6 +324,11 @@ button:focus {
 .delete-button {
   background: #f43333;
 }
+
+.markDone-button {
+  background: #b846b4;
+}
+
 .alert {
   background-color: #f8d7da;
   color: #721c24;

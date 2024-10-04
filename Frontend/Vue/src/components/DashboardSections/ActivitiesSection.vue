@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2 class="mb-4 mt-4 act-title fade-in">Logged Activities</h2>
-        <hr style="border: 3px solid #ab2cd6" />
         <div class="row">
             <div v-if="activities.length === 0" class="section">
                 <div style="width: 400px">
@@ -67,14 +65,6 @@ export default {
     background: linear-gradient(to bottom right, #e5adff, #8ef1fc);
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.15);
-}
-
-.act-title {
-    background: linear-gradient(to bottom right, #c445ff, #1de8ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
 }
 
 .detail-value {

@@ -1,5 +1,14 @@
 # Changelog
 
+## Oct 4, 2024
+
+#### Added
+
+- Introduced a new **History** functionality to the app.
+- Users can now mark workouts and goals as **done** in edit mode with the new **"Mark Done"** button.
+- A new **History** view allows users to see all workouts and goals that are marked done.
+- Users can mark workouts and goals as **undone** directly from the History view.
+
 ## Sept 27, 2024
 
 - **New Feature: Daily Meal Logging**: Added a new section to log daily meals, enabling users to track calories and monitor macronutrients (protein, carbs, fats).
